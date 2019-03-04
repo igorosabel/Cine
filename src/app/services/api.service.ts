@@ -12,7 +12,7 @@ import {
   providedIn: 'root'
 })
 export class ApiService {
-	apiURL: String = 'https://apicine.osumi.es/api/';
+	apiURL: String = 'http://apicine.osumi.es/api/';
 	constructor(private http : HttpClient){}
 
 	login(data: LoginData): Observable<LoginResult> {

@@ -4,29 +4,31 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card class="login-card">
-	<mat-card-header>
-		<mat-card-title>Iniciar sesión</mat-card-title>
-	</mat-card-header>
-	<mat-card-content class="login-fields">
-		<mat-form-field appearance="outline">
-			<mat-label>Nombre de usuario</mat-label>
-			<input matInput [(ngModel)]="loginData.name" [disabled]="loginSending">
-		</mat-form-field>
-		<mat-form-field appearance="outline">
-			<mat-label>Contraseña</mat-label>
-			<input matInput type="password" [(ngModel)]="loginData.pass" [disabled]="loginSending">
-		</mat-form-field>
-		<fieldset *ngIf="loginError" class="login-error">
-			<legend>Error</legend>
-			El nombre de usuario o contraseña son incorrectos.
-		</fieldset>
-	</mat-card-content>
-	<mat-card-actions class="login-buttons">
-		<button routerLink="/register" mat-button [disabled]="loginSending">Regístrate</button>
-		<button mat-raised-button color="primary" [disabled]="loginSending" (click)="doLogin()">
-			<img *ngIf="loginSending" src="/assets/loading.svg">
-			Continuar
-		</button>
-	</mat-card-actions>
-</mat-card>
+<form name="frm-login" (ngSubmit)="doLogin($event)">
+	<mat-card class="login-card">
+		<mat-card-header>
+			<mat-card-title>Iniciar sesión</mat-card-title>
+		</mat-card-header>
+		<mat-card-content class="login-fields">
+			<mat-form-field appearance="outline">
+				<mat-label>Nombre de usuario</mat-label>
+				<input matInput [(ngModel)]="loginData.name" [disabled]="loginSending" required name="name">
+			</mat-form-field>
+			<mat-form-field appearance="outline">
+				<mat-label>Contraseña</mat-label>
+				<input matInput type="password" [(ngModel)]="loginData.pass" [disabled]="loginSending" required name="pass">
+			</mat-form-field>
+			<fieldset *ngIf="loginError" class="login-error">
+				<legend>Error</legend>
+				El nombre de usuario o contraseña son incorrectos.
+			</fieldset>
+		</mat-card-content>
+		<mat-card-actions class="login-buttons">
+			<button routerLink="/register" mat-button [disabled]="loginSending">Regístrate</button>
+			<button mat-raised-button color="primary" [disabled]="loginSending" type="submit">
+				<img *ngIf="loginSending" src="/assets/loading.svg">
+				Continuar
+			</button>
+		</mat-card-actions>
+	</mat-card>
+</form>
