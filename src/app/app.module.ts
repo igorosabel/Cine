@@ -8,7 +8,7 @@ import { AppRoutingModule }        from './app-routing.module';
 import { AppComponent }            from './app.component';
 import { environment }             from '../environments/environment';
 
-import { PAGES, COMPONENTS, PIPES, SERVICES } from './app.common';
+import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { PAGES, COMPONENTS, PIPES, SERVICES } from './app.common';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 	HttpClientModule,
 	FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+	...MATERIAL
   ],
   providers: [
 	...SERVICES

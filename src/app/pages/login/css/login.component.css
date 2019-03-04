@@ -1,0 +1,25 @@
+.login-card {
+	max-width: 300px;
+	margin: 50px auto;
+}
+
+.login-fields > * {
+	width: 100%;
+}
+
+.login-buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+.login-buttons img {
+	width: 20px;
+}
+
+.login-error {
+	border-radius: 6px;
+    box-sizing: border-box;
+    border-color: #f44336;
+    color: #f44336;
+    border-width: 2px;
+}
