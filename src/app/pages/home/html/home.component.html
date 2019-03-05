@@ -1,3 +1,49 @@
-<p>
-  home works!
-</p>
+<mat-sidenav-container class="container">
+  <mat-sidenav class="sidebar" #sidenav [(opened)]="opened">
+    <mat-toolbar color="primary">
+	  <mat-toolbar-row>
+		<span>Cines</span>
+	  </mat-toolbar-row>
+	</mat-toolbar>
+	<mat-nav-list>
+		<a mat-list-item *ngFor="let cinema of cinemas" [routerLink]="['/cinema', cinema.id, cinema.slug]">
+			<mat-icon matListIcon >local_movies</mat-icon>
+			{{cinema.name | urldecode}}
+		</a>
+		<a mat-list-item routerLink="/cinemas">
+			<mat-icon matListIcon >edit</mat-icon>
+			Editar cines
+		</a>
+	</mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+	<mat-toolbar color="primary">
+	  <mat-toolbar-row>
+		<button mat-button (click)="toggleSidenav()">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<span>Cine</span>
+	  </mat-toolbar-row>
+	</mat-toolbar>
+
+	<mat-list>
+	  <mat-list-item *ngFor="let movie of movies">
+		<img matListAvatar [src]="movie.cover" [alt]="movie.name">
+		<h3 matLine> {{movie.name}} </h3>
+		<p matLine>
+		  <span class="list-cinema">{{movie.idCinema | cinemaName}}</span>
+		  <span>{{movie.date}}</span>
+		</p>
+	  </mat-list-item>
+	  <mat-list-item *ngIf="movies.length==0">
+		¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
+	  </mat-list-item>
+	</mat-list>
+
+	<button mat-fab class="btn-bottom-right">
+		<mat-icon>add</mat-icon>
+	</button>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,3 +1,22 @@
-<p>
-  cinemas works!
-</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+	<button routerLink="/home" mat-button>
+		<mat-icon>arrow_back</mat-icon>
+	</button>
+	<span>Cines</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-nav-list>
+	<a mat-list-item *ngFor="let cinema of cinemas" [routerLink]="['/edit-cinema', cinema.id, cinema.slug]">
+		<mat-icon matListIcon>local_movies</mat-icon>
+		{{ cinema.name | urldecode }}
+	</a>
+	<mat-list-item *ngIf="cinemas.length==0">
+		¡Todavía no hay ningún cine! Añade el primero pulsando el icono "+".
+	  </mat-list-item>
+</mat-nav-list>
+
+<button mat-fab class="btn-bottom-right">
+	<mat-icon>add</mat-icon>
+</button>

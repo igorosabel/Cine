@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Movie, Cinema }     from '../../interfaces/interfaces';
+import { ApiService }        from '../../services/api.service';
+import { DataShareService }  from '../../services/data-share.service';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +9,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./css/home.component.css']
 })
 export class HomeComponent implements OnInit {
-	constructor() { }
-	ngOnInit() {}
+	page: number      = 0;
+	movies: Movie[]   = [];
+	cinemas: Cinema[] = [];
+	opened: boolean   = false;
+
+	constructor(private as: ApiService, private dss: DataShareService) { }
+
+	ngOnInit() {
+		this.getMovies();
+		this.cinemas = this.dss.getGlobal('cinemas');
+	}
+	
+	getMovies() {
+		this.page++;
+		this.as.getMovies(this.page).subscribe(result => {
+			this.movies = this.movies.concat(result.list);
+		});
+	}
+	
+	toggleSidenav() {
+		this.opened = !this.opened;
+	}
 }

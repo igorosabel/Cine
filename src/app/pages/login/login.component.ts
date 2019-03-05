@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { LoginData }         from '../../interfaces/interfaces';
+import { LoginData, Cinema } from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { UserService }       from '../../services/user.service';
 import { CommonService }     from '../../services/common.service';
+import { DataShareService }  from '../../services/data-share.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,11 @@ export class LoginComponent implements OnInit {
 	loginError: boolean = false;
 	loginSending: boolean = false;
 
-	constructor(private as: ApiService, private user: UserService, private cs: CommonService, private router: Router) {}
+	constructor(private as: ApiService,
+	            private user: UserService,
+				private cs: CommonService,
+				private router: Router,
+				private dss: DataShareService) {}
 	ngOnInit() {}
 	
 	doLogin(ev) {
@@ -37,6 +42,11 @@ export class LoginComponent implements OnInit {
 				this.user.name   = this.cs.urldecode(result.name);
 				this.user.token  = this.cs.urldecode(result.token);
 				this.user.saveLogin();
+				
+				this.as.getCinemas().subscribe(result => {
+					const cinemas: Cinema[] = result.list;
+					this.dss.setGlobal('cinemas', cinemas);
+				});
 				
 				this.router.navigate(['/home']);
 			}

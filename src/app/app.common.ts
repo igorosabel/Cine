@@ -29,10 +29,12 @@ export const COMPONENTS: any[] = [];
 /*
  * Pipes
  */
-import { UrldecodePipe } from './pipes/urldecode.pipe';
+import { UrldecodePipe }  from './pipes/urldecode.pipe';
+import { CinemaNamePipe } from './pipes/cinema-name.pipe';
 
 export const PIPES: any[] = [
-	UrldecodePipe
+	UrldecodePipe,
+	CinemaNamePipe
 ];
 
 /*
@@ -55,13 +57,14 @@ export const SERVICES: any[] = [
 /*
  * Componentes Angular Material
  */
-import { MatToolbarModule }     from '@angular/material/toolbar';
-import { MatCardModule }        from '@angular/material/card';
-import { MatButtonModule }      from '@angular/material/button';
-import { MatFormFieldModule }   from '@angular/material/form-field';
-import { MatInputModule }       from '@angular/material/input';
-import { MatIconModule }        from '@angular/material/icon';
-import { MatListModule }        from '@angular/material/list';
+import { MatToolbarModule }   from '@angular/material/toolbar';
+import { MatCardModule }      from '@angular/material/card';
+import { MatButtonModule }    from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule }     from '@angular/material/input';
+import { MatIconModule }      from '@angular/material/icon';
+import { MatListModule }      from '@angular/material/list';
+import { MatSidenavModule }   from '@angular/material/sidenav';
 
 export const MATERIAL: any[] = [
 	MatToolbarModule,
@@ -70,5 +73,6 @@ export const MATERIAL: any[] = [
 	MatFormFieldModule,
 	MatInputModule,
 	MatIconModule,
-	MatListModule
+	MatListModule,
+	MatSidenavModule
 ];

@@ -5,7 +5,9 @@ import { Observable }              from 'rxjs';
 import {
   LoginData,
   LoginResult,
-  RegisterData
+  RegisterData,
+  MoviesResult,
+  CinemasResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -21,5 +23,13 @@ export class ApiService {
 
 	register(data: RegisterData): Observable<LoginResult> {
 		return this.http.post<LoginResult>(this.apiURL+'register', data);
+	}
+	
+	getMovies(page: number): Observable<MoviesResult> {
+		return this.http.post<MoviesResult>(this.apiURL+'get-movies', {page});
+	}
+	
+	getCinemas(): Observable<CinemasResult> {
+		return this.http.post<CinemasResult>(this.apiURL+'get-cinemas', {});
 	}
 }
