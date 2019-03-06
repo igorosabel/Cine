@@ -8,11 +8,11 @@
 </mat-toolbar>
 
 <form name="frm-login" (ngSubmit)="doRegister($event)">
-	<mat-card class="register-card">
+	<mat-card class="center-card">
 		<mat-card-header>
 			<mat-card-title>Registro</mat-card-title>
 		</mat-card-header>
-		<mat-card-content class="register-fields">
+		<mat-card-content class="center-card-fields">
 			<mat-form-field appearance="outline">
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput [(ngModel)]="registerData.name" [disabled]="registerSending" required name="name">
@@ -25,16 +25,16 @@
 				<mat-label>Confirmar contraseña</mat-label>
 				<input matInput type="password" [(ngModel)]="registerData.conf" [disabled]="registerSending" required name="conf">
 			</mat-form-field>
-			<fieldset *ngIf="registerNameError" class="register-error">
+			<fieldset *ngIf="registerNameError" class="center-card-error">
 				<legend>Error</legend>
 				El nombre de usuario ya está en uso.
 			</fieldset>
-			<fieldset *ngIf="registerPassError" class="register-error">
+			<fieldset *ngIf="registerPassError" class="center-card-error">
 				<legend>Error</legend>
 				Las contraseñas no coinciden.
 			</fieldset>
 		</mat-card-content>
-		<mat-card-actions class="register-buttons">
+		<mat-card-actions class="center-card-buttons center-card-buttons-end">
 			<button mat-raised-button color="primary" [disabled]="registerSending" type="submit">
 				<img *ngIf="registerSending" src="/assets/loading.svg">
 				Continuar
