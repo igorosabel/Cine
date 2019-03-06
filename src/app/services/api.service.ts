@@ -7,7 +7,8 @@ import {
   LoginResult,
   RegisterData,
   MoviesResult,
-  CinemasResult
+  CinemasResult,
+  StatusResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -31,5 +32,9 @@ export class ApiService {
 	
 	getCinemas(): Observable<CinemasResult> {
 		return this.http.post<CinemasResult>(this.apiURL+'get-cinemas', {});
+	}
+	
+	addCinema(name: string): Observable<StatusResult> {
+		return this.http.post<StatusResult>(this.apiURL+'add-cinema', {name});
 	}
 }

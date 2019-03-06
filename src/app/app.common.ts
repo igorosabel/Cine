@@ -24,7 +24,15 @@ export const PAGES: any[] = [
 /*
  * Componentes
  */
-export const COMPONENTS: any[] = [];
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
+import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
+
+export const COMPONENTS: any[] = [
+	ConfirmDialogComponent,
+	AlertDialogComponent,
+	FormDialogComponent
+];
 
 /*
  * Pipes
@@ -45,13 +53,15 @@ import { ApiService }       from './services/api.service';
 import { DataShareService } from './services/data-share.service';
 import { UserService }      from './services/user.service';
 import { AuthService }      from './services/auth.service';
+import { DialogService }    from './services/dialog.service';
 
 export const SERVICES: any[] = [
 	CommonService,
 	ApiService,
 	DataShareService,
 	UserService,
-	AuthService
+	AuthService,
+	DialogService
 ];
 
 /*
@@ -65,6 +75,7 @@ import { MatInputModule }     from '@angular/material/input';
 import { MatIconModule }      from '@angular/material/icon';
 import { MatListModule }      from '@angular/material/list';
 import { MatSidenavModule }   from '@angular/material/sidenav';
+import { MatDialogModule }    from '@angular/material/dialog';
 
 export const MATERIAL: any[] = [
 	MatToolbarModule,
@@ -74,5 +85,6 @@ export const MATERIAL: any[] = [
 	MatInputModule,
 	MatIconModule,
 	MatListModule,
-	MatSidenavModule
+	MatSidenavModule,
+	MatDialogModule
 ];

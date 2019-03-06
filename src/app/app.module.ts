@@ -11,6 +11,10 @@ import { TokenInterceptor }                    from './interceptors/token.interc
 
 import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
 
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
+import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +31,7 @@ import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
     BrowserAnimationsModule,
 	...MATERIAL
   ],
+  entryComponents: [ConfirmDialogComponent, AlertDialogComponent, FormDialogComponent],
   providers: [
 	...SERVICES,
 	{
