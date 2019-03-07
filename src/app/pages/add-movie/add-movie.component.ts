@@ -59,7 +59,7 @@ export class AddMovieComponent implements OnInit {
 			let file = (<HTMLInputElement>event.target).files[0];
 			reader.readAsDataURL(file);
 			reader.onload = () => {
-				this.movie.cover = reader.result;
+				this.movie.cover = reader.result as string;
 				(<HTMLInputElement>document.getElementById('cover')).value = '';
 			};
 		}
@@ -75,10 +75,19 @@ export class AddMovieComponent implements OnInit {
 			let file = (<HTMLInputElement>event.target).files[0];
 			reader.readAsDataURL(file);
 			reader.onload = () => {
-				this.movie.ticket = reader.result;
+				this.movie.ticket = reader.result as string;
 				(<HTMLInputElement>document.getElementById('ticket')).value = '';
 			};
 		}
+	}
+	
+	searchMovie() {
+  	  if (this.movie.name.length>2){
+    	  this.as.searchMovie(this.movie.name).subscribe(result => {
+      	  console.log(result);
+      	  // https://stackoverflow.com/a/5926782/921329
+    	  });
+  	  }
 	}
 
 	saveMovie() {

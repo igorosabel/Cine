@@ -60,3 +60,13 @@ export interface DialogOptions {
 export interface StatusResult {
 	status: string;
 }
+
+export interface MovieSearchResult {
+  id: number;
+  title: string;
+}
+
+export interface MovieSearchResultList {
+  status: string;
+  list: MovieSearchResult[];
+}

@@ -25,7 +25,7 @@
 			<div class="movie-info" [ngClass]="{'col-70':!isMobile, 'col-100':isMobile}">
 				<mat-form-field appearance="outline">
 					<mat-label>Nombre</mat-label>
-					<input matInput [(ngModel)]="movie.name" required name="name">
+					<input matInput [(ngModel)]="movie.name" required name="name" (keyup)="searchMovie()">
 				</mat-form-field>
 				<mat-form-field appearance="outline">
 					<mat-select placeholder="Elige cine" [(ngModel)]="movie.idCinema">
