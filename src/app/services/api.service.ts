@@ -9,7 +9,8 @@ import {
   RegisterData,
   MoviesResult,
   CinemasResult,
-  StatusResult
+  StatusResult,
+  Cinema
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -21,26 +22,30 @@ export class ApiService {
 	constructor(private http : HttpClient){}
 
 	login(data: LoginData): Observable<LoginResult> {
-		return this.http.post<LoginResult>(this.apiURL+'login', data);
+		return this.http.post<LoginResult>(this.apiUrl + 'login', data);
 	}
 
 	register(data: RegisterData): Observable<LoginResult> {
-		return this.http.post<LoginResult>(this.apiURL+'register', data);
+		return this.http.post<LoginResult>(this.apiUrl + 'register', data);
 	}
 	
 	getMovies(page: number): Observable<MoviesResult> {
-		return this.http.post<MoviesResult>(this.apiURL+'get-movies', {page});
+		return this.http.post<MoviesResult>(this.apiUrl + 'get-movies', {page});
 	}
 	
 	getCinemas(): Observable<CinemasResult> {
-		return this.http.post<CinemasResult>(this.apiURL+'get-cinemas', {});
+		return this.http.post<CinemasResult>(this.apiUrl + 'get-cinemas', {});
 	}
 	
 	addCinema(name: string): Observable<StatusResult> {
-		return this.http.post<StatusResult>(this.apiURL+'add-cinema', {name});
+		return this.http.post<StatusResult>(this.apiUrl + 'add-cinema', {name});
 	}
 	
 	deleteCinema(id: number): Observable<StatusResult> {
-		return this.http.post<StatusResult>(this.apiURL+'delete-cinema', {name});
+		return this.http.post<StatusResult>(this.apiUrl + 'delete-cinema', {id});
+	}
+	
+	editCinema(cinema: Cinema): Observable<StatusResult> {
+		return this.http.post<StatusResult>(this.apiUrl + 'edit-cinema', cinema);
 	}
 }

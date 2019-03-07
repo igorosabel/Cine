@@ -3,6 +3,7 @@ import { NgModule }                            from '@angular/core';
 import { ServiceWorkerModule }                 from '@angular/service-worker';
 import { BrowserAnimationsModule }             from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FlexLayoutModule }                    from '@angular/flex-layout';
 import { FormsModule }                         from '@angular/forms';
 import { AppRoutingModule }                    from './app-routing.module';
 import { AppComponent }                        from './app.component';
@@ -27,6 +28,7 @@ import { FormDialogComponent }    from './components/dialogs/form-dialog/form-di
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 	HttpClientModule,
+	FlexLayoutModule,
 	FormsModule,
     BrowserAnimationsModule,
 	...MATERIAL

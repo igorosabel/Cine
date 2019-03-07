@@ -12,9 +12,10 @@ import { Cinema }                        from '../../interfaces/interfaces';
   styleUrls: ['./css/edit-cinema.component.css']
 })
 export class EditCinemaComponent implements OnInit {
-	cinemas: Cinema[] = [];
+	cinemas: Cinema[]      = [];
+	selectedIndex: number  = null;
 	selectedCinema: Cinema = null;
-	editSending: boolean = false;
+	editSending: boolean   = false;
 
 	constructor(private activatedRoute: ActivatedRoute,
 	            private dss: DataShareService,
@@ -30,8 +31,8 @@ export class EditCinemaComponent implements OnInit {
 		}
 		this.activatedRoute.params.subscribe((params: Params) => {
 			const id: number = params.id;
-			const ind = this.cinemas.findIndex(x => x.id==id);
-			this.selectedCinema = this.cinemas[ind];
+			this.selectedIndex = this.cinemas.findIndex(x => x.id==id);
+			this.selectedCinema = this.cinemas[this.selectedIndex];
 			this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
 		});
 	}
@@ -42,23 +43,46 @@ export class EditCinemaComponent implements OnInit {
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre en blanco!', ok: 'Continuar'});
 			return;
 		}
+		
+		this.as.editCinema(this.selectedCinema).subscribe(result => {
+			if (result.status=='ok'){
+				this.cinemas[this.selectedIndex].name = this.cs.urlencode(this.selectedCinema.name);
+				this.dss.setGlobal('cinemas', this.cinemas);
+				this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
+				this.dialog.alert({title: 'Cine actualizado', content: 'El nombre del cine ha sido actualizado.', ok: 'Continuar'});
+			}
+		});
 	}
 
-	deleteCinema() {
+	deleteCinema(ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
 		this.dialog.confirm({title: 'Borrar cine',
     	                     content: '¿Estás seguro de querer borrar este cine? También se borrarán todas sus entradas.',
     	                     ok: 'Continuar',
     	                     cancel: 'Cancelar'}).subscribe(result => {
 			if (result){
-				this.as.deleteCinema(this.selectedCinema.id).subscribe(result => {
-					if (result.status=='ok'){
-						this.dialog.alert({title: 'Cine borrado', content: 'El cine y todas sus entradas han sido borradas.', ok: 'Continuar'}).subscribe(result => {
-							this.dss.removeGlobal('cinemas');
-							this.router.navigate(['/cinemas']);
-						});
-					}
+				this.deleteCinemaConfirm();
+			}
+		});
+	}
+	
+	deleteCinemaConfirm() {
+		this.as.deleteCinema(this.selectedCinema.id).subscribe(result => {
+			if (result.status=='ok'){
+				this.dialog.alert({title: 'Cine borrado', content: 'El cine y todas sus entradas han sido borradas.', ok: 'Continuar'}).subscribe(result => {
+					this.dss.removeGlobal('cinemas');
+					this.getCinemas();
 				});
 			}
+		});
+	}
+	
+	getCinemas() {
+		this.as.getCinemas().subscribe(result => {
+			this.cinemas = result.list;
+			this.dss.setGlobal('cinemas', this.cinemas);
+			this.router.navigate(['/cinemas']);
 		});
 	}
 }

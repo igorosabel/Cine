@@ -21,7 +21,7 @@
 
 	<mat-toolbar color="primary">
 	  <mat-toolbar-row>
-		<button mat-button (click)="toggleSidenav()">
+		<button mat-icon-button (click)="toggleSidenav()">
 			<mat-icon>menu</mat-icon>
 		</button>
 		<span>Cine</span>
@@ -42,7 +42,7 @@
 	  </mat-list-item>
 	</mat-list>
 
-	<button mat-fab class="btn-bottom-right">
+	<button mat-fab class="btn-bottom-right" routerLink="/add-movie">
 		<mat-icon>add</mat-icon>
 	</button>
   </mat-sidenav-content>

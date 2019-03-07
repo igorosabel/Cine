@@ -1,3 +1,54 @@
-<p>
-  add-movie works!
-</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+	<button routerLink="/home" mat-icon-button>
+		<mat-icon>arrow_back</mat-icon>
+	</button>
+	<span>Añadir película</span>
+	<span class="flex-space"></span>
+	<button mat-icon-button (click)="saveMovie()">
+		<mat-icon>check</mat-icon>
+	</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="big-card">
+	<mat-card-content>
+		<div [ngClass]="{'row':!isMobile, 'col':isMobile}">
+			<div class="image-box" [ngClass]="{'col-30':!isMobile, 'col-100':isMobile}">
+				<img class="add-movie-cover" [src]="movie.cover">
+				<input type="file" name="cover" id="cover" value="" (change)="onCoverChange($event)">
+				<button mat-raised-button color="primary" (click)="uploadCover()">
+					<img *ngIf="uploadingCover" src="/assets/loading.svg">
+					Añadir carátula
+				</button>
+			</div>
+			<div class="movie-info" [ngClass]="{'col-70':!isMobile, 'col-100':isMobile}">
+				<mat-form-field appearance="outline">
+					<mat-label>Nombre</mat-label>
+					<input matInput [(ngModel)]="movie.name" required name="name">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-select placeholder="Elige cine" [(ngModel)]="movie.idCinema">
+						<mat-option *ngFor="let cinema of cinemas" [value]="cinema.id">
+							{{cinema.name | urldecode}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>URL IMDB</mat-label>
+					<input matInput [(ngModel)]="movie.imdbUrl" name="imdbUrl">
+				</mat-form-field>
+			</div>
+		</div>
+		<hr class="divider">
+		<p>Entrada</p>
+		<div class="image-box">
+			<img class="add-movie-ticket" [src]="movie.ticket">
+			<input type="file" name="ticket" id="ticket" value="" (change)="onTicketChange($event)">
+			<button mat-raised-button color="primary" (click)="uploadTicket()">
+				<img *ngIf="uploadingTicket" src="/assets/loading.svg">
+				Añadir entrada
+			</button>
+		</div>
+	</mat-card-content>
+</mat-card>

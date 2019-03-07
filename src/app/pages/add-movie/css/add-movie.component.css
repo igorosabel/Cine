@@ -1,0 +1,63 @@
+.big-card {
+	box-sizing: border-box;
+	margin: 8px;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.col-30 {
+	width: 30%;
+}
+
+.col-70 {
+	width: 70%;
+}
+
+.col-100 {
+	width: 100%;
+}
+
+.image-box {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-movie-cover {
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+	margin-bottom: 8px;
+}
+
+.image-box > input[type="file"] {
+    display: none;
+}
+
+.movie-info > * {
+	width: 100%;
+}
+
+.divider {
+	display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 2em 0;
+    padding: 0;
+}
+
+.add-movie-ticket {
+    max-width: 300px;
+    box-sizing: border-box;
+    padding: 0 10px;
+	margin-bottom: 8px;
+}

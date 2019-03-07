@@ -76,6 +76,7 @@ import { MatIconModule }      from '@angular/material/icon';
 import { MatListModule }      from '@angular/material/list';
 import { MatSidenavModule }   from '@angular/material/sidenav';
 import { MatDialogModule }    from '@angular/material/dialog';
+import { MatSelectModule }    from '@angular/material/select';
 
 export const MATERIAL: any[] = [
 	MatToolbarModule,
@@ -86,5 +87,6 @@ export const MATERIAL: any[] = [
 	MatIconModule,
 	MatListModule,
 	MatSidenavModule,
-	MatDialogModule
+	MatDialogModule,
+	MatSelectModule
 ];
