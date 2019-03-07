@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable }              from '@angular/core';
 import { Observable }              from 'rxjs';
+import { environment }             from '../../environments/environment';
 
 import {
   LoginData,
@@ -15,7 +16,8 @@ import {
   providedIn: 'root'
 })
 export class ApiService {
-	apiURL: String = 'http://apicine.osumi.es/api/';
+	apiUrl = environment.apiUrl;
+
 	constructor(private http : HttpClient){}
 
 	login(data: LoginData): Observable<LoginResult> {
@@ -36,5 +38,9 @@ export class ApiService {
 	
 	addCinema(name: string): Observable<StatusResult> {
 		return this.http.post<StatusResult>(this.apiURL+'add-cinema', {name});
+	}
+	
+	deleteCinema(id: number): Observable<StatusResult> {
+		return this.http.post<StatusResult>(this.apiURL+'delete-cinema', {name});
 	}
 }
