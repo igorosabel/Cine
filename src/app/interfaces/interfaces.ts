@@ -64,9 +64,17 @@ export interface StatusResult {
 export interface MovieSearchResult {
   id: number;
   title: string;
+  poster: string;
 }
 
 export interface MovieSearchResultList {
   status: string;
   list: MovieSearchResult[];
+}
+
+export interface MovieSearchDetailResult {
+	status: string;
+	title: string;
+	poster: string;
+	imdbUrl: string;
 }

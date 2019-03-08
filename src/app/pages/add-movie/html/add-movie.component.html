@@ -25,8 +25,23 @@
 			<div class="movie-info" [ngClass]="{'col-70':!isMobile, 'col-100':isMobile}">
 				<mat-form-field appearance="outline">
 					<mat-label>Nombre</mat-label>
-					<input matInput [(ngModel)]="movie.name" required name="name" (keyup)="searchMovie()">
+					<input matInput [(ngModel)]="movie.name" required name="name" (keyup)="searchMovieStart()">
+					<img src="/assets/loading.svg" *ngIf="searching" class="searching">
 				</mat-form-field>
+				<div *ngIf="searchResults.length>0" class="search-results">
+					<div class="search-results-header">
+						<span>Resultados de la búsqueda</span>
+						<button mat-icon-button (click)="closeSearchResults()">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
+					<mat-action-list>
+						<button *ngFor="let result of searchResults" mat-list-item (click)="selectResult(result)">
+							<img matListAvatar src="{{result.poster|urldecode}}" alt="{{result.title | urldecode}}">
+							<h3 matLine class="search-result-item"> {{result.title | urldecode}} </h3>
+						</button>
+					</mat-action-list>
+				</div>
 				<mat-form-field appearance="outline">
 					<mat-select placeholder="Elige cine" [(ngModel)]="movie.idCinema">
 						<mat-option *ngFor="let cinema of cinemas" [value]="cinema.id">

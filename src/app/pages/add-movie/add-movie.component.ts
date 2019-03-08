@@ -1,11 +1,12 @@
-import { Component, OnInit }          from '@angular/core';
-import { Router }                     from '@angular/router';
-import { Subscription }               from 'rxjs';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { DataShareService }           from '../../services/data-share.service';
-import { DialogService }              from '../../services/dialog.service';
-import { ApiService }                 from '../../services/api.service';
-import { Cinema, Movie }              from '../../interfaces/interfaces';
+import { Component, OnInit }                from '@angular/core';
+import { Router }                           from '@angular/router';
+import { Subscription }                     from 'rxjs';
+import { MediaChange, MediaObserver }       from '@angular/flex-layout';
+import { DataShareService }                 from '../../services/data-share.service';
+import { DialogService }                    from '../../services/dialog.service';
+import { ApiService }                       from '../../services/api.service';
+import { CommonService }                    from '../../services/common.service';
+import { Cinema, Movie, MovieSearchResult } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-add-movie',
@@ -25,13 +26,17 @@ export class AddMovieComponent implements OnInit {
 		imdbUrl: '',
 		date: ''
 	};
-	uploadingCover: boolean = false;
+	uploadingCover: boolean  = false;
 	uploadingTicket: boolean = false;
+	searchTimer              = null;
+	searching: boolean       = false;
+	searchResults: MovieSearchResult[] = [];
 
 	constructor(private dss: DataShareService,
 	            private router: Router,
 	            private dialog: DialogService,
 				private as: ApiService,
+				private cs: CommonService,
 				private mediaObserver: MediaObserver) {
 		this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
 			if ( change.mqAlias == 'xs') {
@@ -81,13 +86,42 @@ export class AddMovieComponent implements OnInit {
 		}
 	}
 	
+	searchMovieStart(){
+		clearTimeout(this.searchTimer);
+		this.searchTimer = setTimeout(() => {
+			this.searchMovie();
+		}, 500);
+    }
+
+    searchMovieStop(){
+		clearTimeout(this.searchTimer);
+    }
+	
 	searchMovie() {
-  	  if (this.movie.name.length>2){
-    	  this.as.searchMovie(this.movie.name).subscribe(result => {
-      	  console.log(result);
-      	  // https://stackoverflow.com/a/5926782/921329
-    	  });
-  	  }
+		if (this.movie.name.length<3){
+			return;
+		}
+		this.searchMovieStop();
+		this.searching = true;
+		this.as.searchMovie(this.movie.name).subscribe(result => {
+			this.searching = false;
+			this.searchResults = result.list;
+		});
+	}
+	
+	closeSearchResults() {
+		this.searchResults = [];
+	}
+	
+	selectResult(movieResult: MovieSearchResult) {
+		console.log(movieResult);
+		this.as.selectResult(movieResult.id).subscribe(result => {
+			this.movie.name    = this.cs.urldecode(result.title);
+			this.movie.cover   = this.cs.urldecode(result.poster);
+			this.movie.imdbUrl = this.cs.urldecode(result.imdbUrl);
+			
+			this.closeSearchResults();
+		});
 	}
 
 	saveMovie() {

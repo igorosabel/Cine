@@ -11,7 +11,8 @@ import {
   CinemasResult,
   StatusResult,
   Cinema,
-  MovieSearchResultList
+  MovieSearchResultList,
+  MovieSearchDetailResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -52,5 +53,9 @@ export class ApiService {
 	
 	searchMovie(q: string): Observable<MovieSearchResultList> {
 		return this.http.post<MovieSearchResultList>(this.apiUrl + 'search-movie', {q});
+	}
+	
+	selectResult(id: number): Observable<MovieSearchDetailResult> {
+		return this.http.post<MovieSearchDetailResult>(this.apiUrl + 'select-result', {id});
 	}
 }
