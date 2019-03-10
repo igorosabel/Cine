@@ -7,11 +7,19 @@ import { DialogService }                    from '../../services/dialog.service'
 import { ApiService }                       from '../../services/api.service';
 import { CommonService }                    from '../../services/common.service';
 import { Cinema, Movie, MovieSearchResult } from '../../interfaces/interfaces';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-add-movie',
   templateUrl: './html/add-movie.component.html',
-  styleUrls: ['./css/add-movie.component.css']
+  styleUrls: ['./css/add-movie.component.css'],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class AddMovieComponent implements OnInit {
 	watcher: Subscription;
@@ -22,7 +30,9 @@ export class AddMovieComponent implements OnInit {
 		idCinema: null,
 		name: '',
 		cover: 'http://apicine.osumi.es/cover/def.jpg',
+		coverStatus: 0,
 		ticket: 'http://apicine.osumi.es/cover/def.jpg',
+		ticketStatus: 0,
 		imdbUrl: '',
 		date: ''
 	};
@@ -31,6 +41,7 @@ export class AddMovieComponent implements OnInit {
 	searchTimer              = null;
 	searching: boolean       = false;
 	searchResults: MovieSearchResult[] = [];
+	sending: boolean = false;
 
 	constructor(private dss: DataShareService,
 	            private router: Router,
@@ -65,6 +76,7 @@ export class AddMovieComponent implements OnInit {
 			reader.readAsDataURL(file);
 			reader.onload = () => {
 				this.movie.cover = reader.result as string;
+				this.movie.coverStatus = 1;
 				(<HTMLInputElement>document.getElementById('cover')).value = '';
 			};
 		}
@@ -81,6 +93,7 @@ export class AddMovieComponent implements OnInit {
 			reader.readAsDataURL(file);
 			reader.onload = () => {
 				this.movie.ticket = reader.result as string;
+				this.movie.ticketStatus = 1;
 				(<HTMLInputElement>document.getElementById('ticket')).value = '';
 			};
 		}
@@ -116,15 +129,52 @@ export class AddMovieComponent implements OnInit {
 	selectResult(movieResult: MovieSearchResult) {
 		console.log(movieResult);
 		this.as.selectResult(movieResult.id).subscribe(result => {
-			this.movie.name    = this.cs.urldecode(result.title);
-			this.movie.cover   = this.cs.urldecode(result.poster);
-			this.movie.imdbUrl = this.cs.urldecode(result.imdbUrl);
+			this.movie.name        = this.cs.urldecode(result.title);
+			this.movie.cover       = this.cs.urldecode(result.poster);
+			this.movie.coverStatus = 2;
+			this.movie.imdbUrl     = this.cs.urldecode(result.imdbUrl);
 			
 			this.closeSearchResults();
 		});
 	}
 
 	saveMovie() {
+  	  if (this.movie.name==''){
+    	  this.dialog.alert({title: 'Error', content: '¡No has introducido el nombre de la película!', ok: 'Continuar'});
+  		  return;
+  	  }
+  	  if (this.movie.idCinema===null){
+    	  this.dialog.alert({title: 'Error', content: '¡No has elegido cine!', ok: 'Continuar'});
+  		  return;
+  	  }
+		if (this.movie.coverStatus===0){
+  		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna carátula!', ok: 'Continuar'});
+  		  return;
+		}
+		if (this.movie.imdbUrl===''){
+  		  this.dialog.alert({title: 'Error', content: '¡No has introducido la URL de IMDB!', ok: 'Continuar'});
+  		  return;
+		}
+		if (this.movie.date===''){
+  		  this.dialog.alert({title: 'Error', content: '¡No has elegido fecha para la película!', ok: 'Continuar'});
+  		  return;
+		}
+		if (this.movie.ticketStatus===0){
+  		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna entrada!', ok: 'Continuar'});
+  		  return;
+		}
 		
+		this.sending = true;
+		this.as.saveMovie(this.movie).subscribe(result => {
+  		  if (result.status=='ok'){
+    		  this.dialog.alert({title: '¡Hecho!', content: 'Nueva película guardada.', ok: 'Continuar'}).subscribe(result => {
+      		  this.router.navigate(['/home']);
+    		  });
+  		  }
+  		  else{
+    		  this.sending = false;
+    		  this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la película.', ok: 'Continuar'});
+  		  }
+		});
 	}
 }

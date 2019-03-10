@@ -21,7 +21,9 @@ export interface Movie {
 	idCinema: number;
 	name: string;
 	cover: string;
+	coverStatus?: number;
 	ticket: string;
+	ticketStatus?: number;
 	imdbUrl: string;
 	date: string;
 }
