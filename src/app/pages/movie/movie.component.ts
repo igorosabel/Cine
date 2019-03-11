@@ -12,6 +12,7 @@ import { Cinema, Movie }                 from '../../interfaces/interfaces';
   styleUrls: ['./css/movie.component.css']
 })
 export class MovieComponent implements OnInit {
+  from: any = [];
   cinemas: Cinema[] = [];
   selectedCinema: Cinema = null;
   movie = {
@@ -52,6 +53,13 @@ export class MovieComponent implements OnInit {
 
     			this.selectedCinema = this.cinemas[this.cinemas.findIndex(x => x.id==this.movie.idCinema)];
     			this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
+
+          const fromMovie = ['/movie', this.movie.id, this.movie.slug];
+          this.from = this.dss.getGlobal('from');
+          if (this.from[this.from.length-1].join('')!=fromMovie.join('')){
+            this.from.push(fromMovie);
+          }
+          this.dss.setGlobal('from', this.from);
         }
         else{
           this.dialog
@@ -64,11 +72,18 @@ export class MovieComponent implements OnInit {
     });
   }
 
+  back() {
+    const current = this.from.pop();
+    const previous = this.from.pop();
+    this.dss.setGlobal('from', this.from);
+    this.router.navigate(previous);
+  }
+
   openCover() {
     this.showCover = !this.showCover;
   }
 
   selectCinema() {
-    
+    this.router.navigate(['/cinema', this.selectedCinema.id, this.selectedCinema.slug]);
   }
 }

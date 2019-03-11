@@ -51,6 +51,11 @@ export interface CinemasResult {
 	list: Cinema[];
 }
 
+export interface CinemaResult {
+	status: string;
+	list: Movie[];
+}
+
 export interface DialogField {
 	title: string;
 	type: string;

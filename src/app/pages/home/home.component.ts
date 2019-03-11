@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
 	ngOnInit() {
 		this.getMovies();
 		this.cinemas = this.dss.getGlobal('cinemas');
+    this.dss.setGlobal('from', [ ['/home'] ]);
 	}
 
 	getMovies(ev=null) {
