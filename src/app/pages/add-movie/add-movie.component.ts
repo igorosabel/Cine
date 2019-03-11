@@ -29,6 +29,7 @@ export class AddMovieComponent implements OnInit {
 		id: null,
 		idCinema: null,
 		name: '',
+    slug: '',
 		cover: 'http://apicine.osumi.es/cover/def.jpg',
 		coverStatus: 0,
 		ticket: 'http://apicine.osumi.es/cover/def.jpg',
@@ -68,7 +69,7 @@ export class AddMovieComponent implements OnInit {
 	uploadCover() {
 		document.getElementById('cover').click();
 	}
-	
+
 	onCoverChange(event) {
 		let reader = new FileReader();
 		if( (<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files.length > 0) {
@@ -85,7 +86,7 @@ export class AddMovieComponent implements OnInit {
 	uploadTicket() {
 		document.getElementById('ticket').click();
 	}
-	
+
 	onTicketChange(event) {
 		let reader = new FileReader();
 		if( (<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files.length > 0) {
@@ -98,7 +99,7 @@ export class AddMovieComponent implements OnInit {
 			};
 		}
 	}
-	
+
 	searchMovieStart(){
 		clearTimeout(this.searchTimer);
 		this.searchTimer = setTimeout(() => {
@@ -109,7 +110,7 @@ export class AddMovieComponent implements OnInit {
     searchMovieStop(){
 		clearTimeout(this.searchTimer);
     }
-	
+
 	searchMovie() {
 		if (this.movie.name.length<3){
 			return;
@@ -121,11 +122,11 @@ export class AddMovieComponent implements OnInit {
 			this.searchResults = result.list;
 		});
 	}
-	
+
 	closeSearchResults() {
 		this.searchResults = [];
 	}
-	
+
 	selectResult(movieResult: MovieSearchResult) {
 		console.log(movieResult);
 		this.as.selectResult(movieResult.id).subscribe(result => {
@@ -133,7 +134,7 @@ export class AddMovieComponent implements OnInit {
 			this.movie.cover       = this.cs.urldecode(result.poster);
 			this.movie.coverStatus = 2;
 			this.movie.imdbUrl     = this.cs.urldecode(result.imdbUrl);
-			
+
 			this.closeSearchResults();
 		});
 	}
@@ -163,7 +164,7 @@ export class AddMovieComponent implements OnInit {
   		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna entrada!', ok: 'Continuar'});
   		  return;
 		}
-		
+
 		this.sending = true;
 		this.as.saveMovie(this.movie).subscribe(result => {
   		  if (result.status=='ok'){

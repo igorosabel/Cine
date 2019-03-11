@@ -5,3 +5,8 @@
   left: 0;
   right: 0;
 }
+
+.load-more {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}

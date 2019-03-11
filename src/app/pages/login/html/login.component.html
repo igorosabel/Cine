@@ -24,7 +24,7 @@
 			</fieldset>
 		</mat-card-content>
 		<mat-card-actions class="center-card-buttons">
-			<button routerLink="/register" mat-button [disabled]="loginSending">Regístrate</button>
+			<a routerLink="/register" mat-button [disabled]="loginSending">Regístrate</a>
 			<button mat-raised-button color="primary" [disabled]="loginSending" type="submit">
 				<img *ngIf="loginSending" src="/assets/loading.svg">
 				Continuar

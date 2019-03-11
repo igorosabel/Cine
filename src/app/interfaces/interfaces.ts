@@ -20,6 +20,7 @@ export interface Movie {
 	id: number;
 	idCinema: number;
 	name: string;
+	slug: string;
 	cover: string;
 	coverStatus?: number;
 	ticket: string;
@@ -30,7 +31,13 @@ export interface Movie {
 
 export interface MoviesResult {
 	status: string;
+	numPages: number;
 	list: Movie[];
+}
+
+export interface MovieResult {
+	status: string;
+	movie: Movie;
 }
 
 export interface Cinema {

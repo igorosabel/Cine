@@ -22,7 +22,7 @@ export class EditCinemaComponent implements OnInit {
 	            private router: Router,
 	            private cs: CommonService,
 	            private dialog: DialogService,
-				private as: ApiService) { }
+				      private as: ApiService) { }
 
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
@@ -36,14 +36,14 @@ export class EditCinemaComponent implements OnInit {
 			this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
 		});
 	}
-	
+
 	doEdit(ev) {
 		ev.preventDefault();
 		if (this.selectedCinema.name==''){
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre en blanco!', ok: 'Continuar'});
 			return;
 		}
-		
+
 		this.as.editCinema(this.selectedCinema).subscribe(result => {
 			if (result.status=='ok'){
 				this.cinemas[this.selectedIndex].name = this.cs.urlencode(this.selectedCinema.name);
@@ -66,7 +66,7 @@ export class EditCinemaComponent implements OnInit {
 			}
 		});
 	}
-	
+
 	deleteCinemaConfirm() {
 		this.as.deleteCinema(this.selectedCinema.id).subscribe(result => {
 			if (result.status=='ok'){
@@ -77,7 +77,7 @@ export class EditCinemaComponent implements OnInit {
 			}
 		});
 	}
-	
+
 	getCinemas() {
 		this.as.getCinemas().subscribe(result => {
 			this.cinemas = result.list;

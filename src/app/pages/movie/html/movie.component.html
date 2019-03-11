@@ -1,3 +1,39 @@
-<p>
-  movie works!
-</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+	<button routerLink="/home" mat-icon-button>
+		<mat-icon>arrow_back</mat-icon>
+	</button>
+	<span>{{movie.name}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="big-card">
+	<mat-card-content>
+    <mat-card-title>{{movie.name}}</mat-card-title>
+    <div class="movie-cover" (click)="openCover()" [ngClass]="{'movie-cover-full':showCover}">
+      <img [src]="movie.cover" [alt]="movie.name">
+    </div>
+    <mat-nav-list>
+      <mat-list-item (click)="selectCinema()">
+        <p matLine class="detail-text"><strong>Cine</strong>:</p>
+        <p matLine class="detail-text">{{movie.idCinema | cinemaName}}</p>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </mat-list-item>
+      <a mat-list-item [href]="movie.imdbUrl" target="_blank">
+        <p matLine><strong>IMDB</strong>:</p>
+        <p matLine>{{movie.imdbUrl}}</p>
+      </a>
+    </mat-nav-list>
+    <mat-list>
+      <mat-list-item class="md-2-line">
+        <p matLine><strong>Fecha</strong>:</p>
+        <p matLine>{{movie.date}}</p>
+      </mat-list-item>
+    </mat-list>
+    <hr>
+    <p>
+      <strong>Entrada</strong>
+    </p>
+    <img class="movie-ticket" [src]="movie.ticket" [alt]="movie.name">
+  </mat-card-content>
+</mat-card>

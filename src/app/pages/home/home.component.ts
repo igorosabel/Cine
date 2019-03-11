@@ -10,6 +10,7 @@ import { DataShareService }  from '../../services/data-share.service';
 })
 export class HomeComponent implements OnInit {
 	page: number      = 0;
+  numPages: number  = 0;
 	movies: Movie[]   = [];
 	cinemas: Cinema[] = [];
 	opened: boolean   = false;
@@ -20,14 +21,18 @@ export class HomeComponent implements OnInit {
 		this.getMovies();
 		this.cinemas = this.dss.getGlobal('cinemas');
 	}
-	
-	getMovies() {
+
+	getMovies(ev=null) {
+    if (ev){
+      ev.preventDefault();
+    }
 		this.page++;
 		this.as.getMovies(this.page).subscribe(result => {
-			this.movies = this.movies.concat(result.list);
+			this.movies   = this.movies.concat(result.list);
+      this.numPages = result.numPages;
 		});
 	}
-	
+
 	toggleSidenav() {
 		this.opened = !this.opened;
 	}
