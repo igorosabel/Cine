@@ -5,6 +5,7 @@ import { ApiService }        from '../../services/api.service';
 import { UserService }       from '../../services/user.service';
 import { CommonService }     from '../../services/common.service';
 import { DataShareService }  from '../../services/data-share.service';
+import { AuthService }       from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,18 +22,23 @@ export class LoginComponent implements OnInit {
 
 	constructor(private as: ApiService,
 	            private user: UserService,
-				private cs: CommonService,
-				private router: Router,
-				private dss: DataShareService) {}
-	ngOnInit() {}
-	
+				      private cs: CommonService,
+				      private router: Router,
+			        private dss: DataShareService,
+              private auth: AuthService) {}
+	ngOnInit() {
+    if (this.auth.isAuthenticated()){
+      this.router.navigate(['/home']);
+    }
+  }
+
 	doLogin(ev) {
 		ev.preventDefault();
-		
+
 		if (this.loginData.name==='' || this.loginData.pass===''){
 			return false;
 		}
-		
+
 		this.loginSending = true;
 		this.as.login(this.loginData).subscribe(result => {
 			this.loginSending = false;
@@ -42,12 +48,12 @@ export class LoginComponent implements OnInit {
 				this.user.name   = this.cs.urldecode(result.name);
 				this.user.token  = this.cs.urldecode(result.token);
 				this.user.saveLogin();
-				
+
 				this.as.getCinemas().subscribe(result => {
 					const cinemas: Cinema[] = result.list;
 					this.dss.setGlobal('cinemas', cinemas);
 				});
-				
+
 				this.router.navigate(['/home']);
 			}
 			else{

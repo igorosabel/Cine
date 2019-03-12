@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
 import { Movie, Cinema }     from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
+import { UserService }       from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,10 @@ export class HomeComponent implements OnInit {
 	cinemas: Cinema[] = [];
 	opened: boolean   = false;
 
-	constructor(private as: ApiService, private dss: DataShareService) { }
+	constructor(private as: ApiService,
+              private dss: DataShareService,
+              private user: UserService,
+              private router: Router) { }
 
 	ngOnInit() {
 		this.getMovies();
@@ -37,4 +42,9 @@ export class HomeComponent implements OnInit {
 	toggleSidenav() {
 		this.opened = !this.opened;
 	}
+
+  logout() {
+    this.user.logout();
+    this.router.navigate(['/']);
+  }
 }
