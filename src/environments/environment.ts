@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://apicine.osumi.es/api/'
+  apiUrl: 'https://apicine.osumi.es/api/'
 };
