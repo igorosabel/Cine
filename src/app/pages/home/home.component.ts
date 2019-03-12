@@ -43,7 +43,8 @@ export class HomeComponent implements OnInit {
 		this.opened = !this.opened;
 	}
 
-  logout() {
+  logout(ev) {
+    ev.preventDefault();
     this.user.logout();
     this.router.navigate(['/']);
   }
