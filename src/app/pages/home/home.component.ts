@@ -11,11 +11,13 @@ import { UserService }       from '../../services/user.service';
   styleUrls: ['./css/home.component.css']
 })
 export class HomeComponent implements OnInit {
-	page: number      = 0;
-  numPages: number  = 0;
-	movies: Movie[]   = [];
-	cinemas: Cinema[] = [];
-	opened: boolean   = false;
+	page: number       = 0;
+  numPages: number   = 0;
+	movies: Movie[]    = [];
+	cinemas: Cinema[]  = [];
+	loading: boolean   = true;
+	loadError: boolean = false;
+	opened: boolean    = false;
 
 	constructor(private as: ApiService,
               private dss: DataShareService,
@@ -33,10 +35,16 @@ export class HomeComponent implements OnInit {
       ev.preventDefault();
     }
 		this.page++;
-		this.as.getMovies(this.page).subscribe(result => {
-			this.movies   = this.movies.concat(result.list);
-      this.numPages = result.numPages;
-		});
+		this.as.getMovies(this.page)
+		      .subscribe(result => {
+        			this.movies   = this.movies.concat(result.list);
+             this.numPages = result.numPages;
+             this.loading  = false;
+        		},
+        		error => {
+          		this.loading    = false;
+          		this.loadError  = true;
+        		});
 	}
 
 	toggleSidenav() {

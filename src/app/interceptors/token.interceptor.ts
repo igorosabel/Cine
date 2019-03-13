@@ -3,10 +3,12 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs';
+import { UserService }            from '../services/user.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError }             from 'rxjs/operators';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -18,6 +20,18 @@ export class TokenInterceptor implements HttpInterceptor {
         Authorization: this.user.token ? this.user.token : ''
       }
     });
-    return next.handle(request);
+    return next.handle(request).pipe(
+       catchError((error: HttpErrorResponse) => {
+         let errorMessage = '';
+         if (error.error instanceof ErrorEvent) {
+           // client-side error
+           errorMessage = `Error: ${error.error.message}`;
+         } else {
+           // server-side error
+           errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+         }
+         return throwError(errorMessage);
+       })
+    );
   }
 }

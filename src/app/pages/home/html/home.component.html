@@ -31,8 +31,10 @@
 		<span>Cine</span>
 	  </mat-toolbar-row>
 	</mat-toolbar>
+	
+	<div class="loading" *ngIf="loading">Cargando...</div>
 
-	<mat-nav-list>
+	<mat-nav-list *ngIf="!loading && !loadError">
 	  <a mat-list-item *ngFor="let movie of movies" [routerLink]="['/movie', movie.id, movie.slug]">
   		<img matListAvatar src="{{movie.cover | urldecode}}" [alt]="movie.name">
   		<h3 matLine> {{movie.name | urldecode}} </h3>
@@ -47,6 +49,8 @@
 		    ¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
 	  </mat-list-item>
 	</mat-nav-list>
+	
+	<div class="loading" *ngIf="!loading && loadError">Ocurrió un error al cargar las películas.</div>
 
 	<button mat-fab class="btn-bottom-right" routerLink="/add-movie">
 		<mat-icon>add</mat-icon>
