@@ -52,7 +52,7 @@
 	
 	<div class="loading" *ngIf="!loading && loadError">Ocurrió un error al cargar las películas.</div>
 
-	<button mat-fab class="btn-bottom-right" routerLink="/add-movie">
+	<button mat-fab class="btn-bottom-right" routerLink="/add-movie" [disabled]="loadError">
 		<mat-icon>add</mat-icon>
 	</button>
   </mat-sidenav-content>
