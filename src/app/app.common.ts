@@ -78,7 +78,7 @@ import { MatSidenavModule }    from '@angular/material/sidenav';
 import { MatDialogModule }     from '@angular/material/dialog';
 import { MatSelectModule }     from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const MATERIAL: any[] = [
 	MatToolbarModule,
