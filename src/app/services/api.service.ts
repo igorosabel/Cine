@@ -10,10 +10,10 @@ import {
   MoviesResult,
   CinemasResult,
   StatusResult,
-  Cinema,
+  CinemaInterface,
   MovieSearchResultList,
   MovieSearchDetailResult,
-  Movie,
+  MovieInterface,
   MovieResult,
   CinemaResult
 } from '../interfaces/interfaces';
@@ -50,7 +50,7 @@ export class ApiService {
 		return this.http.post<StatusResult>(this.apiUrl + 'delete-cinema', {id});
 	}
 
-	editCinema(cinema: Cinema): Observable<StatusResult> {
+	editCinema(cinema: CinemaInterface): Observable<StatusResult> {
 		return this.http.post<StatusResult>(this.apiUrl + 'edit-cinema', cinema);
 	}
 
@@ -62,7 +62,7 @@ export class ApiService {
 		return this.http.post<MovieSearchDetailResult>(this.apiUrl + 'select-result', {id});
 	}
 
-	saveMovie(movie: Movie): Observable<StatusResult> {
+	saveMovie(movie: MovieInterface): Observable<StatusResult> {
 		return this.http.post<StatusResult>(this.apiUrl + 'save-movie', movie);
 	}
 

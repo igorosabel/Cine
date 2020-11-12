@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { LoginData, Cinema } from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { UserService }       from '../../services/user.service';
 import { CommonService }     from '../../services/common.service';
 import { DataShareService }  from '../../services/data-share.service';
 import { AuthService }       from '../../services/auth.service';
+import { LoginData, CinemaInterface } from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-login',
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 				this.user.saveLogin();
 
 				this.as.getCinemas().subscribe(result => {
-					const cinemas: Cinema[] = result.list;
+					const cinemas: CinemaInterface[] = result.list;
 					this.dss.setGlobal('cinemas', cinemas);
 				});
 

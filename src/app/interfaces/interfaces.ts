@@ -16,7 +16,7 @@ export interface RegisterData {
 	conf: string;
 }
 
-export interface Movie {
+export interface MovieInterface {
 	id: number;
 	idCinema: number;
 	name: string;
@@ -32,15 +32,15 @@ export interface Movie {
 export interface MoviesResult {
 	status: string;
 	numPages: number;
-	list: Movie[];
+	list: MovieInterface[];
 }
 
 export interface MovieResult {
 	status: string;
-	movie: Movie;
+	movie: MovieInterface;
 }
 
-export interface Cinema {
+export interface CinemaInterface {
 	id: number;
 	name: string;
 	slug: string;
@@ -48,12 +48,12 @@ export interface Cinema {
 
 export interface CinemasResult {
 	status: string;
-	list: Cinema[];
+	list: CinemaInterface[];
 }
 
 export interface CinemaResult {
 	status: string;
-	list: Movie[];
+	list: MovieInterface[];
 }
 
 export interface DialogField {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Cinema }            from '../../interfaces/interfaces';
+import { CinemaInterface }   from '../../interfaces/interfaces';
 import { DataShareService }  from '../../services/data-share.service';
 import { DialogService }     from '../../services/dialog.service';
 import { ApiService }        from '../../services/api.service';
@@ -10,7 +10,7 @@ import { ApiService }        from '../../services/api.service';
 	styleUrls: []
 })
 export class CinemasComponent implements OnInit {
-	cinemas: Cinema[] = [];
+	cinemas: CinemaInterface[] = [];
 
 	constructor(private dss: DataShareService, private dialog: DialogService, private as: ApiService) {}
 

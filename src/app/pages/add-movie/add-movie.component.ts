@@ -4,10 +4,13 @@ import { DataShareService }                 from '../../services/data-share.serv
 import { DialogService }                    from '../../services/dialog.service';
 import { ApiService }                       from '../../services/api.service';
 import { CommonService }                    from '../../services/common.service';
-import { Cinema, Movie, MovieSearchResult } from '../../interfaces/interfaces';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-
+import {
+	CinemaInterface,
+	MovieInterface,
+	MovieSearchResult
+} from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-add-movie',
@@ -21,8 +24,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 })
 export class AddMovieComponent implements OnInit {
 	isMobile: boolean = false;
-	cinemas: Cinema[] = [];
-	movie: Movie = {
+	cinemas: CinemaInterface[] = [];
+	movie: MovieInterface = {
 		id: null,
 		idCinema: null,
 		name: '',
@@ -132,42 +135,42 @@ export class AddMovieComponent implements OnInit {
 	}
 
 	saveMovie() {
-  	  if (this.movie.name=='') {
-    	  this.dialog.alert({title: 'Error', content: '¡No has introducido el nombre de la película!', ok: 'Continuar'});
-  		  return;
-  	  }
-  	  if (this.movie.idCinema===null) {
-    	  this.dialog.alert({title: 'Error', content: '¡No has elegido cine!', ok: 'Continuar'});
-  		  return;
-  	  }
+		if (this.movie.name=='') {
+			this.dialog.alert({title: 'Error', content: '¡No has introducido el nombre de la película!', ok: 'Continuar'});
+			return;
+		}
+		if (this.movie.idCinema===null) {
+			this.dialog.alert({title: 'Error', content: '¡No has elegido cine!', ok: 'Continuar'});
+			return;
+		}
 		if (this.movie.coverStatus===0) {
-  		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna carátula!', ok: 'Continuar'});
-  		  return;
+			this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna carátula!', ok: 'Continuar'});
+			return;
 		}
 		if (this.movie.imdbUrl==='') {
-  		  this.dialog.alert({title: 'Error', content: '¡No has introducido la URL de IMDB!', ok: 'Continuar'});
-  		  return;
+			this.dialog.alert({title: 'Error', content: '¡No has introducido la URL de IMDB!', ok: 'Continuar'});
+			return;
 		}
 		if (this.movie.date==='') {
-  		  this.dialog.alert({title: 'Error', content: '¡No has elegido fecha para la película!', ok: 'Continuar'});
-  		  return;
+			this.dialog.alert({title: 'Error', content: '¡No has elegido fecha para la película!', ok: 'Continuar'});
+			return;
 		}
 		if (this.movie.ticketStatus===0) {
-  		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna entrada!', ok: 'Continuar'});
-  		  return;
+			this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna entrada!', ok: 'Continuar'});
+			return;
 		}
 
 		this.sending = true;
 		this.as.saveMovie(this.movie).subscribe(result => {
-  		  if (result.status=='ok') {
-    		  this.dialog.alert({title: '¡Hecho!', content: 'Nueva película guardada.', ok: 'Continuar'}).subscribe(result => {
-      		  this.router.navigate(['/home']);
-    		  });
-  		  }
-  		  else {
-    		  this.sending = false;
-    		  this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la película.', ok: 'Continuar'});
-  		  }
+			if (result.status=='ok') {
+				this.dialog.alert({title: '¡Hecho!', content: 'Nueva película guardada.', ok: 'Continuar'}).subscribe(result => {
+					this.router.navigate(['/home']);
+				});
+			}
+			else {
+				this.sending = false;
+				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la película.', ok: 'Continuar'});
+			}
 		});
 	}
 }

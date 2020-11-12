@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { Movie, Cinema }     from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
 import { UserService }       from '../../services/user.service';
+import {
+	MovieInterface,
+	CinemaInterface
+} from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-home',
@@ -11,13 +14,13 @@ import { UserService }       from '../../services/user.service';
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	page: number       = 0;
-	numPages: number   = 0;
-	movies: Movie[]    = [];
-	cinemas: Cinema[]  = [];
-	loading: boolean   = true;
-	loadError: boolean = false;
-	opened: boolean    = false;
+	page: number               = 0;
+	numPages: number           = 0;
+	movies: MovieInterface[]   = [];
+	cinemas: CinemaInterface[] = [];
+	loading: boolean           = true;
+	loadError: boolean         = false;
+	opened: boolean            = false;
 
 	constructor(
 		private as: ApiService,

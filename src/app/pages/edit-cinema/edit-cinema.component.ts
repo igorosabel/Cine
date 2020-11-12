@@ -4,7 +4,7 @@ import { DataShareService }              from '../../services/data-share.service
 import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
-import { Cinema }                        from '../../interfaces/interfaces';
+import { CinemaInterface }               from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-edit-cinema',
@@ -12,9 +12,9 @@ import { Cinema }                        from '../../interfaces/interfaces';
 	styleUrls: []
 })
 export class EditCinemaComponent implements OnInit {
-	cinemas: Cinema[]      = [];
+	cinemas: CinemaInterface[]      = [];
 	selectedIndex: number  = null;
-	selectedCinema: Cinema = null;
+	selectedCinema: CinemaInterface = null;
 	editSending: boolean   = false;
 
 	constructor(

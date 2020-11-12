@@ -4,7 +4,10 @@ import { DataShareService }              from '../../services/data-share.service
 import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
-import { Cinema, Movie }                 from '../../interfaces/interfaces';
+import {
+	CinemaInterface,
+	MovieInterface
+} from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-cinema',
@@ -12,10 +15,10 @@ import { Cinema, Movie }                 from '../../interfaces/interfaces';
 	styleUrls: []
 })
 export class CinemaComponent implements OnInit {
-	from: any         = [];
-	cinemas: Cinema[] = [];
-	cinema: Cinema    = null;
-	movies: Movie[]   = [];
+	from: any                  = [];
+	cinemas: CinemaInterface[] = [];
+	cinema: CinemaInterface    = null;
+	movies: MovieInterface[]   = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
