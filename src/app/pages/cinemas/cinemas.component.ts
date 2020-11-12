@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CinemaInterface }   from '../../interfaces/interfaces';
-import { DataShareService }  from '../../services/data-share.service';
-import { DialogService }     from '../../services/dialog.service';
-import { ApiService }        from '../../services/api.service';
+import { Component, OnInit }  from '@angular/core';
+import { Cinema }             from '../../model/cinema.model';
+import { DataShareService }   from '../../services/data-share.service';
+import { DialogService }      from '../../services/dialog.service';
+import { ApiService }         from '../../services/api.service';
+import { ClassMapperService } from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-cinemas',
@@ -10,9 +11,14 @@ import { ApiService }        from '../../services/api.service';
 	styleUrls: []
 })
 export class CinemasComponent implements OnInit {
-	cinemas: CinemaInterface[] = [];
+	cinemas: Cinema[] = [];
 
-	constructor(private dss: DataShareService, private dialog: DialogService, private as: ApiService) {}
+	constructor(
+		private dss: DataShareService,
+		private dialog: DialogService,
+		private as: ApiService,
+		private cms: ClassMapperService
+	) {}
 
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
@@ -55,7 +61,7 @@ export class CinemasComponent implements OnInit {
 	
 	getCinemas() {
 		this.as.getCinemas().subscribe(result => {
-			this.cinemas = result.list;
+			this.cinemas = this.cms.getCinemas(result.list);
 			this.dss.setGlobal('cinemas', this.cinemas);
 		});
 	}

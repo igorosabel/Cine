@@ -13,7 +13,10 @@ export class Movie {
 		public ticket: string = null,
 		public imdbUrl: string = null,
 		public date: string = null
-	) {}
+	) {
+		this.coverStatus = 0;
+		this.ticketStatus = 0;
+	}
 	
 	toInterface(): MovieInterface {
 		return {

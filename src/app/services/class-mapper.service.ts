@@ -26,7 +26,7 @@ export class ClassMapperService {
 	getCinema(c: CinemaInterface): Cinema {
 		return new Cinema(
 			c.id,
-			c.name,
+			this.cs.urldecode(c.name),
 			c.slug
 		);
 	}

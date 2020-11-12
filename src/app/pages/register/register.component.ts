@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { RegisterData }      from '../../interfaces/interfaces';
-import { ApiService }        from '../../services/api.service';
-import { UserService }       from '../../services/user.service';
-import { CommonService }     from '../../services/common.service';
+import { Component, OnInit }  from '@angular/core';
+import { Router }             from '@angular/router';
+import { Cinema }             from '../../model/cinema.model';
+import { RegisterData }       from '../../interfaces/interfaces';
+import { ApiService }         from '../../services/api.service';
+import { UserService }        from '../../services/user.service';
+import { CommonService }      from '../../services/common.service';
+import { DataShareService }   from '../../services/data-share.service';
+import { ClassMapperService } from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-register',
@@ -24,7 +27,9 @@ export class RegisterComponent implements OnInit {
 		private as: ApiService,
 		private user: UserService,
 		private cs: CommonService,
-		private router: Router
+		private dss: DataShareService,
+		private router: Router,
+		private cms: ClassMapperService
 	) {}
 	ngOnInit() {}
 	
@@ -51,6 +56,11 @@ export class RegisterComponent implements OnInit {
 				this.user.name   = this.cs.urldecode(result.name);
 				this.user.token  = this.cs.urldecode(result.token);
 				this.user.saveLogin();
+				
+				this.as.getCinemas().subscribe(result => {
+					const cinemas: Cinema[] = this.cms.getCinemas(result.list);
+					this.dss.setGlobal('cinemas', cinemas);
+				});
 				
 				this.router.navigate(['/home']);
 			}

@@ -1,16 +1,14 @@
 import { Component, OnInit }                from '@angular/core';
 import { Router }                           from '@angular/router';
+import { Cinema }                           from '../../model/cinema.model';
+import { Movie }                            from '../../model/movie.model';
 import { DataShareService }                 from '../../services/data-share.service';
 import { DialogService }                    from '../../services/dialog.service';
 import { ApiService }                       from '../../services/api.service';
 import { CommonService }                    from '../../services/common.service';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import {
-	CinemaInterface,
-	MovieInterface,
-	MovieSearchResult
-} from '../../interfaces/interfaces';
+import { MovieSearchResult }                from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-add-movie',
@@ -23,20 +21,8 @@ import {
 	]
 })
 export class AddMovieComponent implements OnInit {
-	isMobile: boolean = false;
-	cinemas: CinemaInterface[] = [];
-	movie: MovieInterface = {
-		id: null,
-		idCinema: null,
-		name: '',
-		slug: '',
-		cover: 'http://apicine.osumi.es/cover/def.jpg',
-		coverStatus: 0,
-		ticket: 'http://apicine.osumi.es/cover/def.jpg',
-		ticketStatus: 0,
-		imdbUrl: '',
-		date: ''
-	};
+	cinemas: Cinema[]        = [];
+	movie: Movie             = new Movie();
 	uploadingCover: boolean  = false;
 	uploadingTicket: boolean = false;
 	searchTimer              = null;
@@ -54,6 +40,16 @@ export class AddMovieComponent implements OnInit {
 
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
+		this.movie = new Movie(
+			null,
+			null,
+			'',
+			'',
+			'http://apicine.osumi.es/cover/def.jpg',
+			'http://apicine.osumi.es/cover/def.jpg',
+			'',
+			''
+		);
 		if (this.cinemas.length==0) {
 			this.dialog.alert({title: 'Error', content: 'Antes de añadir una película tienes que añadir el cine.', ok: 'Continuar'}).subscribe(result => {
 				this.router.navigate(['/home']);
@@ -161,7 +157,7 @@ export class AddMovieComponent implements OnInit {
 		}
 
 		this.sending = true;
-		this.as.saveMovie(this.movie).subscribe(result => {
+		this.as.saveMovie(this.movie.toInterface()).subscribe(result => {
 			if (result.status=='ok') {
 				this.dialog.alert({title: '¡Hecho!', content: 'Nueva película guardada.', ok: 'Continuar'}).subscribe(result => {
 					this.router.navigate(['/home']);

@@ -1,10 +1,11 @@
 import { Component, OnInit }             from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
+import { Cinema }                        from '../../model/cinema.model';
 import { DataShareService }              from '../../services/data-share.service';
 import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
-import { CinemaInterface }               from '../../interfaces/interfaces';
+import { ClassMapperService }            from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-edit-cinema',
@@ -12,9 +13,9 @@ import { CinemaInterface }               from '../../interfaces/interfaces';
 	styleUrls: []
 })
 export class EditCinemaComponent implements OnInit {
-	cinemas: CinemaInterface[]      = [];
+	cinemas: Cinema[]      = [];
 	selectedIndex: number  = null;
-	selectedCinema: CinemaInterface = null;
+	selectedCinema: Cinema = null;
 	editSending: boolean   = false;
 
 	constructor(
@@ -23,7 +24,8 @@ export class EditCinemaComponent implements OnInit {
 		private router: Router,
 		private cs: CommonService,
 		private dialog: DialogService,
-		private as: ApiService
+		private as: ApiService,
+		private cms: ClassMapperService
 	) {}
 
 	ngOnInit() {
@@ -35,7 +37,6 @@ export class EditCinemaComponent implements OnInit {
 			const id: number = params.id;
 			this.selectedIndex = this.cinemas.findIndex(x => x.id==id);
 			this.selectedCinema = this.cinemas[this.selectedIndex];
-			this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
 		});
 	}
 
@@ -82,7 +83,7 @@ export class EditCinemaComponent implements OnInit {
 
 	getCinemas() {
 		this.as.getCinemas().subscribe(result => {
-			this.cinemas = result.list;
+			this.cinemas = this.cms.getCinemas(result.list);
 			this.dss.setGlobal('cinemas', this.cinemas);
 			this.router.navigate(['/cinemas']);
 		});

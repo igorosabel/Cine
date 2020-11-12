@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
+import { Cinema }                        from '../../model/cinema.model';
+import { Movie }                         from '../../model/movie.model';
 import { DataShareService }              from '../../services/data-share.service';
 import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
-import {
-	CinemaInterface,
-	MovieInterface
-} from '../../interfaces/interfaces';
+import { ClassMapperService }            from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-cinema',
@@ -15,10 +14,10 @@ import {
 	styleUrls: []
 })
 export class CinemaComponent implements OnInit {
-	from: any                  = [];
-	cinemas: CinemaInterface[] = [];
-	cinema: CinemaInterface    = null;
-	movies: MovieInterface[]   = [];
+	from: any         = [];
+	cinemas: Cinema[] = [];
+	cinema: Cinema    = null;
+	movies: Movie[]   = [];
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -26,7 +25,8 @@ export class CinemaComponent implements OnInit {
 		private router: Router,
 		private cs: CommonService,
 		private dialog: DialogService,
-		private as: ApiService
+		private as: ApiService,
+		private cms: ClassMapperService
 	) {}
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
@@ -36,11 +36,10 @@ export class CinemaComponent implements OnInit {
 		this.activatedRoute.params.subscribe((params: Params) => {
 			const id: number = params.id;
 			this.cinema = this.cinemas[this.cinemas.findIndex(x => x.id==id)];
-			this.cinema.name = this.cs.urldecode(this.cinema.name);
 
 			this.as.getCinemaMovies(id).subscribe(result => {
 				if (result.status=='ok') {
-					this.movies = result.list;
+					this.movies = this.cms.getMovies(result.list);
 
 					const fromCinema = ['/cinema', this.cinema.id, this.cinema.slug];
 					this.from = this.dss.getGlobal('from');
