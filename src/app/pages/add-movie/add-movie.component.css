@@ -25,10 +25,16 @@
 	width: 100%;
 }
 
+.add-movie-info {
+	display: flex;
+	flex-direction: column;
+}
+
 .image-box {
 	display: flex;
     flex-direction: column;
     align-items: center;
+	width: 100%;
 }
 
 .add-movie-cover {
@@ -40,6 +46,10 @@
 
 .image-box > input[type="file"] {
     display: none;
+}
+
+.movie-info {
+	width: 100%;
 }
 
 .movie-info > * {
@@ -93,7 +103,21 @@
 }
 
 .sending {
-  width: 20px;
-  background-color: white;
-  border-radius: 50%;
+	width: 20px;
+	background-color: white;
+	border-radius: 50%;
+}
+
+@media screen and (min-width: 900px) {
+	.add-movie-info {
+		flex-direction: row;
+	}
+
+	.image-box {
+		width: 30%;
+	}
+
+	.movie-info {
+		width: 70%;
+	}
 }

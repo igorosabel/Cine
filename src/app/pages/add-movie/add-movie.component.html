@@ -1,21 +1,21 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-	<button routerLink="/home" mat-icon-button>
-		<mat-icon>arrow_back</mat-icon>
-	</button>
-	<span>Añadir película</span>
-	<span class="flex-space"></span>
-	<button mat-icon-button (click)="saveMovie()" [disabled]="sending">
-		<mat-icon *ngIf="!sending">check</mat-icon>
-		<img src="/assets/loading.svg" *ngIf="sending" class="sending">
-	</button>
-  </mat-toolbar-row>
+	<mat-toolbar-row>
+		<button routerLink="/home" mat-icon-button>
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>Añadir película</span>
+		<span class="flex-space"></span>
+		<button mat-icon-button (click)="saveMovie()" [disabled]="sending">
+			<mat-icon *ngIf="!sending">check</mat-icon>
+			<img src="/assets/loading.svg" *ngIf="sending" class="sending">
+		</button>
+	</mat-toolbar-row>
 </mat-toolbar>
 
 <mat-card class="big-card">
 	<mat-card-content>
-		<div [ngClass]="{'row':!isMobile, 'col':isMobile}">
-			<div class="image-box" [ngClass]="{'col-30':!isMobile, 'col-100':isMobile}">
+		<div class="add-movie-info">
+			<div class="image-box">
 				<img class="add-movie-cover" [src]="movie.cover">
 				<input type="file" name="cover" id="cover" value="" (change)="onCoverChange($event)">
 				<button mat-raised-button color="primary" (click)="uploadCover()">
@@ -23,7 +23,7 @@
 					Añadir carátula
 				</button>
 			</div>
-			<div class="movie-info" [ngClass]="{'col-70':!isMobile, 'col-100':isMobile}">
+			<div class="movie-info">
 				<mat-form-field appearance="outline">
 					<mat-label>Nombre</mat-label>
 					<input matInput [(ngModel)]="movie.name" required name="name" (keyup)="searchMovieStart()">
@@ -55,10 +55,10 @@
 					<input matInput [(ngModel)]="movie.imdbUrl" name="imdbUrl">
 				</mat-form-field>
 				<mat-form-field appearance="outline">
-          <input matInput [matDatepicker]="picker" placeholder="Elige fecha" [(ngModel)]="movie.date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-        </mat-form-field>
+					<input matInput [matDatepicker]="picker" placeholder="Elige fecha" [(ngModel)]="movie.date">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker touchUi #picker></mat-datepicker>
+				</mat-form-field>
 			</div>
 		</div>
 		<hr class="divider">

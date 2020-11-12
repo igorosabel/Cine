@@ -1,7 +1,5 @@
 import { Component, OnInit }                from '@angular/core';
 import { Router }                           from '@angular/router';
-import { Subscription }                     from 'rxjs';
-import { MediaChange, MediaObserver }       from '@angular/flex-layout';
 import { DataShareService }                 from '../../services/data-share.service';
 import { DialogService }                    from '../../services/dialog.service';
 import { ApiService }                       from '../../services/api.service';
@@ -12,24 +10,23 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 
 
 @Component({
-  selector: 'app-add-movie',
-  templateUrl: './html/add-movie.component.html',
-  styleUrls: ['./css/add-movie.component.css'],
-  providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ]
+	selector: 'app-add-movie',
+	templateUrl: './add-movie.component.html',
+	styleUrls: ['./add-movie.component.css'],
+	providers: [
+		{provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+		{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+		{provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+	]
 })
 export class AddMovieComponent implements OnInit {
-	watcher: Subscription;
 	isMobile: boolean = false;
 	cinemas: Cinema[] = [];
 	movie: Movie = {
 		id: null,
 		idCinema: null,
 		name: '',
-    slug: '',
+		slug: '',
 		cover: 'http://apicine.osumi.es/cover/def.jpg',
 		coverStatus: 0,
 		ticket: 'http://apicine.osumi.es/cover/def.jpg',
@@ -44,22 +41,17 @@ export class AddMovieComponent implements OnInit {
 	searchResults: MovieSearchResult[] = [];
 	sending: boolean = false;
 
-	constructor(private dss: DataShareService,
-	            private router: Router,
-	            private dialog: DialogService,
-				private as: ApiService,
-				private cs: CommonService,
-				private mediaObserver: MediaObserver) {
-		this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
-			if ( change.mqAlias == 'xs') {
-				this.isMobile = true;
-			}
-		});
-	}
+	constructor(
+		private dss: DataShareService,
+		private router: Router,
+		private dialog: DialogService,
+		private as: ApiService,
+		private cs: CommonService
+	) {}
 
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
-		if (this.cinemas.length==0){
+		if (this.cinemas.length==0) {
 			this.dialog.alert({title: 'Error', content: 'Antes de añadir una película tienes que añadir el cine.', ok: 'Continuar'}).subscribe(result => {
 				this.router.navigate(['/home']);
 			});
@@ -100,19 +92,19 @@ export class AddMovieComponent implements OnInit {
 		}
 	}
 
-	searchMovieStart(){
+	searchMovieStart() {
 		clearTimeout(this.searchTimer);
 		this.searchTimer = setTimeout(() => {
 			this.searchMovie();
 		}, 500);
     }
 
-    searchMovieStop(){
+    searchMovieStop() {
 		clearTimeout(this.searchTimer);
     }
 
 	searchMovie() {
-		if (this.movie.name.length<3){
+		if (this.movie.name.length<3) {
 			return;
 		}
 		this.searchMovieStop();
@@ -140,39 +132,39 @@ export class AddMovieComponent implements OnInit {
 	}
 
 	saveMovie() {
-  	  if (this.movie.name==''){
+  	  if (this.movie.name=='') {
     	  this.dialog.alert({title: 'Error', content: '¡No has introducido el nombre de la película!', ok: 'Continuar'});
   		  return;
   	  }
-  	  if (this.movie.idCinema===null){
+  	  if (this.movie.idCinema===null) {
     	  this.dialog.alert({title: 'Error', content: '¡No has elegido cine!', ok: 'Continuar'});
   		  return;
   	  }
-		if (this.movie.coverStatus===0){
+		if (this.movie.coverStatus===0) {
   		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna carátula!', ok: 'Continuar'});
   		  return;
 		}
-		if (this.movie.imdbUrl===''){
+		if (this.movie.imdbUrl==='') {
   		  this.dialog.alert({title: 'Error', content: '¡No has introducido la URL de IMDB!', ok: 'Continuar'});
   		  return;
 		}
-		if (this.movie.date===''){
+		if (this.movie.date==='') {
   		  this.dialog.alert({title: 'Error', content: '¡No has elegido fecha para la película!', ok: 'Continuar'});
   		  return;
 		}
-		if (this.movie.ticketStatus===0){
+		if (this.movie.ticketStatus===0) {
   		  this.dialog.alert({title: 'Error', content: '¡No has elegido ninguna entrada!', ok: 'Continuar'});
   		  return;
 		}
 
 		this.sending = true;
 		this.as.saveMovie(this.movie).subscribe(result => {
-  		  if (result.status=='ok'){
+  		  if (result.status=='ok') {
     		  this.dialog.alert({title: '¡Hecho!', content: 'Nueva película guardada.', ok: 'Continuar'}).subscribe(result => {
       		  this.router.navigate(['/home']);
     		  });
   		  }
-  		  else{
+  		  else {
     		  this.sending = false;
     		  this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la película.', ok: 'Continuar'});
   		  }

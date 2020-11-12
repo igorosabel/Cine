@@ -6,33 +6,38 @@ import { UserService }       from '../../services/user.service';
 import { CommonService }     from '../../services/common.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './html/register.component.html',
-  styleUrls: ['./css/register.component.css']
+	selector: 'app-register',
+	templateUrl: './register.component.html',
+	styleUrls: []
 })
 export class RegisterComponent implements OnInit {
-	registerData = {
+	registerData: RegisterData = {
 		name: '',
 		pass: '',
 		conf: ''
-	} as RegisterData;
+	};
 	registerNameError: boolean = false;
 	registerPassError: boolean = false;
 	registerSending: boolean = false;
 
-	constructor(private as: ApiService, private user: UserService, private cs: CommonService, private router: Router) {}
+	constructor(
+		private as: ApiService,
+		private user: UserService,
+		private cs: CommonService,
+		private router: Router
+	) {}
 	ngOnInit() {}
 	
 	doRegister(ev) {
 		ev.preventDefault();
 		
-		if (this.registerData.name==='' || this.registerData.pass==='' || this.registerData.conf===''){
+		if (this.registerData.name==='' || this.registerData.pass==='' || this.registerData.conf==='') {
 			return false;
 		}
 		
 		this.registerNameError = false;
 		this.registerPassError = false;
-		if (this.registerData.pass !== this.registerData.conf){
+		if (this.registerData.pass !== this.registerData.conf) {
 			this.registerPassError = true;
 			return false;
 		}
@@ -40,7 +45,7 @@ export class RegisterComponent implements OnInit {
 		this.registerSending = true;
 		this.as.register(this.registerData).subscribe(result => {
 			this.registerSending = false;
-			if (result.status==='ok'){
+			if (result.status==='ok') {
 				this.user.logged = true;
 				this.user.id     = result.id;
 				this.user.name   = this.cs.urldecode(result.name);
@@ -49,7 +54,7 @@ export class RegisterComponent implements OnInit {
 				
 				this.router.navigate(['/home']);
 			}
-			else{
+			else {
 				this.registerNameError = true;
 			}
 		});

@@ -5,9 +5,9 @@ import { DialogService }     from '../../services/dialog.service';
 import { ApiService }        from '../../services/api.service';
 
 @Component({
-  selector: 'app-cinemas',
-  templateUrl: './html/cinemas.component.html',
-  styleUrls: ['./css/cinemas.component.css']
+	selector: 'app-cinemas',
+	templateUrl: './cinemas.component.html',
+	styleUrls: []
 })
 export class CinemasComponent implements OnInit {
 	cinemas: Cinema[] = [];
@@ -33,7 +33,7 @@ export class CinemasComponent implements OnInit {
 			cancel: 'Cancelar'
 		})
 		.subscribe(result => {
-			if (result){
+			if (result) {
 				this.newCinema(result[0].value);
 			}
 		});
@@ -47,7 +47,7 @@ export class CinemasComponent implements OnInit {
 
 				this.getCinemas();
 			}
-			else{
+			else {
 				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar el nuevo cine.', ok: 'Continuar'});
 			}
 		});

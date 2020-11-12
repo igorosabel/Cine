@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<button mat-icon-button (click)="back()">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>{{cinema.name}}</span>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<mat-nav-list>
+	<a mat-list-item *ngFor="let movie of movies" [routerLink]="['/movie', movie.id, movie.slug]">
+		<img matListAvatar src="{{movie.cover | urldecode}}" [alt]="movie.name">
+		<h3 matLine> {{movie.name | urldecode}} </h3>
+		<h4 matLine>{{movie.idCinema | cinemaName}}</h4>
+		<p matLine>{{movie.date | urldecode}}</p>
+	</a>
+	<mat-list-item *ngIf="movies.length==0">
+		¡Todavía no hay ninguna película!
+	</mat-list-item>
+</mat-nav-list>
