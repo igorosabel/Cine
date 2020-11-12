@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { ApiService }        from '../../services/api.service';
-import { UserService }       from '../../services/user.service';
-import { CommonService }     from '../../services/common.service';
-import { DataShareService }  from '../../services/data-share.service';
-import { AuthService }       from '../../services/auth.service';
-import { LoginData, CinemaInterface } from '../../interfaces/interfaces';
+import { Component, OnInit }  from '@angular/core';
+import { Router }             from '@angular/router';
+import { Cinema }             from '../../model/cinema.model';
+import { ApiService }         from '../../services/api.service';
+import { UserService }        from '../../services/user.service';
+import { CommonService }      from '../../services/common.service';
+import { DataShareService }   from '../../services/data-share.service';
+import { AuthService }        from '../../services/auth.service';
+import { ClassMapperService } from '../../services/class-mapper.service';
+import { LoginData }          from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-login',
@@ -26,7 +28,8 @@ export class LoginComponent implements OnInit {
 		private cs: CommonService,
 		private router: Router,
 		private dss: DataShareService,
-		private auth: AuthService
+		private auth: AuthService,
+		private cms: ClassMapperService
 	) {}
 	ngOnInit() {
 		if (this.auth.isAuthenticated()) {
@@ -52,7 +55,7 @@ export class LoginComponent implements OnInit {
 				this.user.saveLogin();
 
 				this.as.getCinemas().subscribe(result => {
-					const cinemas: CinemaInterface[] = result.list;
+					const cinemas: Cinema[] = this.cms.getCinemas(result.list);
 					this.dss.setGlobal('cinemas', cinemas);
 				});
 

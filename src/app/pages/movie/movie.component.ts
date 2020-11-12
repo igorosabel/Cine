@@ -1,13 +1,12 @@
 import { Component, OnInit }             from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
+import { Movie }                         from '../../model/movie.model';
+import { Cinema }                        from '../../model/cinema.model';
 import { DataShareService }              from '../../services/data-share.service';
 import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
-import {
-	CinemaInterface,
-	MovieInterface
-} from '../../interfaces/interfaces';
+import { ClassMapperService }            from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-movie',
@@ -16,18 +15,9 @@ import {
 })
 export class MovieComponent implements OnInit {
 	from: any = [];
-	cinemas: CinemaInterface[] = [];
-	selectedCinema: CinemaInterface = null;
-	movie: MovieInterface = {
-		id: null,
-		idCinema: null,
-		name: '',
-		slug: '',
-		cover: '',
-		ticket: '',
-		imdbUrl: '',
-		date: ''
-	};
+	cinemas: Cinema[] = [];
+	selectedCinema: Cinema = null;
+	movie: Movie = new Movie();
 	showCover: boolean = false;
 
 	constructor(
@@ -36,7 +26,8 @@ export class MovieComponent implements OnInit {
 		private router: Router,
 		private cs: CommonService,
 		private dialog: DialogService,
-		private as: ApiService
+		private as: ApiService,
+		private cms: ClassMapperService
 	) { }
 	ngOnInit() {
 		this.cinemas = this.dss.getGlobal('cinemas');
@@ -47,14 +38,7 @@ export class MovieComponent implements OnInit {
 			const id: number = params.id;
 			this.as.getMovie(id).subscribe(result => {
 				if (result.status=='ok') {
-					this.movie.id       = result.movie.id;
-					this.movie.idCinema = result.movie.idCinema;
-					this.movie.name     = this.cs.urldecode(result.movie.name);
-					this.movie.slug     = result.movie.slug;
-					this.movie.cover    = this.cs.urldecode(result.movie.cover);
-					this.movie.ticket   = this.cs.urldecode(result.movie.ticket);
-					this.movie.imdbUrl  = this.cs.urldecode(result.movie.imdbUrl);
-					this.movie.date     = this.cs.urldecode(result.movie.date);
+					this.movie = this.cms.getMovie(result.movie);
 
 					this.selectedCinema = this.cinemas[this.cinemas.findIndex(x => x.id==this.movie.idCinema)];
 					this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);

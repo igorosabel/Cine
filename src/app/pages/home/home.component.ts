@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { ApiService }        from '../../services/api.service';
-import { DataShareService }  from '../../services/data-share.service';
-import { UserService }       from '../../services/user.service';
-import {
-	MovieInterface,
-	CinemaInterface
-} from '../../interfaces/interfaces';
+import { Component, OnInit }  from '@angular/core';
+import { Router }             from '@angular/router';
+import { Movie }              from '../../model/movie.model';
+import { Cinema }             from '../../model/cinema.model';
+import { ApiService }         from '../../services/api.service';
+import { DataShareService }   from '../../services/data-share.service';
+import { UserService }        from '../../services/user.service';
+import { ClassMapperService } from '../../services/class-mapper.service';
 
 @Component({
 	selector: 'app-home',
@@ -14,19 +13,20 @@ import {
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	page: number               = 0;
-	numPages: number           = 0;
-	movies: MovieInterface[]   = [];
-	cinemas: CinemaInterface[] = [];
-	loading: boolean           = true;
-	loadError: boolean         = false;
-	opened: boolean            = false;
+	page: number       = 0;
+	numPages: number   = 0;
+	movies: Movie[]    = [];
+	cinemas: Cinema[]  = [];
+	loading: boolean   = true;
+	loadError: boolean = false;
+	opened: boolean    = false;
 
 	constructor(
 		private as: ApiService,
 		private dss: DataShareService,
 		private user: UserService,
-		private router: Router
+		private router: Router,
+		private cms: ClassMapperService
 	) { }
 
 	ngOnInit() {
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
 		this.page++;
 		this.as.getMovies(this.page)
 			.subscribe(result => {
-				this.movies   = this.movies.concat(result.list);
+				this.movies   = this.movies.concat(this.cms.getMovies(result.list));
 				this.numPages = result.numPages;
 				this.loading  = false;
 			},

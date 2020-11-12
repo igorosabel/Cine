@@ -48,12 +48,13 @@ export const PIPES: any[] = [
 /*
  * Servicios
  */
-import { CommonService }    from './services/common.service';
-import { ApiService }       from './services/api.service';
-import { DataShareService } from './services/data-share.service';
-import { UserService }      from './services/user.service';
-import { AuthService }      from './services/auth.service';
-import { DialogService }    from './services/dialog.service';
+import { CommonService }      from './services/common.service';
+import { ApiService }         from './services/api.service';
+import { DataShareService }   from './services/data-share.service';
+import { UserService }        from './services/user.service';
+import { AuthService }        from './services/auth.service';
+import { DialogService }      from './services/dialog.service';
+import { ClassMapperService } from './services/class-mapper.service';
 
 export const SERVICES: any[] = [
 	CommonService,
@@ -61,7 +62,8 @@ export const SERVICES: any[] = [
 	DataShareService,
 	UserService,
 	AuthService,
-	DialogService
+	DialogService,
+	ClassMapperService
 ];
 
 /*
