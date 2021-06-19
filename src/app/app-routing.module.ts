@@ -9,6 +9,7 @@ import { AddMovieComponent }   from './pages/add-movie/add-movie.component';
 import { CinemaComponent }     from './pages/cinema/cinema.component';
 import { CinemasComponent }    from './pages/cinemas/cinemas.component';
 import { EditCinemaComponent } from './pages/edit-cinema/edit-cinema.component';
+import { SearchComponent }     from './pages/search/search.component';
 import { AuthGuard }           from './guard/auth.guard';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
 	{ path: 'cinema/:id/:slug',      component: CinemaComponent,     canActivate: [AuthGuard] },
 	{ path: 'cinemas',               component: CinemasComponent,    canActivate: [AuthGuard] },
 	{ path: 'edit-cinema/:id/:slug', component: EditCinemaComponent, canActivate: [AuthGuard] },
+	{ path: 'search',                component: SearchComponent,     canActivate: [AuthGuard] },
 	{ path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 

@@ -13,15 +13,15 @@
 			<mat-card-title>Registro</mat-card-title>
 		</mat-card-header>
 		<mat-card-content class="center-card-fields">
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput [(ngModel)]="registerData.name" [disabled]="registerSending" required name="name">
 			</mat-form-field>
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
 				<input matInput type="password" [(ngModel)]="registerData.pass" [disabled]="registerSending" required name="pass">
 			</mat-form-field>
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Confirmar contraseña</mat-label>
 				<input matInput type="password" [(ngModel)]="registerData.conf" [disabled]="registerSending" required name="conf">
 			</mat-form-field>

@@ -9,6 +9,7 @@ import { AddMovieComponent }   from './pages/add-movie/add-movie.component';
 import { CinemaComponent }     from './pages/cinema/cinema.component';
 import { CinemasComponent }    from './pages/cinemas/cinemas.component';
 import { EditCinemaComponent } from './pages/edit-cinema/edit-cinema.component';
+import { SearchComponent }     from './pages/search/search.component';
 
 export const PAGES: any[] = [
 	LoginComponent,
@@ -18,7 +19,8 @@ export const PAGES: any[] = [
 	AddMovieComponent,
 	CinemaComponent,
 	CinemasComponent,
-	EditCinemaComponent
+	EditCinemaComponent,
+	SearchComponent
 ];
 
 /*

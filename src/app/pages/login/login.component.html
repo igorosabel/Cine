@@ -10,11 +10,11 @@
 			<mat-card-title>Iniciar sesión</mat-card-title>
 		</mat-card-header>
 		<mat-card-content class="center-card-fields">
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput [(ngModel)]="loginData.name" [disabled]="loginSending" required name="name">
 			</mat-form-field>
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
 				<input matInput type="password" [(ngModel)]="loginData.pass" [disabled]="loginSending" required name="pass">
 			</mat-form-field>

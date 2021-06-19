@@ -24,7 +24,7 @@
 				</button>
 			</div>
 			<div class="movie-info">
-				<mat-form-field appearance="outline">
+				<mat-form-field>
 					<mat-label>Nombre</mat-label>
 					<input matInput [(ngModel)]="movie.name" required name="name" (keyup)="searchMovieStart()">
 					<img src="/assets/loading.svg" *ngIf="searching" class="searching">
@@ -43,18 +43,18 @@
 						</button>
 					</mat-action-list>
 				</div>
-				<mat-form-field appearance="outline">
+				<mat-form-field>
 					<mat-select placeholder="Elige cine" [(ngModel)]="movie.idCinema">
 						<mat-option *ngFor="let cinema of cinemas" [value]="cinema.id">
 							{{cinema.name | urldecode}}
 						</mat-option>
 					</mat-select>
 				</mat-form-field>
-				<mat-form-field appearance="outline">
+				<mat-form-field>
 					<mat-label>URL IMDB</mat-label>
 					<input matInput [(ngModel)]="movie.imdbUrl" name="imdbUrl">
 				</mat-form-field>
-				<mat-form-field appearance="outline">
+				<mat-form-field>
 					<input matInput [matDatepicker]="picker" placeholder="Elige fecha" [(ngModel)]="movie.date">
 					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 					<mat-datepicker touchUi #picker></mat-datepicker>

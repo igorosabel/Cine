@@ -8,33 +8,42 @@ import { AppRoutingModule }                    from './app-routing.module';
 import { AppComponent }                        from './app.component';
 import { environment }                         from '../environments/environment';
 import { TokenInterceptor }                    from './interceptors/token.interceptor';
+import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
 
+const appearance: MatFormFieldDefaultOptions = {
+	appearance: 'outline'
+};
+
 @NgModule({
-  declarations: [
-    AppComponent,
-	...PAGES,
-	...COMPONENTS,
-	...PIPES
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-	HttpClientModule,
-	FormsModule,
-    BrowserAnimationsModule,
-	...MATERIAL
-  ],
-  providers: [
-	...SERVICES,
-	{
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		...PAGES,
+		...COMPONENTS,
+		...PIPES
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+		HttpClientModule,
+		FormsModule,
+		BrowserAnimationsModule,
+		...MATERIAL
+	],
+	providers: [
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: appearance
+		},
+		...SERVICES,
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptor,
+			multi: true
+		}
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

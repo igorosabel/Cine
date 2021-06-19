@@ -14,6 +14,10 @@
 				<mat-icon matListIcon >edit</mat-icon>
 				Editar cines
 			</a>
+			<a mat-list-item routerLink="/search">
+				<mat-icon matListIcon >search</mat-icon>
+				Buscar
+			</a>
 			<a mat-list-item (click)="logout($event)">
 				<mat-icon matListIcon >power_settings_new</mat-icon>
 				Salir
@@ -31,7 +35,7 @@
 				<span>Cine</span>
 			</mat-toolbar-row>
 		</mat-toolbar>
-	
+
 		<div class="loading" *ngIf="loading">Cargando...</div>
 
 		<mat-nav-list *ngIf="!loading && !loadError">
@@ -49,7 +53,7 @@
 				¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
 			</mat-list-item>
 		</mat-nav-list>
-	
+
 		<div class="loading" *ngIf="!loading && loadError">Ocurrió un error al cargar las películas.</div>
 
 		<button mat-fab class="btn-bottom-right" routerLink="/add-movie" [disabled]="loadError">
