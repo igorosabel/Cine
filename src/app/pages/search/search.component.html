@@ -6,3 +6,20 @@
 		<span>Buscar</span>
 	</mat-toolbar-row>
 </mat-toolbar>
+
+<div class="search-box">
+	<mat-form-field class="wide">
+		<mat-label>Nombre de la película</mat-label>
+		<input matInput [(ngModel)]="q" name="q" (keyup)="searchMovieStart()">
+		<img src="/assets/loading.svg" *ngIf="searching" class="searching">
+	</mat-form-field>
+</div>
+
+<mat-nav-list>
+	<a mat-list-item *ngFor="let movie of movies" [routerLink]="['/movie', movie.id, movie.slug]">
+		<img matListAvatar src="{{movie.cover | urldecode}}" [alt]="movie.name">
+		<h3 matLine> {{movie.name | urldecode}} </h3>
+		<h4 matLine>{{movie.idCinema | cinemaName}}</h4>
+		<p matLine>{{movie.date | urldecode}}</p>
+	</a>
+</mat-nav-list>
