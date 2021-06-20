@@ -10,5 +10,6 @@ export class MovieListComponent implements OnInit {
 	@Input() movies: Movie[]   = [];
 
 	constructor() {}
+
 	ngOnInit(): void {}
 }

@@ -29,13 +29,13 @@ export class HomeComponent implements OnInit {
 		private cms: ClassMapperService
 	) { }
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.getMovies();
 		this.cinemas = this.dss.getGlobal('cinemas');
 		this.dss.setGlobal('from', [ ['/home'] ]);
 	}
 
-	getMovies(ev=null) {
+	getMovies(ev=null): void {
 		ev && ev.preventDefault();
 		this.page++;
 		this.as.getMovies(this.page)
@@ -50,11 +50,11 @@ export class HomeComponent implements OnInit {
 			});
 	}
 
-	toggleSidenav() {
+	toggleSidenav(): void {
 		this.opened = !this.opened;
 	}
 
-  logout(ev) {
+  logout(ev: MouseEvent): void {
 		ev.preventDefault();
 		this.user.logout();
 		this.router.navigate(['/']);

@@ -28,8 +28,9 @@ export class MovieComponent implements OnInit {
 		private dialog: DialogService,
 		private as: ApiService,
 		private cms: ClassMapperService
-	) { }
-	ngOnInit() {
+	) {}
+
+	ngOnInit(): void {
 		this.cinemas = this.dss.getGlobal('cinemas');
 		if (this.cinemas.length==0) {
 			this.router.navigate(['/home']);
@@ -61,18 +62,18 @@ export class MovieComponent implements OnInit {
 		});
 	}
 
-	back() {
+	back(): void {
 		const current = this.from.pop();
 		const previous = this.from.pop();
 		this.dss.setGlobal('from', this.from);
 		this.router.navigate(previous);
 	}
 
-	openCover() {
+	openCover(): void {
 		this.showCover = !this.showCover;
 	}
 
-	selectCinema() {
+	selectCinema(): void {
 		this.router.navigate(['/cinema', this.selectedCinema.id, this.selectedCinema.slug]);
 	}
 }

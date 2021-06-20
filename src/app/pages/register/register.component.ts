@@ -1,4 +1,4 @@
-import { Component, OnInit }  from '@angular/core';
+import { Component }          from '@angular/core';
 import { Router }             from '@angular/router';
 import { Cinema }             from '../../model/cinema.model';
 import { RegisterData }       from '../../interfaces/interfaces';
@@ -13,7 +13,7 @@ import { ClassMapperService } from '../../services/class-mapper.service';
 	templateUrl: './register.component.html',
 	styleUrls: []
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 	registerData: RegisterData = {
 		name: '',
 		pass: '',
@@ -31,22 +31,21 @@ export class RegisterComponent implements OnInit {
 		private router: Router,
 		private cms: ClassMapperService
 	) {}
-	ngOnInit() {}
-	
-	doRegister(ev) {
+
+	doRegister(ev: MouseEvent): void {
 		ev.preventDefault();
-		
+
 		if (this.registerData.name==='' || this.registerData.pass==='' || this.registerData.conf==='') {
-			return false;
+			return;
 		}
-		
+
 		this.registerNameError = false;
 		this.registerPassError = false;
 		if (this.registerData.pass !== this.registerData.conf) {
 			this.registerPassError = true;
-			return false;
+			return;
 		}
-		
+
 		this.registerSending = true;
 		this.as.register(this.registerData).subscribe(result => {
 			this.registerSending = false;
@@ -56,12 +55,12 @@ export class RegisterComponent implements OnInit {
 				this.user.name   = this.cs.urldecode(result.name);
 				this.user.token  = this.cs.urldecode(result.token);
 				this.user.saveLogin();
-				
+
 				this.as.getCinemas().subscribe(result => {
 					const cinemas: Cinema[] = this.cms.getCinemas(result.list);
 					this.dss.setGlobal('cinemas', cinemas);
 				});
-				
+
 				this.router.navigate(['/home']);
 			}
 			else {

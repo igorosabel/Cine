@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { Cinema }                        from '../../model/cinema.model';
 import { Movie }                         from '../../model/movie.model';
 import { DataShareService }              from '../../services/data-share.service';
-import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
 import { ClassMapperService }            from '../../services/class-mapper.service';
@@ -23,12 +22,12 @@ export class CinemaComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private dss: DataShareService,
 		private router: Router,
-		private cs: CommonService,
 		private dialog: DialogService,
 		private as: ApiService,
 		private cms: ClassMapperService
 	) {}
-	ngOnInit() {
+
+	ngOnInit(): void {
 		this.cinemas = this.dss.getGlobal('cinemas');
 		if (this.cinemas.length==0) {
 			this.router.navigate(['/home']);
@@ -59,7 +58,7 @@ export class CinemaComponent implements OnInit {
 		});
 	}
 
-	back() {
+	back(): void {
 		const current = this.from.pop();
 		const previous = this.from.pop();
 		this.dss.setGlobal('from', this.from);

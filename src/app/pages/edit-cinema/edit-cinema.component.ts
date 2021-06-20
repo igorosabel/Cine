@@ -28,7 +28,7 @@ export class EditCinemaComponent implements OnInit {
 		private cms: ClassMapperService
 	) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.cinemas = this.dss.getGlobal('cinemas');
 		if (this.cinemas.length==0) {
 			this.router.navigate(['/cinemas']);
@@ -40,7 +40,7 @@ export class EditCinemaComponent implements OnInit {
 		});
 	}
 
-	doEdit(ev) {
+	doEdit(ev: MouseEvent): void {
 		ev.preventDefault();
 		if (this.selectedCinema.name==''){
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre en blanco!', ok: 'Continuar'});
@@ -57,7 +57,7 @@ export class EditCinemaComponent implements OnInit {
 		});
 	}
 
-	deleteCinema(ev) {
+	deleteCinema(ev: MouseEvent): void {
 		ev.preventDefault();
 		ev.stopPropagation();
 		this.dialog.confirm({title: 'Borrar cine',
@@ -70,7 +70,7 @@ export class EditCinemaComponent implements OnInit {
 		});
 	}
 
-	deleteCinemaConfirm() {
+	deleteCinemaConfirm(): void {
 		this.as.deleteCinema(this.selectedCinema.id).subscribe(result => {
 			if (result.status=='ok') {
 				this.dialog.alert({title: 'Cine borrado', content: 'El cine y todas sus entradas han sido borradas.', ok: 'Continuar'}).subscribe(result => {
@@ -81,7 +81,7 @@ export class EditCinemaComponent implements OnInit {
 		});
 	}
 
-	getCinemas() {
+	getCinemas(): void {
 		this.as.getCinemas().subscribe(result => {
 			this.cinemas = this.cms.getCinemas(result.list);
 			this.dss.setGlobal('cinemas', this.cinemas);

@@ -31,17 +31,18 @@ export class LoginComponent implements OnInit {
 		private auth: AuthService,
 		private cms: ClassMapperService
 	) {}
-	ngOnInit() {
+
+	ngOnInit(): void {
 		if (this.auth.isAuthenticated()) {
 			this.router.navigate(['/home']);
 		}
 	}
 
-	doLogin(ev) {
+	doLogin(ev: MouseEvent): void {
 		ev.preventDefault();
 
 		if (this.loginData.name==='' || this.loginData.pass==='') {
-			return false;
+			return;
 		}
 
 		this.loginSending = true;

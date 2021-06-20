@@ -20,11 +20,11 @@ export class CinemasComponent implements OnInit {
 		private cms: ClassMapperService
 	) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.cinemas = this.dss.getGlobal('cinemas');
 	}
-	
-	addCinema() {
+
+	addCinema(): void {
 		this.dialog.form({
 			title: 'Añadir cine',
 			content: 'Introduce el nombre del nuevo cine',
@@ -44,8 +44,8 @@ export class CinemasComponent implements OnInit {
 			}
 		});
 	}
-	
-	newCinema(name: string) {
+
+	newCinema(name: string): void {
 		this.as.addCinema(name).subscribe(result => {
 			if (result.status=='ok'){
 				this.cinemas = [];
@@ -58,8 +58,8 @@ export class CinemasComponent implements OnInit {
 			}
 		});
 	}
-	
-	getCinemas() {
+
+	getCinemas(): void {
 		this.as.getCinemas().subscribe(result => {
 			this.cinemas = this.cms.getCinemas(result.list);
 			this.dss.setGlobal('cinemas', this.cinemas);

@@ -8,8 +8,7 @@ import { DialogOptions }           from '../interfaces/interfaces';
 
 @Injectable()
 export class DialogService {
-
-	constructor(private dialog: MatDialog) { }
+	constructor(private dialog: MatDialog) {}
 
 	public confirm(options: DialogOptions): Observable<boolean> {
 		let dialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -33,11 +32,11 @@ export class DialogService {
 
 		return dialogRef.afterClosed();
 	}
-  
+
 	public form(options: DialogOptions): Observable<DialogOptions> {
 		let dialogRef: MatDialogRef<FormDialogComponent>;
 		dialogRef = this.dialog.open(FormDialogComponent);
-		
+
 		dialogRef.componentInstance.title   = options.title;
 		dialogRef.componentInstance.content = options.content;
 		dialogRef.componentInstance.ok      = options.ok;
@@ -46,5 +45,4 @@ export class DialogService {
 
 		return dialogRef.afterClosed();
 	}
-
 }

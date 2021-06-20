@@ -38,7 +38,7 @@ export class AddMovieComponent implements OnInit {
 		private cs: CommonService
 	) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.cinemas = this.dss.getGlobal('cinemas');
 		this.movie = new Movie(
 			null,
@@ -57,11 +57,11 @@ export class AddMovieComponent implements OnInit {
 		}
 	}
 
-	uploadCover() {
+	uploadCover(): void {
 		document.getElementById('cover').click();
 	}
 
-	onCoverChange(event) {
+	onCoverChange(event: Event): void {
 		let reader = new FileReader();
 		if( (<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files.length > 0) {
 			let file = (<HTMLInputElement>event.target).files[0];
@@ -74,11 +74,11 @@ export class AddMovieComponent implements OnInit {
 		}
 	}
 
-	uploadTicket() {
+	uploadTicket(): void {
 		document.getElementById('ticket').click();
 	}
 
-	onTicketChange(event) {
+	onTicketChange(event: Event): void {
 		let reader = new FileReader();
 		if( (<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files.length > 0) {
 			let file = (<HTMLInputElement>event.target).files[0];
@@ -91,35 +91,33 @@ export class AddMovieComponent implements OnInit {
 		}
 	}
 
-	searchMovieStart() {
+	searchMovieStart(): void {
 		clearTimeout(this.searchTimer);
 		this.searchTimer = setTimeout(() => {
 			this.searchMovie();
 		}, 500);
     }
 
-    searchMovieStop() {
+    searchMovieStop(): void {
 		clearTimeout(this.searchTimer);
     }
 
-	searchMovie() {
-		if (this.movie.name.length<3) {
-			return;
+	searchMovie(): void {
+		if (this.movie.name.length >= 3) {
+			this.searchMovieStop();
+			this.searching = true;
+			this.as.searchMovie(this.movie.name).subscribe(result => {
+				this.searching = false;
+				this.searchResults = result.list;
+			});
 		}
-		this.searchMovieStop();
-		this.searching = true;
-		this.as.searchMovie(this.movie.name).subscribe(result => {
-			this.searching = false;
-			this.searchResults = result.list;
-		});
 	}
 
-	closeSearchResults() {
+	closeSearchResults(): void {
 		this.searchResults = [];
 	}
 
-	selectResult(movieResult: MovieSearchResult) {
-		console.log(movieResult);
+	selectResult(movieResult: MovieSearchResult): void {
 		this.as.selectResult(movieResult.id).subscribe(result => {
 			this.movie.name        = this.cs.urldecode(result.title);
 			this.movie.cover       = this.cs.urldecode(result.poster);
@@ -130,7 +128,7 @@ export class AddMovieComponent implements OnInit {
 		});
 	}
 
-	saveMovie() {
+	saveMovie(): void {
 		if (this.movie.name=='') {
 			this.dialog.alert({title: 'Error', content: '¡No has introducido el nombre de la película!', ok: 'Continuar'});
 			return;
