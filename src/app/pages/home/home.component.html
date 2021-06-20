@@ -39,12 +39,7 @@
 		<div class="loading" *ngIf="loading">Cargando...</div>
 
 		<mat-nav-list *ngIf="!loading && !loadError">
-			<a mat-list-item *ngFor="let movie of movies" [routerLink]="['/movie', movie.id, movie.slug]">
-				<img matListAvatar src="{{movie.cover | urldecode}}" [alt]="movie.name">
-				<h3 matLine> {{movie.name | urldecode}} </h3>
-				<h4 matLine>{{movie.idCinema | cinemaName}}</h4>
-				<p matLine>{{movie.date | urldecode}}</p>
-			</a>
+			<app-movie-list [movies]="movies"></app-movie-list>
 			<a *ngIf="page<numPages" mat-list-item (click)="getMovies($event)" class="load-more">
 				<mat-icon>keyboard_arrow_down</mat-icon>
 				Cargar más
