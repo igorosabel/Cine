@@ -1,5 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -16,33 +14,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .center-card {
 	max-width: 300px;
 	margin: 50px auto;
-}
 
-.center-card-fields > * {
-	width: 100%;
-}
+	.center-card-fields {
+		& > * {
+			width: 100%;
+		}
 
-.center-card-buttons {
-	display: flex !important;
-	justify-content: space-between;
-}
+		.center-card-error {
+			border-radius: 6px;
+			box-sizing: border-box;
+			border-color: #f44336;
+			color: #f44336;
+			border-width: 2px;
+		}
 
-.center-card-buttons img {
-	width: 20px;
-}
+	}
 
-.center-card-buttons-end {
-  justify-content: flex-end;
-}
+	.center-card-buttons {
+		display: flex !important;
+		justify-content: space-between;
 
-.center-card-error {
-	border-radius: 6px;
-    box-sizing: border-box;
-    border-color: #f44336;
-    color: #f44336;
-    border-width: 2px;
-}
+		img {
+			width: 20px;
+		}
+	}
 
-.flex-space{
-  flex: 1 1 auto;
+	.center-card-buttons-end {
+		justify-content: flex-end;
+	}
 }
