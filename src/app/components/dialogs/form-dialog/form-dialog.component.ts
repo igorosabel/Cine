@@ -5,7 +5,7 @@ import { DialogField }  from '../../../interfaces/interfaces';
 @Component({
 	selector: 'app-form-dialog',
 	templateUrl: './html/form-dialog.component.html',
-	styleUrls: ['../css/dialog.component.css']
+	styleUrls: ['../css/dialog.component.scss']
 })
 export class FormDialogComponent {
 	public title: string;

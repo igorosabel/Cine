@@ -13,7 +13,7 @@ import { MovieSearchResult }                from '../../interfaces/interfaces';
 @Component({
 	selector: 'app-add-movie',
 	templateUrl: './add-movie.component.html',
-	styleUrls: ['./add-movie.component.css'],
+	styleUrls: ['./add-movie.component.scss'],
 	providers: [
 		{provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
 		{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
