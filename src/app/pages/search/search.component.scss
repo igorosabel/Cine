@@ -4,5 +4,18 @@
 
 	.wide {
 		width: 100%;
+		position: relative;
+		
+		.searching {
+			position: absolute;
+			right: 0;
+			width: 32px;
+			top: 4px;
+		}
 	}
+}
+
+.start-message {
+	padding-top: 16px;
+    text-align: center;
 }

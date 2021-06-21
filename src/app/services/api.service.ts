@@ -66,11 +66,15 @@ export class ApiService {
 		return this.http.post<StatusResult>(this.apiUrl + 'save-movie', movie);
 	}
 
-  getMovie(id: number): Observable<MovieResult> {
+	getMovie(id: number): Observable<MovieResult> {
 		return this.http.post<MovieResult>(this.apiUrl + 'get-movie', {id});
 	}
 
-  getCinemaMovies(id: number): Observable<CinemaResult> {
+	getCinemaMovies(id: number): Observable<CinemaResult> {
 		return this.http.post<CinemaResult>(this.apiUrl + 'get-cinema-movies', {id});
+	}
+	
+	searchTitles(q: string): Observable<MoviesResult> {
+		return this.http.post<MoviesResult>(this.apiUrl + 'search-titles', {q});
 	}
 }
