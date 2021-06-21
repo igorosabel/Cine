@@ -41,11 +41,9 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
-import { UrldecodePipe }  from './pipes/urldecode.pipe';
 import { CinemaNamePipe } from './pipes/cinema-name.pipe';
 
 export const PIPES: any[] = [
-	UrldecodePipe,
 	CinemaNamePipe
 ];
 

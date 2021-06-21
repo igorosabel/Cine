@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { Cinema }            from '../../model/cinema.model';
-import { Movie }             from '../../model/movie.model';
-import { MovieSearch }       from '../../model/movie-search.model';
-import { DataShareService }  from '../../services/data-share.service';
-import { DialogService }     from '../../services/dialog.service';
-import { ApiService }        from '../../services/api.service';
+import { Component, OnInit }  from '@angular/core';
+import { Router }             from '@angular/router';
+import { Cinema }             from '../../model/cinema.model';
+import { Movie }              from '../../model/movie.model';
+import { MovieSearch }        from '../../model/movie-search.model';
+import { DataShareService }   from '../../services/data-share.service';
+import { DialogService }      from '../../services/dialog.service';
+import { ApiService }         from '../../services/api.service';
+import { ClassMapperService } from '../../services/class-mapper.service';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MovieSearchResult } from '../../interfaces/interfaces';
+import { MovieSearchResult }  from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-add-movie',
@@ -34,7 +35,8 @@ export class AddMovieComponent implements OnInit {
 		private dss: DataShareService,
 		private router: Router,
 		private dialog: DialogService,
-		private as: ApiService
+		private as: ApiService,
+		private cms: ClassMapperService
 	) {}
 
 	ngOnInit(): void {
@@ -107,7 +109,7 @@ export class AddMovieComponent implements OnInit {
 			this.searching = true;
 			this.as.searchMovie(this.movie.name).subscribe(result => {
 				this.searching = false;
-				this.searchResults = result.list;
+				this.searchResults = this.cms.getMovieSearches(result.list);
 			});
 		}
 	}
@@ -118,10 +120,11 @@ export class AddMovieComponent implements OnInit {
 
 	selectResult(movieResult: MovieSearchResult): void {
 		this.as.selectResult(movieResult.id).subscribe(result => {
-			this.movie.name        = this.cs.urldecode(result.title);
-			this.movie.cover       = this.cs.urldecode(result.poster);
+			let searchResult = this.cms.getMovieDetail(result);
+			this.movie.name        = searchResult.title;
+			this.movie.cover       = searchResult.poster;
 			this.movie.coverStatus = 2;
-			this.movie.imdbUrl     = this.cs.urldecode(result.imdbUrl);
+			this.movie.imdbUrl     = searchResult.imdbUrl;
 
 			this.closeSearchResults();
 		});

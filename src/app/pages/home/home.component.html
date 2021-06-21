@@ -8,7 +8,7 @@
 		<mat-nav-list>
 			<a mat-list-item *ngFor="let cinema of cinemas" [routerLink]="['/cinema', cinema.id, cinema.slug]">
 				<mat-icon matListIcon >local_movies</mat-icon>
-				{{cinema.name | urldecode}}
+				{{cinema.name}}
 			</a>
 			<a mat-list-item routerLink="/cinemas">
 				<mat-icon matListIcon >edit</mat-icon>

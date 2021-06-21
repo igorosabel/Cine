@@ -10,7 +10,7 @@
 <mat-nav-list>
 	<a mat-list-item *ngFor="let cinema of cinemas" [routerLink]="['/edit-cinema', cinema.id, cinema.slug]">
 		<mat-icon matListIcon>local_movies</mat-icon>
-		{{ cinema.name | urldecode }}
+		{{ cinema.name }}
 	</a>
 	<mat-list-item *ngIf="cinemas.length==0">
 		¡Todavía no hay ningún cine! Añade el primero pulsando el icono "+".

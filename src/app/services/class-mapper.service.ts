@@ -6,6 +6,7 @@ import { Utils }       from '../model/utils.class';
 import {
 	CinemaInterface,
 	MovieInterface,
+	MovieSearchResult,
 	MovieSearchDetailResult
 } from '../interfaces/interfaces';
 
@@ -56,7 +57,7 @@ export class ClassMapperService {
 		);
 	}
 
-	getMovieSearches(result: MovieSearchDetailResult[]): MovieSearch[] {
+	getMovieSearches(result: MovieSearchResult[]): MovieSearch[] {
 		const searches: MovieSearch[] = [];
 
 		for (let m of result) {
@@ -66,9 +67,20 @@ export class ClassMapperService {
 		return searches;
 	}
 
-	getMovieSearch(m: MovieSearchDetailResult): MovieSearch {
+	getMovieSearch(m: MovieSearchResult): MovieSearch {
+		return new MovieSearch(
+			null,
+			m.id,
+			Utils.urldecode(m.title),
+			Utils.urldecode(m.poster),
+			null
+		);
+	}
+	
+	getMovieDetail(m: MovieSearchDetailResult): MovieSearch {
 		return new MovieSearch(
 			m.status,
+			null,
 			Utils.urldecode(m.title),
 			Utils.urldecode(m.poster),
 			Utils.urldecode(m.imdbUrl)

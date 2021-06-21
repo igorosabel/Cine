@@ -1,9 +1,9 @@
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
 import { Cinema }             from '../../model/cinema.model';
+import { Utils }              from '../../model/utils.class';
 import { ApiService }         from '../../services/api.service';
 import { UserService }        from '../../services/user.service';
-import { CommonService }      from '../../services/common.service';
 import { DataShareService }   from '../../services/data-share.service';
 import { AuthService }        from '../../services/auth.service';
 import { ClassMapperService } from '../../services/class-mapper.service';
@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private as: ApiService,
 		private user: UserService,
-		private cs: CommonService,
 		private router: Router,
 		private dss: DataShareService,
 		private auth: AuthService,
@@ -51,8 +50,8 @@ export class LoginComponent implements OnInit {
 			if (result.status==='ok') {
 				this.user.logged = true;
 				this.user.id     = result.id;
-				this.user.name   = this.cs.urldecode(result.name);
-				this.user.token  = this.cs.urldecode(result.token);
+				this.user.name   = Utils.urldecode(result.name);
+				this.user.token  = Utils.urldecode(result.token);
 				this.user.saveLogin();
 
 				this.as.getCinemas().subscribe(result => {

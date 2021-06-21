@@ -2,7 +2,6 @@ import { Component, OnInit }             from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import { Cinema }                        from '../../model/cinema.model';
 import { DataShareService }              from '../../services/data-share.service';
-import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
 import { ClassMapperService }            from '../../services/class-mapper.service';
@@ -22,7 +21,6 @@ export class EditCinemaComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private dss: DataShareService,
 		private router: Router,
-		private cs: CommonService,
 		private dialog: DialogService,
 		private as: ApiService,
 		private cms: ClassMapperService
@@ -49,9 +47,8 @@ export class EditCinemaComponent implements OnInit {
 
 		this.as.editCinema(this.selectedCinema).subscribe(result => {
 			if (result.status=='ok') {
-				this.cinemas[this.selectedIndex].name = this.cs.urlencode(this.selectedCinema.name);
+				this.cinemas[this.selectedIndex].name = this.selectedCinema.name;
 				this.dss.setGlobal('cinemas', this.cinemas);
-				this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
 				this.dialog.alert({title: 'Cine actualizado', content: 'El nombre del cine ha sido actualizado.', ok: 'Continuar'});
 			}
 		});

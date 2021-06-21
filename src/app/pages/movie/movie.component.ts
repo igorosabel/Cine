@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { Movie }                         from '../../model/movie.model';
 import { Cinema }                        from '../../model/cinema.model';
 import { DataShareService }              from '../../services/data-share.service';
-import { CommonService }                 from '../../services/common.service';
 import { DialogService }                 from '../../services/dialog.service';
 import { ApiService }                    from '../../services/api.service';
 import { ClassMapperService }            from '../../services/class-mapper.service';
@@ -24,7 +23,6 @@ export class MovieComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private dss: DataShareService,
 		private router: Router,
-		private cs: CommonService,
 		private dialog: DialogService,
 		private as: ApiService,
 		private cms: ClassMapperService
@@ -42,7 +40,6 @@ export class MovieComponent implements OnInit {
 					this.movie = this.cms.getMovie(result.movie);
 
 					this.selectedCinema = this.cinemas[this.cinemas.findIndex(x => x.id==this.movie.idCinema)];
-					this.selectedCinema.name = this.cs.urldecode(this.selectedCinema.name);
 
 					const fromMovie = ['/movie', this.movie.id, this.movie.slug];
 					this.from = this.dss.getGlobal('from');

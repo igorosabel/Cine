@@ -38,15 +38,15 @@
 					</div>
 					<mat-action-list>
 						<button *ngFor="let result of searchResults" mat-list-item (click)="selectResult(result)">
-							<img matListAvatar src="{{result.poster|urldecode}}" alt="{{result.title | urldecode}}">
-							<h3 matLine class="search-result-item"> {{result.title | urldecode}} </h3>
+							<img matListAvatar src="{{result.poster}}" alt="{{result.title}}">
+							<h3 matLine class="search-result-item"> {{result.title}} </h3>
 						</button>
 					</mat-action-list>
 				</div>
 				<mat-form-field>
 					<mat-select placeholder="Elige cine" [(ngModel)]="movie.idCinema">
 						<mat-option *ngFor="let cinema of cinemas" [value]="cinema.id">
-							{{cinema.name | urldecode}}
+							{{cinema.name}}
 						</mat-option>
 					</mat-select>
 				</mat-form-field>

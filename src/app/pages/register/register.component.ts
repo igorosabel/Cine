@@ -1,10 +1,10 @@
 import { Component }          from '@angular/core';
 import { Router }             from '@angular/router';
 import { Cinema }             from '../../model/cinema.model';
+import { Utils }              from '../../model/utils.class';
 import { RegisterData }       from '../../interfaces/interfaces';
 import { ApiService }         from '../../services/api.service';
 import { UserService }        from '../../services/user.service';
-import { CommonService }      from '../../services/common.service';
 import { DataShareService }   from '../../services/data-share.service';
 import { ClassMapperService } from '../../services/class-mapper.service';
 
@@ -26,7 +26,6 @@ export class RegisterComponent {
 	constructor(
 		private as: ApiService,
 		private user: UserService,
-		private cs: CommonService,
 		private dss: DataShareService,
 		private router: Router,
 		private cms: ClassMapperService
@@ -52,8 +51,8 @@ export class RegisterComponent {
 			if (result.status==='ok') {
 				this.user.logged = true;
 				this.user.id     = result.id;
-				this.user.name   = this.cs.urldecode(result.name);
-				this.user.token  = this.cs.urldecode(result.token);
+				this.user.name   = Utils.urldecode(result.name);
+				this.user.token  = Utils.urldecode(result.token);
 				this.user.saveLogin();
 
 				this.as.getCinemas().subscribe(result => {
