@@ -1,17 +1,19 @@
-import { Injectable }    from '@angular/core';
-import { CommonService } from './common.service';
-import { Cinema }        from '../model/cinema.model';
-import { Movie }         from '../model/movie.model';
+import { Injectable }  from '@angular/core';
+import { Cinema }      from '../model/cinema.model';
+import { Movie }       from '../model/movie.model';
+import { MovieSearch } from '../model/movie-search.model';
+import { Utils }       from '../model/utils.class';
 import {
 	CinemaInterface,
-	MovieInterface
+	MovieInterface,
+	MovieSearchDetailResult
 } from '../interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ClassMapperService {
-	constructor(private cs: CommonService) {}
+	constructor() {}
 
 	getCinemas(result: CinemaInterface[]): Cinema[] {
 		const cinemas: Cinema[] = [];
@@ -26,31 +28,50 @@ export class ClassMapperService {
 	getCinema(c: CinemaInterface): Cinema {
 		return new Cinema(
 			c.id,
-			this.cs.urldecode(c.name),
+			Utils.urldecode(c.name),
 			c.slug
 		);
 	}
-	
+
 	getMovies(result: MovieInterface[]): Movie[] {
 		const movies: Movie[] = [];
-		
+
 		for (let m of result) {
 			movies.push(this.getMovie(m));
 		}
-		
+
 		return movies;
 	}
-	
+
 	getMovie(m: MovieInterface): Movie {
 		return new Movie(
 			m.id,
 			m.idCinema,
-			this.cs.urldecode(m.name),
+			Utils.urldecode(m.name),
 			m.slug,
-			this.cs.urldecode(m.cover),
-			this.cs.urldecode(m.ticket),
-			this.cs.urldecode(m.imdbUrl),
-			this.cs.urldecode(m.date)
+			Utils.urldecode(m.cover),
+			Utils.urldecode(m.ticket),
+			Utils.urldecode(m.imdbUrl),
+			Utils.urldecode(m.date)
+		);
+	}
+
+	getMovieSearches(result: MovieSearchDetailResult[]): MovieSearch[] {
+		const searches: MovieSearch[] = [];
+
+		for (let m of result) {
+			searches.push(this.getMovieSearch(m));
+		}
+
+		return searches;
+	}
+
+	getMovieSearch(m: MovieSearchDetailResult): MovieSearch {
+		return new MovieSearch(
+			m.status,
+			Utils.urldecode(m.title),
+			Utils.urldecode(m.poster),
+			Utils.urldecode(m.imdbUrl)
 		);
 	}
 }

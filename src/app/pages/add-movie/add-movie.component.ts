@@ -1,14 +1,14 @@
-import { Component, OnInit }                from '@angular/core';
-import { Router }                           from '@angular/router';
-import { Cinema }                           from '../../model/cinema.model';
-import { Movie }                            from '../../model/movie.model';
-import { DataShareService }                 from '../../services/data-share.service';
-import { DialogService }                    from '../../services/dialog.service';
-import { ApiService }                       from '../../services/api.service';
-import { CommonService }                    from '../../services/common.service';
+import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
+import { Cinema }            from '../../model/cinema.model';
+import { Movie }             from '../../model/movie.model';
+import { MovieSearch }       from '../../model/movie-search.model';
+import { DataShareService }  from '../../services/data-share.service';
+import { DialogService }     from '../../services/dialog.service';
+import { ApiService }        from '../../services/api.service';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MovieSearchResult }                from '../../interfaces/interfaces';
+import { MovieSearchResult } from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'app-add-movie',
@@ -27,15 +27,14 @@ export class AddMovieComponent implements OnInit {
 	uploadingTicket: boolean = false;
 	searchTimer              = null;
 	searching: boolean       = false;
-	searchResults: MovieSearchResult[] = [];
+	searchResults: MovieSearch[] = [];
 	sending: boolean = false;
 
 	constructor(
 		private dss: DataShareService,
 		private router: Router,
 		private dialog: DialogService,
-		private as: ApiService,
-		private cs: CommonService
+		private as: ApiService
 	) {}
 
 	ngOnInit(): void {
