@@ -46,8 +46,8 @@ export class AddMovieComponent implements OnInit {
 			null,
 			'',
 			'',
-			'http://apicine.osumi.es/cover/def.webp',
-			'http://apicine.osumi.es/cover/def.webp',
+			'https://apicine.osumi.es/cover/def.webp',
+			'https://apicine.osumi.es/cover/def.webp',
 			'',
 			''
 		);
