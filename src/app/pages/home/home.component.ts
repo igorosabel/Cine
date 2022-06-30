@@ -1,4 +1,4 @@
-import { Component, OnInit }  from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef }  from '@angular/core';
 import { Router }             from '@angular/router';
 import { Movie }              from '../../model/movie.model';
 import { Cinema }             from '../../model/cinema.model';
@@ -13,13 +13,17 @@ import { ClassMapperService } from '../../services/class-mapper.service';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-	page: number       = 0;
-	numPages: number   = 0;
-	movies: Movie[]    = [];
-	cinemas: Cinema[]  = [];
-	loading: boolean   = true;
-	loadError: boolean = false;
-	opened: boolean    = false;
+	page: number        = 0;
+	numPages: number    = 0;
+	movies: Movie[]     = [];
+	cinemas: Cinema[]   = [];
+	loading: boolean    = true;
+	loadError: boolean  = false;
+	opened: boolean     = false;
+	showSearch: boolean = false;
+	searchText: string  = '';
+	@ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+	searched: boolean   = false;
 
 	constructor(
 		private as: ApiService,
@@ -54,9 +58,33 @@ export class HomeComponent implements OnInit {
 		this.opened = !this.opened;
 	}
 
-  logout(ev: MouseEvent): void {
+	logout(ev: MouseEvent): void {
 		ev.preventDefault();
 		this.user.logout();
 		this.router.navigate(['/']);
-  }
+	}
+
+	openSearch(): void {
+		this.searchText = '';
+		this.showSearch = true;
+		setTimeout(() => {
+			this.searchBox.nativeElement.focus();
+		}, 0);
+	}
+
+	closeSearch(): void {
+		this.showSearch = false;
+	}
+
+	doSearch(): void {
+		this.as.searchMovies(this.searchText).subscribe(result => {
+			console.log(result);
+			this.searched = true;
+			this.closeSearch();
+		});
+	}
+
+	resetSearch(): void {
+		this.searched = false;
+	}
 }

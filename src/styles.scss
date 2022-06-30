@@ -11,6 +11,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 	min-width: 300px;
 }
 
+.spacer {
+	flex: 1;
+}
+
 .center-card {
 	max-width: 300px;
 	margin: 50px auto;
