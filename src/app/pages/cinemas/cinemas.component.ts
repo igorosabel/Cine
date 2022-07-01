@@ -1,9 +1,9 @@
 import { Component, OnInit }  from '@angular/core';
-import { Cinema }             from '../../model/cinema.model';
-import { DataShareService }   from '../../services/data-share.service';
-import { DialogService }      from '../../services/dialog.service';
-import { ApiService }         from '../../services/api.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
+import { Cinema }             from 'src/app/model/cinema.model';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 
 @Component({
 	selector: 'app-cinemas',

@@ -1,5 +1,5 @@
-import { MovieSearchResult } from '../interfaces/interfaces';
-import { MovieSearchDetailResult } from '../interfaces/interfaces';
+import { MovieSearchResult } from 'src/app/interfaces/interfaces';
+import { MovieSearchDetailResult } from 'src/app/interfaces/interfaces';
 
 export class MovieSearch {
 	constructor(

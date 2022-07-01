@@ -1,7 +1,7 @@
 import { Component, OnInit }  from '@angular/core';
-import { Movie }              from '../../model/movie.model';
-import { ApiService }         from '../../services/api.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
+import { Movie }              from 'src/app/model/movie.model';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 
 @Component({
 	selector: 'app-search',

@@ -1,15 +1,15 @@
 /*
  * Páginas
  */
-import { LoginComponent }      from './pages/login/login.component';
-import { RegisterComponent }   from './pages/register/register.component';
-import { HomeComponent }       from './pages/home/home.component';
-import { MovieComponent }      from './pages/movie/movie.component';
-import { AddMovieComponent }   from './pages/add-movie/add-movie.component';
-import { CinemaComponent }     from './pages/cinema/cinema.component';
-import { CinemasComponent }    from './pages/cinemas/cinemas.component';
-import { EditCinemaComponent } from './pages/edit-cinema/edit-cinema.component';
-import { SearchComponent }     from './pages/search/search.component';
+import { LoginComponent }      from 'src/app/pages/login/login.component';
+import { RegisterComponent }   from 'src/app/pages/register/register.component';
+import { HomeComponent }       from 'src/app/pages/home/home.component';
+import { MovieComponent }      from 'src/app/pages/movie/movie.component';
+import { AddMovieComponent }   from 'src/app/pages/add-movie/add-movie.component';
+import { CinemaComponent }     from 'src/app/pages/cinema/cinema.component';
+import { CinemasComponent }    from 'src/app/pages/cinemas/cinemas.component';
+import { EditCinemaComponent } from 'src/app/pages/edit-cinema/edit-cinema.component';
+import { SearchComponent }     from 'src/app/pages/search/search.component';
 
 export const PAGES: any[] = [
 	LoginComponent,
@@ -26,10 +26,10 @@ export const PAGES: any[] = [
 /*
  * Componentes
  */
-import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
-import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
-import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
-import { MovieListComponent }     from './components/movie-list/movie-list.component';
+import { ConfirmDialogComponent } from 'src/app/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent }   from 'src/app/components/dialogs/alert-dialog/alert-dialog.component';
+import { FormDialogComponent }    from 'src/app/components/dialogs/form-dialog/form-dialog.component';
+import { MovieListComponent }     from 'src/app/components/movie-list/movie-list.component';
 
 export const COMPONENTS: any[] = [
 	ConfirmDialogComponent,
@@ -41,7 +41,7 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
-import { CinemaNamePipe } from './pipes/cinema-name.pipe';
+import { CinemaNamePipe } from 'src/app/pipes/cinema-name.pipe';
 
 export const PIPES: any[] = [
 	CinemaNamePipe
@@ -50,12 +50,12 @@ export const PIPES: any[] = [
 /*
  * Servicios
  */
-import { ApiService }         from './services/api.service';
-import { DataShareService }   from './services/data-share.service';
-import { UserService }        from './services/user.service';
-import { AuthService }        from './services/auth.service';
-import { DialogService }      from './services/dialog.service';
-import { ClassMapperService } from './services/class-mapper.service';
+import { ApiService }         from 'src/app/services/api.service';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { UserService }        from 'src/app/services/user.service';
+import { AuthService }        from 'src/app/services/auth.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 
 export const SERVICES: any[] = [
 	ApiService,

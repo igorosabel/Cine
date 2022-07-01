@@ -1,6 +1,6 @@
 import { Injectable }       from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserService }      from './user.service';
+import { UserService }      from 'src/app/services/user.service';
 
 @Injectable()
 export class AuthService {

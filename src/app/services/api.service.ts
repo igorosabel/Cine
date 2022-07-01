@@ -1,22 +1,22 @@
 import { HttpClient }  from '@angular/common/http';
 import { Injectable }  from '@angular/core';
 import { Observable }  from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 import {
-  LoginData,
-  LoginResult,
-  RegisterData,
-  MoviesResult,
-  CinemasResult,
-  StatusResult,
-  CinemaInterface,
-  MovieSearchResultList,
-  MovieSearchDetailResult,
-  MovieInterface,
-  MovieResult,
-  CinemaResult
-} from '../interfaces/interfaces';
+	LoginData,
+	LoginResult,
+	RegisterData,
+	MoviesResult,
+	CinemasResult,
+	StatusResult,
+	CinemaInterface,
+	MovieSearchResultList,
+	MovieSearchDetailResult,
+	MovieInterface,
+	MovieResult,
+	CinemaResult
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +79,6 @@ export class ApiService {
 	}
 
 	searchMovies(q: string): Observable<MoviesResult> {
-		return this.http.post<MoviesResult>(this.apiUrl + 'search-titles', {q});
+		return this.http.post<MoviesResult>(this.apiUrl + 'search-movies', {q});
 	}
 }

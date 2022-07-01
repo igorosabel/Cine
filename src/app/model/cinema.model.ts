@@ -1,4 +1,4 @@
-import { CinemaInterface } from '../interfaces/interfaces';
+import { CinemaInterface } from 'src/app/interfaces/interfaces';
 
 export class Cinema {
 	constructor(

@@ -1,13 +1,13 @@
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
-import { Cinema }             from '../../model/cinema.model';
-import { Utils }              from '../../model/utils.class';
-import { ApiService }         from '../../services/api.service';
-import { UserService }        from '../../services/user.service';
-import { DataShareService }   from '../../services/data-share.service';
-import { AuthService }        from '../../services/auth.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
-import { LoginData }          from '../../interfaces/interfaces';
+import { Cinema }             from 'src/app/model/cinema.model';
+import { Utils }              from 'src/app/model/utils.class';
+import { ApiService }         from 'src/app/services/api.service';
+import { UserService }        from 'src/app/services/user.service';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { AuthService }        from 'src/app/services/auth.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { LoginData }          from 'src/app/interfaces/interfaces';
 
 @Component({
 	selector: 'app-login',

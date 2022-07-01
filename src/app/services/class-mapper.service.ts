@@ -1,14 +1,14 @@
 import { Injectable }  from '@angular/core';
-import { Cinema }      from '../model/cinema.model';
-import { Movie }       from '../model/movie.model';
-import { MovieSearch } from '../model/movie-search.model';
-import { Utils }       from '../model/utils.class';
+import { Cinema }      from 'src/app/model/cinema.model';
+import { Movie }       from 'src/app/model/movie.model';
+import { MovieSearch } from 'src/app/model/movie-search.model';
+import { Utils }       from 'src/app/model/utils.class';
 import {
 	CinemaInterface,
 	MovieInterface,
 	MovieSearchResult,
 	MovieSearchDetailResult
-} from '../interfaces/interfaces';
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'

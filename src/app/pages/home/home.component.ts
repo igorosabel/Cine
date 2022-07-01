@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef }  from '@angular/core';
 import { Router }             from '@angular/router';
-import { Movie }              from '../../model/movie.model';
-import { Cinema }             from '../../model/cinema.model';
-import { ApiService }         from '../../services/api.service';
-import { DataShareService }   from '../../services/data-share.service';
-import { UserService }        from '../../services/user.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
+import { Movie }              from 'src/app/model/movie.model';
+import { Cinema }             from 'src/app/model/cinema.model';
+import { ApiService }         from 'src/app/services/api.service';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { UserService }        from 'src/app/services/user.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 
 @Component({
 	selector: 'app-home',

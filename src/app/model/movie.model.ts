@@ -1,4 +1,4 @@
-import { MovieInterface } from '../interfaces/interfaces';
+import { MovieInterface } from 'src/app/interfaces/interfaces';
 
 export class Movie {
 	coverStatus: number;

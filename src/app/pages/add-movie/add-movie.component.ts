@@ -1,15 +1,15 @@
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
-import { Cinema }             from '../../model/cinema.model';
-import { Movie }              from '../../model/movie.model';
-import { MovieSearch }        from '../../model/movie-search.model';
-import { DataShareService }   from '../../services/data-share.service';
-import { DialogService }      from '../../services/dialog.service';
-import { ApiService }         from '../../services/api.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
+import { Cinema }             from 'src/app/model/cinema.model';
+import { Movie }              from 'src/app/model/movie.model';
+import { MovieSearch }        from 'src/app/model/movie-search.model';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter }     from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MovieSearchResult }  from '../../interfaces/interfaces';
+import { MovieSearchResult }  from 'src/app/interfaces/interfaces';
 
 @Component({
 	selector: 'app-add-movie',

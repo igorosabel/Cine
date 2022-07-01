@@ -1,12 +1,12 @@
 import { Component }          from '@angular/core';
 import { Router }             from '@angular/router';
-import { Cinema }             from '../../model/cinema.model';
-import { Utils }              from '../../model/utils.class';
-import { RegisterData }       from '../../interfaces/interfaces';
-import { ApiService }         from '../../services/api.service';
-import { UserService }        from '../../services/user.service';
-import { DataShareService }   from '../../services/data-share.service';
-import { ClassMapperService } from '../../services/class-mapper.service';
+import { Cinema }             from 'src/app/model/cinema.model';
+import { Utils }              from 'src/app/model/utils.class';
+import { RegisterData }       from 'src/app/interfaces/interfaces';
+import { ApiService }         from 'src/app/services/api.service';
+import { UserService }        from 'src/app/services/user.service';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 
 @Component({
 	selector: 'app-register',
