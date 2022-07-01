@@ -77,8 +77,4 @@ export class ApiService {
 	searchTitles(q: string): Observable<MoviesResult> {
 		return this.http.post<MoviesResult>(this.apiUrl + 'search-titles', {q});
 	}
-
-	searchMovies(q: string): Observable<MoviesResult> {
-		return this.http.post<MoviesResult>(this.apiUrl + 'search-movies', {q});
-	}
 }

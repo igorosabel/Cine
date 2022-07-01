@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef }  from '@angular/core';
+import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
 import { Movie }              from 'src/app/model/movie.model';
 import { Cinema }             from 'src/app/model/cinema.model';
@@ -20,10 +20,6 @@ export class HomeComponent implements OnInit {
 	loading: boolean    = true;
 	loadError: boolean  = false;
 	opened: boolean     = false;
-	showSearch: boolean = false;
-	searchText: string  = '';
-	@ViewChild('searchBox', { static: true }) searchBox: ElementRef;
-	searched: boolean   = false;
 
 	constructor(
 		private as: ApiService,
@@ -62,29 +58,5 @@ export class HomeComponent implements OnInit {
 		ev.preventDefault();
 		this.user.logout();
 		this.router.navigate(['/']);
-	}
-
-	openSearch(): void {
-		this.searchText = '';
-		this.showSearch = true;
-		setTimeout(() => {
-			this.searchBox.nativeElement.focus();
-		}, 0);
-	}
-
-	closeSearch(): void {
-		this.showSearch = false;
-	}
-
-	doSearch(): void {
-		this.as.searchMovies(this.searchText).subscribe(result => {
-			console.log(result);
-			this.searched = true;
-			this.closeSearch();
-		});
-	}
-
-	resetSearch(): void {
-		this.searched = false;
 	}
 }
