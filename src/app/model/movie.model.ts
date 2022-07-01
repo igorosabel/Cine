@@ -1,4 +1,5 @@
 import { MovieInterface } from 'src/app/interfaces/interfaces';
+import { Utils }          from 'src/app/model/utils.class';
 
 export class Movie {
 	coverStatus: number;
@@ -17,19 +18,32 @@ export class Movie {
 		this.coverStatus = 0;
 		this.ticketStatus = 0;
 	}
-	
+
+	fromInterface(m: MovieInterface): Movie {
+		this.id = m.id;
+		this.idCinema = m.idCinema;
+		this.name = Utils.urldecode(m.name);
+		this.slug = m.slug;
+		this.cover = Utils.urldecode(m.cover);
+		this.ticket = Utils.urldecode(m.ticket);
+		this.imdbUrl = Utils.urldecode(m.imdbUrl);
+		this.date = Utils.urldecode(m.date);
+
+		return this;
+	}
+
 	toInterface(): MovieInterface {
 		return {
 			id: this.id,
 			idCinema: this.idCinema,
-			name: this.name,
+			name: Utils.urlencode(this.name),
 			slug: this.slug,
-			cover: this.cover,
+			cover: Utils.urlencode(this.cover),
 			coverStatus: this.coverStatus,
-			ticket: this.ticket,
+			ticket: Utils.urlencode(this.ticket),
 			ticketStatus: this.ticketStatus,
-			imdbUrl: this.imdbUrl,
-			date: this.date
+			imdbUrl: Utils.urlencode(this.imdbUrl),
+			date: Utils.urlencode(this.date)
 		};
 	}
 }

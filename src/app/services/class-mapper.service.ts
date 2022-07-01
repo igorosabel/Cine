@@ -2,7 +2,6 @@ import { Injectable }  from '@angular/core';
 import { Cinema }      from 'src/app/model/cinema.model';
 import { Movie }       from 'src/app/model/movie.model';
 import { MovieSearch } from 'src/app/model/movie-search.model';
-import { Utils }       from 'src/app/model/utils.class';
 import {
 	CinemaInterface,
 	MovieInterface,
@@ -27,11 +26,7 @@ export class ClassMapperService {
 	}
 
 	getCinema(c: CinemaInterface): Cinema {
-		return new Cinema(
-			c.id,
-			Utils.urldecode(c.name),
-			c.slug
-		);
+		return new Cinema().fromInterface(c);
 	}
 
 	getMovies(result: MovieInterface[]): Movie[] {
@@ -45,16 +40,7 @@ export class ClassMapperService {
 	}
 
 	getMovie(m: MovieInterface): Movie {
-		return new Movie(
-			m.id,
-			m.idCinema,
-			Utils.urldecode(m.name),
-			m.slug,
-			Utils.urldecode(m.cover),
-			Utils.urldecode(m.ticket),
-			Utils.urldecode(m.imdbUrl),
-			Utils.urldecode(m.date)
-		);
+		return new Movie().fromInterface(m);
 	}
 
 	getMovieSearches(result: MovieSearchResult[]): MovieSearch[] {
@@ -67,23 +53,11 @@ export class ClassMapperService {
 		return searches;
 	}
 
-	getMovieSearch(m: MovieSearchResult): MovieSearch {
-		return new MovieSearch(
-			null,
-			m.id,
-			Utils.urldecode(m.title),
-			Utils.urldecode(m.poster),
-			null
-		);
+	getMovieSearch(msr: MovieSearchResult): MovieSearch {
+		return new MovieSearch().fromInterface(null, msr, null);
 	}
 	
-	getMovieDetail(m: MovieSearchDetailResult): MovieSearch {
-		return new MovieSearch(
-			m.status,
-			null,
-			Utils.urldecode(m.title),
-			Utils.urldecode(m.poster),
-			Utils.urldecode(m.imdbUrl)
-		);
+	getMovieDetail(msd: MovieSearchDetailResult): MovieSearch {
+		return new MovieSearch().fromInterface(msd.status, {id: null, title: msd.title, poster: msd.poster}, msd.imdbUrl);
 	}
 }
