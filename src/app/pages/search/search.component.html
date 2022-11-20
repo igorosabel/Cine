@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
 	<mat-toolbar-row>
-		<button mat-icon-button routerLink="/home">
+		<button mat-icon-button
+				routerLink="/home">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
 		<span>Buscar</span>
@@ -10,12 +11,19 @@
 <div class="search-box">
 	<mat-form-field class="wide">
 		<mat-label>Nombre de la película</mat-label>
-		<input matInput [(ngModel)]="q" name="q" (keyup)="searchMovieStart()">
-		<img src="/assets/loading.svg" *ngIf="searching" class="searching">
+		<input matInput
+			   [(ngModel)]="q"
+			   name="q"
+			   (keyup)="searchMovieStart()"
+			   #searchBox>
+		<img src="/assets/loading.svg"
+			 *ngIf="searching"
+			 class="searching">
 	</mat-form-field>
 </div>
 
-<div class="start-message" *ngIf="movies.length==0">Introduce el título de una película para empezar a buscar.</div>
+<div class="start-message"
+	 *ngIf="movies.length==0">Introduce el título de una película para empezar a buscar.</div>
 
 <mat-nav-list *ngIf="movies.length">
 	<app-movie-list [movies]="movies"></app-movie-list>

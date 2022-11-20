@@ -1,6 +1,10 @@
-<a mat-list-item *ngFor="let movie of movies" [routerLink]="['/movie', movie.id, movie.slug]">
-	<img matListAvatar src="{{movie.cover }}" [alt]="movie.name">
-	<h3 matLine> {{movie.name }} </h3>
-	<h4 matLine>{{movie.idCinema | cinemaName}}</h4>
-	<p matLine>{{movie.date }}</p>
+<a mat-list-item
+   *ngFor="let movie of movies"
+   [routerLink]="['/movie', movie.id, movie.slug]">
+	<img matListItemAvatar
+		 src="{{movie.cover }}"
+		 [alt]="movie.name">
+	<div matListItemTitle> {{movie.name }} </div>
+	<div matListItemLine>{{movie.idCinema | cinemaName}}</div>
+	<div matListItemLine>{{movie.date }}</div>
 </a>
