@@ -16,17 +16,13 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["es2018", "dom", "dom.iterable"],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": false,
     "strictInputAccessModifiers": false,
-    "strictTemplates": false
+    "strictTemplates": true
   }
 }
