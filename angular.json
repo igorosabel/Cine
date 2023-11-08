@@ -69,15 +69,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Cine:build",
-            "port": 5500
+            "port": 5500,
+            "buildTarget": "Cine:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Cine:build:production"
+              "buildTarget": "Cine:build:production"
             },
             "development": {
-              "browserTarget": "Cine:build:development"
+              "buildTarget": "Cine:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Cine:build"
+            "buildTarget": "Cine:build"
           }
         },
         "test": {
