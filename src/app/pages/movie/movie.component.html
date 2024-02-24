@@ -9,13 +9,20 @@
 </mat-toolbar>
 
 <mat-card class="big-card">
-	<mat-card-content>
+	<mat-card-header>
 		<mat-card-title>{{movie.name}}</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
 		<div class="movie-cover"
 			 (click)="openCover()"
 			 [ngClass]="{'movie-cover-full':showCover}">
-			<img [src]="movie.cover"
-				 [alt]="movie.name">
+			@if (movie.cover) {
+			<img [ngSrc]="movie.cover"
+				 [alt]="movie.name"
+				 width="300"
+				 height="450"
+				 priority>
+			}
 		</div>
 		<mat-nav-list>
 			<mat-list-item (click)="selectCinema()">

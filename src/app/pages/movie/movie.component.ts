@@ -1,10 +1,21 @@
-import { NgClass } from "@angular/common";
+import { NgClass, NgOptimizedImage } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatIconButton } from "@angular/material/button";
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from "@angular/material/card";
+import { MatIcon } from "@angular/material/icon";
+import {
+  MatList,
+  MatListItem,
+  MatListItemLine,
+  MatListItemMeta,
+  MatNavList,
+} from "@angular/material/list";
+import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { MovieResult } from "src/app/interfaces/interfaces";
 import { Cinema } from "src/app/model/cinema.model";
@@ -23,11 +34,20 @@ import { CinemaNamePipe } from "src/app/shared/pipes/cinema-name.pipe";
   imports: [
     NgClass,
     CinemaNamePipe,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatListModule,
+    MatToolbar,
+    MatToolbarRow,
+    MatIconButton,
+    MatIcon,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatList,
+    MatNavList,
+    MatListItem,
+    MatListItemLine,
+    MatListItemMeta,
+    NgOptimizedImage,
   ],
 })
 export class MovieComponent implements OnInit {
