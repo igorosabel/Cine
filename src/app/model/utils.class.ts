@@ -10,8 +10,8 @@ export class Utils {
       .replace(/\~/g, "%7E");
   }
 
-  static urldecode(str: string): string {
-    if (!str) {
+  static urldecode(str: string | null): string {
+    if (str === null || str === "") {
       return "";
     }
     return decodeURIComponent(

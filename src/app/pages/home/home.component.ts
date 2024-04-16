@@ -56,7 +56,7 @@ export default class HomeComponent implements OnInit {
     this.ns.set(["/home"]);
   }
 
-  getMovies(ev = null): void {
+  getMovies(ev: MouseEvent | null = null): void {
     ev && ev.preventDefault();
     this.page.update((value: number): number => value++);
     this.as.getMovies(this.page()).subscribe({

@@ -44,7 +44,7 @@ export default class EditCinemaComponent implements OnInit {
   private ns: NavigationService = inject(NavigationService);
 
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
-  selectedCinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
+  selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
   editSending: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export default class EditCinemaComponent implements OnInit {
 
   doEdit(ev: MouseEvent): void {
     ev.preventDefault();
-    if (this.selectedCinema().name == "") {
+    if (this.selectedCinema()?.name == "") {
       this.dialog.alert({
         title: "Error",
         content: "¡No puedes dejar el nombre en blanco!",

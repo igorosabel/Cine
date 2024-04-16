@@ -65,7 +65,7 @@ export default class MovieComponent implements OnInit {
   private ns: NavigationService = inject(NavigationService);
 
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
-  selectedCinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
+  selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
   movie: WritableSignal<Movie> = signal<Movie>(new Movie());
   showCover: WritableSignal<boolean> = signal<boolean>(false);
 
@@ -75,7 +75,7 @@ export default class MovieComponent implements OnInit {
       this.router.navigate(["/home"]);
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params.id;
+      const id: number = params["id"];
       this.as.getMovie(id).subscribe((result: MovieResult): void => {
         if (result.status == "ok") {
           this.movie.set(this.cms.getMovie(result.movie));
@@ -119,8 +119,8 @@ export default class MovieComponent implements OnInit {
   selectCinema(): void {
     this.router.navigate([
       "/cinema",
-      this.selectedCinema().id,
-      this.selectedCinema().slug,
+      this.selectedCinema()?.id,
+      this.selectedCinema()?.slug,
     ]);
   }
 }
