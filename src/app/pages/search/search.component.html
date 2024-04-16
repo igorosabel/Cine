@@ -16,7 +16,7 @@
 			   name="q"
 			   (keyup)="searchMovieStart()"
 			   #searchBox>
-		@if (searching) {
+		@if (searching()) {
 		<img src="/assets/loading.svg"
 			 class="searching"
 			 alt="">
@@ -30,6 +30,6 @@
 
 @if (movies.length) {
 <mat-nav-list>
-	<app-movie-list [movies]="movies" />
+	<app-movie-list [movies]="movies()" />
 </mat-nav-list>
 }

@@ -1,23 +1,28 @@
 import { Injectable } from "@angular/core";
-import { LoginResult } from "src/app/interfaces/interfaces";
+import { LoginResult } from "@interfaces/interfaces";
 
 @Injectable()
 export class UserService {
   logged: boolean = false;
-  id: number = null;
-  name: string = null;
-  token: string = null;
+  id: number | null = null;
+  name: string | null = null;
+  token: string | null = null;
 
   loadLogin(): void {
-    const loginObj: LoginResult = JSON.parse(localStorage.getItem("login"));
+    const loginObjStr: string | null = localStorage.getItem("login");
+    if (loginObjStr === null) {
+      this.logout();
+      return;
+    }
+    const loginObj: LoginResult = JSON.parse(loginObjStr);
     if (loginObj === null) {
       this.logout();
-    } else {
-      this.logged = true;
-      this.id = loginObj.id;
-      this.name = loginObj.name;
-      this.token = loginObj.token;
+      return;
     }
+    this.logged = true;
+    this.id = loginObj.id;
+    this.name = loginObj.name;
+    this.token = loginObj.token;
   }
 
   saveLogin(): void {

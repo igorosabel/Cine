@@ -1,4 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -7,11 +16,11 @@ import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { RouterModule } from "@angular/router";
-import { MoviesResult } from "src/app/interfaces/interfaces";
-import { Movie } from "src/app/model/movie.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { MovieListComponent } from "src/app/shared/components/movie-list/movie-list.component";
+import { MoviesResult } from "@interfaces/interfaces";
+import { Movie } from "@model/movie.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({
   standalone: true,
@@ -31,38 +40,40 @@ import { MovieListComponent } from "src/app/shared/components/movie-list/movie-l
   ],
 })
 export default class SearchComponent implements OnInit {
-  @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
-  q: string = null;
-  movies: Movie[] = [];
-  searchTimer: number = null;
-  searching: boolean = false;
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
 
-  constructor(private as: ApiService, private cms: ClassMapperService) {}
+  searchBox: Signal<ElementRef> = viewChild.required("searchBox");
+  q: string | null = null;
+  movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
+  searchTimer: number = -1;
+  searching: WritableSignal<boolean> = signal<boolean>(false);
+
   ngOnInit(): void {
-    this.searchBox.nativeElement.focus();
+    this.searchBox().nativeElement.focus();
   }
 
   searchMovieStart(): void {
-    clearTimeout(this.searchTimer);
+    this.searchMovieStop();
     this.searchTimer = window.setTimeout((): void => {
       this.searchMovie();
     }, 500);
   }
 
   searchMovieStop(): void {
-    clearTimeout(this.searchTimer);
+    window.clearTimeout(this.searchTimer);
   }
 
   searchMovie(): void {
-    if (this.q.length >= 3) {
+    if (this.q !== null && this.q.length >= 3) {
       this.searchMovieStop();
-      this.searching = true;
+      this.searching.set(true);
       this.as.searchTitles(this.q).subscribe((result: MoviesResult): void => {
-        this.searching = false;
-        this.movies = this.cms.getMovies(result.list);
+        this.searching.set(false);
+        this.movies.set(this.cms.getMovies(result.list));
       });
     } else {
-      this.movies = [];
+      this.movies.set([]);
     }
   }
 }

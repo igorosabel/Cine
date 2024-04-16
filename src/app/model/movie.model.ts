@@ -1,5 +1,5 @@
-import { MovieInterface } from "src/app/interfaces/interfaces";
-import { Utils } from "src/app/model/utils.class";
+import { MovieInterface } from "@interfaces/interfaces";
+import { Utils } from "@model/utils.class";
 
 export class Movie {
   coverStatus: number;

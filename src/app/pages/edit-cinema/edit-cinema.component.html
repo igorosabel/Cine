@@ -10,7 +10,7 @@
 
 <form name="frm-cinema"
 	  (ngSubmit)="doEdit($event)">
-	@if (selectedCinema) {
+	@if (selectedCinema().id) {
 	<mat-card class="center-card">
 		<mat-card-header>
 			<mat-card-title>Editar cine</mat-card-title>
@@ -19,8 +19,8 @@
 			<mat-form-field>
 				<mat-label>Nombre de cine</mat-label>
 				<input matInput
-					   [(ngModel)]="selectedCinema.name"
-					   [disabled]="editSending"
+					   [(ngModel)]="selectedCinema().name"
+					   [disabled]="editSending()"
 					   required
 					   name="name">
 			</mat-form-field>
@@ -28,16 +28,16 @@
 		<mat-card-actions class="center-card-buttons">
 			<button mat-raised-button
 					color="warn"
-					[disabled]="editSending"
+					[disabled]="editSending()"
 					(click)="deleteCinema($event)">
 				<mat-icon>delete</mat-icon>
 				Borrar
 			</button>
 			<button mat-raised-button
 					color="primary"
-					[disabled]="editSending"
+					[disabled]="editSending()"
 					type="submit">
-				@if (editSending) {
+				@if (editSending()) {
 				<img src="/assets/loading.svg"
 					 alt="">
 				}

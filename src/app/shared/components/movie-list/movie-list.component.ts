@@ -6,8 +6,8 @@ import {
   MatListItemTitle,
 } from "@angular/material/list";
 import { RouterLink } from "@angular/router";
-import { Movie } from "src/app/model/movie.model";
-import { CinemaNamePipe } from "src/app/shared/pipes/cinema-name.pipe";
+import { Movie } from "@model/movie.model";
+import CinemaNamePipe from "@shared/pipes/cinema-name.pipe";
 
 @Component({
   standalone: true,
@@ -22,6 +22,6 @@ import { CinemaNamePipe } from "src/app/shared/pipes/cinema-name.pipe";
     MatListItemLine,
   ],
 })
-export class MovieListComponent {
+export default class MovieListComponent {
   movies: InputSignal<Movie[]> = input.required<Movie[]>();
 }

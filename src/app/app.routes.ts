@@ -1,50 +1,46 @@
 import { Routes } from "@angular/router";
-import { AuthGuard } from "src/app/guard/auth.guard";
-import { AddMovieComponent } from "src/app/pages/add-movie/add-movie.component";
-import { HomeComponent } from "src/app/pages/home/home.component";
-import { LoginComponent } from "src/app/pages/login/login.component";
-import { MovieComponent } from "src/app/pages/movie/movie.component";
+import { AuthGuard } from "@app/guard/auth.guard";
+import { LoginComponent } from "@pages/login/login.component";
 
 export const routes: Routes = [
   { path: "", component: LoginComponent },
   {
     path: "register",
-    loadComponent: () => import("src/app/pages/register/register.component"),
+    loadComponent: () => import("@pages/register/register.component"),
   },
   {
     path: "home",
-    component: HomeComponent,
+    loadComponent: () => import("@pages/home/home.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "movie/:id/:slug",
-    component: MovieComponent,
+    loadComponent: () => import("@pages/movie/movie.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "add-movie",
-    component: AddMovieComponent,
+    loadComponent: () => import("@pages/add-movie/add-movie.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "cinema/:id/:slug",
-    loadComponent: () => import("src/app/pages/cinema/cinema.component"),
+    loadComponent: () => import("@pages/cinema/cinema.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "cinemas",
-    loadComponent: () => import("src/app/pages/cinemas/cinemas.component"),
+    loadComponent: () => import("@pages/cinemas/cinemas.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "edit-cinema/:id/:slug",
-    loadComponent: () =>
-      import("src/app/pages/edit-cinema/edit-cinema.component"),
+    loadComponent: () => import("@pages/edit-cinema/edit-cinema.component"),
     canActivate: [AuthGuard],
   },
   {
     path: "search",
-    loadComponent: () => import("src/app/pages/search/search.component"),
+    loadComponent: () => import("@pages/search/search.component"),
     canActivate: [AuthGuard],
   },
   { path: "**", redirectTo: "/", pathMatch: "full" },

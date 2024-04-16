@@ -1,17 +1,23 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { CinemaResult } from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { Movie } from "src/app/model/movie.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MovieListComponent } from "src/app/shared/components/movie-list/movie-list.component";
+import { CinemaResult, NavigationFromType } from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { Movie } from "@model/movie.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { NavigationService } from "@services/navigation.service";
+import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({
   standalone: true,
@@ -26,42 +32,39 @@ import { MovieListComponent } from "src/app/shared/components/movie-list/movie-l
   ],
 })
 export default class CinemaComponent implements OnInit {
-  from: any = [];
-  cinemas: Cinema[] = [];
-  cinema: Cinema = null;
-  movies: Movie[] = [];
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private router: Router = inject(Router);
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private dss: DataShareService,
-    private router: Router,
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService
-  ) {}
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
+  cinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
+  movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
 
   ngOnInit(): void {
-    this.cinemas = this.dss.getGlobal("cinemas");
-    if (this.cinemas.length == 0) {
+    this.cinemas.set(this.ns.getCinemas());
+    if (this.cinemas().length == 0) {
       this.router.navigate(["/home"]);
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
       const id: number = params.id;
-      this.cinema =
-        this.cinemas[
-          this.cinemas.findIndex((x: Cinema): boolean => x.id == id)
-        ];
+      this.cinema.set(this.ns.getCinema(id));
 
       this.as.getCinemaMovies(id).subscribe((result: CinemaResult): void => {
         if (result.status == "ok") {
-          this.movies = this.cms.getMovies(result.list);
+          this.movies.set(this.cms.getMovies(result.list));
 
-          const fromCinema = ["/cinema", this.cinema.id, this.cinema.slug];
-          this.from = this.dss.getGlobal("from");
-          if (this.from[this.from.length - 1].join("") != fromCinema.join("")) {
-            this.from.push(fromCinema);
+          const fromCinema: NavigationFromType = [
+            "/cinema",
+            this.cinema().id,
+            this.cinema().slug,
+          ];
+          const lastItem: NavigationFromType = this.ns.getLast();
+          if (lastItem.join("") != fromCinema.join("")) {
+            this.ns.add(fromCinema);
           }
-          this.dss.setGlobal("from", this.from);
         } else {
           this.dialog
             .alert({
@@ -69,7 +72,7 @@ export default class CinemaComponent implements OnInit {
               content: "No se ha encontrado el cine indicado.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               this.router.navigate(["/home"]);
             });
         }
@@ -78,9 +81,8 @@ export default class CinemaComponent implements OnInit {
   }
 
   back(): void {
-    const current = this.from.pop();
-    const previous = this.from.pop();
-    this.dss.setGlobal("from", this.from);
+    const current: NavigationFromType = this.ns.get();
+    const previous: NavigationFromType = this.ns.get();
     this.router.navigate(previous);
   }
 }

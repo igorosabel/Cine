@@ -15,7 +15,7 @@
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput
 					   [(ngModel)]="loginData.name"
-					   [disabled]="loginSending"
+					   [disabled]="loginSending()"
 					   required
 					   name="name">
 			</mat-form-field>
@@ -24,11 +24,11 @@
 				<input matInput
 					   type="password"
 					   [(ngModel)]="loginData.pass"
-					   [disabled]="loginSending"
+					   [disabled]="loginSending()"
 					   required
 					   name="pass">
 			</mat-form-field>
-			@if (loginError) {
+			@if (loginError()) {
 			<fieldset class="center-card-error">
 				<legend>Error</legend>
 				El nombre de usuario o contraseña son incorrectos.
@@ -43,7 +43,7 @@
 					color="primary"
 					[disabled]="loginSending"
 					type="submit">
-				@if (loginSending) {
+				@if (loginSending()) {
 				<img src="/assets/loading.svg"
 					 alt="">
 				}

@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -7,12 +13,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router, RouterModule } from "@angular/router";
-import { CinemasResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { CinemasResult, StatusResult } from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { NavigationService } from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -30,37 +36,31 @@ import { DialogService } from "src/app/services/dialog.service";
   ],
 })
 export default class EditCinemaComponent implements OnInit {
-  cinemas: Cinema[] = [];
-  selectedIndex: number = null;
-  selectedCinema: Cinema = null;
-  editSending: boolean = false;
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private router: Router = inject(Router);
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private dss: DataShareService,
-    private router: Router,
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService
-  ) {}
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
+  selectedCinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
+  editSending: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.cinemas = this.dss.getGlobal("cinemas");
-    if (this.cinemas.length == 0) {
+    this.cinemas.set(this.ns.getCinemas());
+    if (this.cinemas().length == 0) {
       this.router.navigate(["/cinemas"]);
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params.id;
-      this.selectedIndex = this.cinemas.findIndex(
-        (x: Cinema): boolean => x.id == id
-      );
-      this.selectedCinema = this.cinemas[this.selectedIndex];
+      const id: number = params["id"];
+      this.selectedCinema.set(this.ns.getCinema(id));
     });
   }
 
   doEdit(ev: MouseEvent): void {
     ev.preventDefault();
-    if (this.selectedCinema.name == "") {
+    if (this.selectedCinema().name == "") {
       this.dialog.alert({
         title: "Error",
         content: "¡No puedes dejar el nombre en blanco!",
@@ -69,12 +69,13 @@ export default class EditCinemaComponent implements OnInit {
       return;
     }
 
+    this.editSending.set(true);
     this.as
-      .editCinema(this.selectedCinema)
+      .editCinema(this.selectedCinema())
       .subscribe((result: StatusResult): void => {
+        this.editSending.set(false);
         if (result.status == "ok") {
-          this.cinemas[this.selectedIndex].name = this.selectedCinema.name;
-          this.dss.setGlobal("cinemas", this.cinemas);
+          this.ns.updateCinema(this.selectedCinema());
           this.dialog.alert({
             title: "Cine actualizado",
             content: "El nombre del cine ha sido actualizado.",
@@ -104,7 +105,7 @@ export default class EditCinemaComponent implements OnInit {
 
   deleteCinemaConfirm(): void {
     this.as
-      .deleteCinema(this.selectedCinema.id)
+      .deleteCinema(this.selectedCinema().id)
       .subscribe((result: StatusResult): void => {
         if (result.status == "ok") {
           this.dialog
@@ -113,8 +114,8 @@ export default class EditCinemaComponent implements OnInit {
               content: "El cine y todas sus entradas han sido borradas.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
-              this.dss.removeGlobal("cinemas");
+            .subscribe((): void => {
+              this.ns.setCinemas([]);
               this.getCinemas();
             });
         }
@@ -123,8 +124,8 @@ export default class EditCinemaComponent implements OnInit {
 
   getCinemas(): void {
     this.as.getCinemas().subscribe((result: CinemasResult): void => {
-      this.cinemas = this.cms.getCinemas(result.list);
-      this.dss.setGlobal("cinemas", this.cinemas);
+      this.cinemas.set(this.cms.getCinemas(result.list));
+      this.ns.setCinemas(this.cinemas());
       this.router.navigate(["/cinemas"]);
     });
   }

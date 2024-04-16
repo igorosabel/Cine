@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
@@ -8,12 +14,12 @@ import {
   CinemasResult,
   DialogOptions,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { DialogService } from "src/app/services/dialog.service";
+} from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { NavigationService } from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -28,17 +34,15 @@ import { DialogService } from "src/app/services/dialog.service";
   ],
 })
 export default class CinemasComponent implements OnInit {
-  cinemas: Cinema[] = [];
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
 
-  constructor(
-    private dss: DataShareService,
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService
-  ) {}
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
 
   ngOnInit(): void {
-    this.cinemas = this.dss.getGlobal("cinemas");
+    this.cinemas.set(this.ns.getCinemas());
   }
 
   addCinema(): void {
@@ -66,8 +70,8 @@ export default class CinemasComponent implements OnInit {
   newCinema(name: string): void {
     this.as.addCinema(name).subscribe((result: StatusResult): void => {
       if (result.status == "ok") {
-        this.cinemas = [];
-        this.dss.removeGlobal("cinemas");
+        this.cinemas.set([]);
+        this.ns.setCinemas([]);
 
         this.getCinemas();
       } else {
@@ -82,8 +86,8 @@ export default class CinemasComponent implements OnInit {
 
   getCinemas(): void {
     this.as.getCinemas().subscribe((result: CinemasResult): void => {
-      this.cinemas = this.cms.getCinemas(result.list);
-      this.dss.setGlobal("cinemas", this.cinemas);
+      this.cinemas.set(this.cms.getCinemas(result.list));
+      this.ns.setCinemas(this.cinemas());
     });
   }
 }

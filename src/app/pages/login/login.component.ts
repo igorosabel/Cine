@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -6,18 +12,13 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
-import {
-  CinemasResult,
-  LoginData,
-  LoginResult,
-} from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { Utils } from "src/app/model/utils.class";
-import { ApiService } from "src/app/services/api.service";
-import { AuthService } from "src/app/services/auth.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { UserService } from "src/app/services/user.service";
+import { CinemasResult, LoginData, LoginResult } from "@interfaces/interfaces";
+import { Utils } from "@model/utils.class";
+import { ApiService } from "@services/api.service";
+import { AuthService } from "@services/auth.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { NavigationService } from "@services/navigation.service";
+import { UserService } from "@services/user.service";
 
 @Component({
   standalone: true,
@@ -34,21 +35,19 @@ import { UserService } from "src/app/services/user.service";
   ],
 })
 export class LoginComponent implements OnInit {
+  private as: ApiService = inject(ApiService);
+  private user: UserService = inject(UserService);
+  private router: Router = inject(Router);
+  private auth: AuthService = inject(AuthService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
+
   loginData: LoginData = {
     name: "",
     pass: "",
   };
-  loginError: boolean = false;
-  loginSending: boolean = false;
-
-  constructor(
-    private as: ApiService,
-    private user: UserService,
-    private router: Router,
-    private dss: DataShareService,
-    private auth: AuthService,
-    private cms: ClassMapperService
-  ) {}
+  loginError: WritableSignal<boolean> = signal<boolean>(false);
+  loginSending: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -63,9 +62,9 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginSending = true;
+    this.loginSending.set(true);
     this.as.login(this.loginData).subscribe((result: LoginResult): void => {
-      this.loginSending = false;
+      this.loginSending.set(false);
       if (result.status === "ok") {
         this.user.logged = true;
         this.user.id = result.id;
@@ -74,13 +73,12 @@ export class LoginComponent implements OnInit {
         this.user.saveLogin();
 
         this.as.getCinemas().subscribe((result: CinemasResult): void => {
-          const cinemas: Cinema[] = this.cms.getCinemas(result.list);
-          this.dss.setGlobal("cinemas", cinemas);
+          this.ns.setCinemas(this.cms.getCinemas(result.list));
         });
 
         this.router.navigate(["/home"]);
       } else {
-        this.loginError = true;
+        this.loginError.set(true);
       }
     });
   }

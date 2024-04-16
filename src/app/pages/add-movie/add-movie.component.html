@@ -8,11 +8,11 @@
 		<span class="flex-space"></span>
 		<button mat-icon-button
 				(click)="saveMovie()"
-				[disabled]="sending">
-			@if (!sending) {
+				[disabled]="sending()">
+			@if (!sending()) {
 			<mat-icon>check</mat-icon>
 			}
-			@if (sending) {
+			@else {
 			<img src="/assets/loading.svg"
 				 class="sending"
 				 alt="">
@@ -35,7 +35,7 @@
 				<button mat-raised-button
 						color="primary"
 						(click)="uploadCover()">
-					@if (uploadingCover) {
+					@if (uploadingCover()) {
 					<img src="/assets/loading.svg"
 						 alt="">
 					}
@@ -50,7 +50,7 @@
 						   required
 						   name="name"
 						   (keyup)="searchMovieStart()">
-					@if (searching) {
+					@if (searching()) {
 					<img src="/assets/loading.svg"
 						 class="searching"
 						 alt="">
@@ -66,7 +66,7 @@
 						</button>
 					</div>
 					<mat-action-list>
-						@for (result of searchResults; track result.id) {
+						@for (result of searchResults(); track result.id) {
 						<button mat-list-item
 								(click)="selectResult(result)">
 							<img matListItemAvatar
@@ -82,7 +82,7 @@
 				<mat-form-field>
 					<mat-select placeholder="Elige cine"
 								[(ngModel)]="movie.idCinema">
-						@for (cinema of cinemas; track cinema.id) {
+						@for (cinema of cinemas(); track cinema.id) {
 						<mat-option [value]="cinema.id">
 							{{cinema.name}}
 						</mat-option>
@@ -120,7 +120,7 @@
 			<button mat-raised-button
 					color="primary"
 					(click)="uploadTicket()">
-				@if (uploadingTicket) {
+				@if (uploadingTicket()) {
 				<img src="/assets/loading.svg"
 					 alt="">
 				}

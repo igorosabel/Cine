@@ -1,63 +1,53 @@
-import { Injectable }  from '@angular/core';
-import { Cinema }      from 'src/app/model/cinema.model';
-import { Movie }       from 'src/app/model/movie.model';
-import { MovieSearch } from 'src/app/model/movie-search.model';
+import { Injectable } from "@angular/core";
 import {
-	CinemaInterface,
-	MovieInterface,
-	MovieSearchResult,
-	MovieSearchDetailResult
-} from 'src/app/interfaces/interfaces';
+  CinemaInterface,
+  MovieInterface,
+  MovieSearchDetailResult,
+  MovieSearchResult,
+} from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { MovieSearch } from "@model/movie-search.model";
+import { Movie } from "@model/movie.model";
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: "root",
 })
 export class ClassMapperService {
-	constructor() {}
+  getCinemas(cs: CinemaInterface[]): Cinema[] {
+    return cs.map((c: CinemaInterface): Cinema => {
+      return this.getCinema(c);
+    });
+  }
 
-	getCinemas(result: CinemaInterface[]): Cinema[] {
-		const cinemas: Cinema[] = [];
+  getCinema(c: CinemaInterface): Cinema {
+    return new Cinema().fromInterface(c);
+  }
 
-		for (let c of result) {
-			cinemas.push(this.getCinema(c));
-		}
+  getMovies(ms: MovieInterface[]): Movie[] {
+    return ms.map((m: MovieInterface): Movie => {
+      return this.getMovie(m);
+    });
+  }
 
-		return cinemas;
-	}
+  getMovie(m: MovieInterface): Movie {
+    return new Movie().fromInterface(m);
+  }
 
-	getCinema(c: CinemaInterface): Cinema {
-		return new Cinema().fromInterface(c);
-	}
+  getMovieSearches(mss: MovieSearchResult[]): MovieSearch[] {
+    return mss.map((ms: MovieSearchResult): MovieSearch => {
+      return this.getMovieSearch(ms);
+    });
+  }
 
-	getMovies(result: MovieInterface[]): Movie[] {
-		const movies: Movie[] = [];
+  getMovieSearch(msr: MovieSearchResult): MovieSearch {
+    return new MovieSearch().fromInterface(null, msr, null);
+  }
 
-		for (let m of result) {
-			movies.push(this.getMovie(m));
-		}
-
-		return movies;
-	}
-
-	getMovie(m: MovieInterface): Movie {
-		return new Movie().fromInterface(m);
-	}
-
-	getMovieSearches(result: MovieSearchResult[]): MovieSearch[] {
-		const searches: MovieSearch[] = [];
-
-		for (let m of result) {
-			searches.push(this.getMovieSearch(m));
-		}
-
-		return searches;
-	}
-
-	getMovieSearch(msr: MovieSearchResult): MovieSearch {
-		return new MovieSearch().fromInterface(null, msr, null);
-	}
-	
-	getMovieDetail(msd: MovieSearchDetailResult): MovieSearch {
-		return new MovieSearch().fromInterface(msd.status, {id: null, title: msd.title, poster: msd.poster}, msd.imdbUrl);
-	}
+  getMovieDetail(msd: MovieSearchDetailResult): MovieSearch {
+    return new MovieSearch().fromInterface(
+      msd.status,
+      { id: null, title: msd.title, poster: msd.poster },
+      msd.imdbUrl
+    );
+  }
 }

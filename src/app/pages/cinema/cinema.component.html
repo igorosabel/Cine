@@ -4,13 +4,13 @@
 				(click)="back()">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
-		<span>{{cinema.name}}</span>
+		<span>{{cinema().name}}</span>
 	</mat-toolbar-row>
 </mat-toolbar>
 
 <mat-nav-list>
-	<app-movie-list [movies]="movies" />
-	@if (movies.length === 0) {
+	<app-movie-list [movies]="movies()" />
+	@if (movies().length === 0) {
 	<mat-list-item>
 		¡Todavía no hay ninguna película!
 	</mat-list-item>

@@ -19,7 +19,7 @@
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput
 					   [(ngModel)]="registerData.name"
-					   [disabled]="registerSending"
+					   [disabled]="registerSending()"
 					   required
 					   name="name">
 			</mat-form-field>
@@ -28,7 +28,7 @@
 				<input matInput
 					   type="password"
 					   [(ngModel)]="registerData.pass"
-					   [disabled]="registerSending"
+					   [disabled]="registerSending()"
 					   required
 					   name="pass">
 			</mat-form-field>
@@ -37,17 +37,17 @@
 				<input matInput
 					   type="password"
 					   [(ngModel)]="registerData.conf"
-					   [disabled]="registerSending"
+					   [disabled]="registerSending()"
 					   required
 					   name="conf">
 			</mat-form-field>
-			@if (registerNameError) {
+			@if (registerNameError()) {
 			<fieldset class="center-card-error">
 				<legend>Error</legend>
 				El nombre de usuario ya está en uso.
 			</fieldset>
 			}
-			@if (registerPassError) {
+			@if (registerPassError()) {
 			<fieldset class="center-card-error">
 				<legend>Error</legend>
 				Las contraseñas no coinciden.
@@ -57,9 +57,9 @@
 		<mat-card-actions class="center-card-buttons center-card-buttons-end">
 			<button mat-raised-button
 					color="primary"
-					[disabled]="registerSending"
+					[disabled]="registerSending()"
 					type="submit">
-				@if (registerSending) {
+				@if (registerSending()) {
 				<img src="/assets/loading.svg"
 					 alt="">
 				}

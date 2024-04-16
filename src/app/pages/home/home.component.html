@@ -8,7 +8,7 @@
 			</mat-toolbar-row>
 		</mat-toolbar>
 		<mat-nav-list>
-			@for (cinema of cinemas; track cinema.id) {
+			@for (cinema of cinemas(); track cinema.id) {
 			<a mat-list-item
 			   [routerLink]="['/cinema', cinema.id, cinema.slug]">
 				<mat-icon matListIcon>local_movies</mat-icon>
@@ -44,14 +44,14 @@
 			</mat-toolbar-row>
 		</mat-toolbar>
 
-		@if (loading) {
+		@if (loading()) {
 		<div class="loading">Cargando...</div>
 		}
 
-		@if (!loading && !loadError) {
+		@if (!loading() && !loadError()) {
 		<mat-nav-list>
-			<app-movie-list [movies]="movies" />
-			@if (page < numPages)
+			<app-movie-list [movies]="movies()" />
+			@if (page() < numPages())
 			  {
 			  <a
 			  mat-list-item
@@ -61,7 +61,7 @@
 				Cargar más
 				</a>
 				}
-				@if (movies.length === 0) {
+				@if (movies().length === 0) {
 				<mat-list-item>
 					¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
 				</mat-list-item>
@@ -69,14 +69,14 @@
 		</mat-nav-list>
 		}
 
-		@if (!loading && loadError) {
+		@if (!loading() && loadError()) {
 		<div class="loading">Ocurrió un error al cargar las películas.</div>
 		}
 
 		<button mat-fab
 				class="btn-bottom-right"
 				routerLink="/add-movie"
-				[disabled]="loadError">
+				[disabled]="loadError()">
 			<mat-icon>add</mat-icon>
 		</button>
 	</mat-sidenav-content>

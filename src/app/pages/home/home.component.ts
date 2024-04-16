@@ -1,18 +1,24 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
-import { MoviesResult } from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { Movie } from "src/app/model/movie.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { UserService } from "src/app/services/user.service";
-import { MovieListComponent } from "src/app/shared/components/movie-list/movie-list.component";
+import { MoviesResult } from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { Movie } from "@model/movie.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { NavigationService } from "@services/navigation.service";
+import { UserService } from "@services/user.service";
+import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({
   standalone: true,
@@ -29,47 +35,48 @@ import { MovieListComponent } from "src/app/shared/components/movie-list/movie-l
     MatButtonModule,
   ],
 })
-export class HomeComponent implements OnInit {
-  page: number = 0;
-  numPages: number = 0;
-  movies: Movie[] = [];
-  cinemas: Cinema[] = [];
-  loading: boolean = true;
-  loadError: boolean = false;
-  opened: boolean = false;
+export default class HomeComponent implements OnInit {
+  private as: ApiService = inject(ApiService);
+  private user: UserService = inject(UserService);
+  private router: Router = inject(Router);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
 
-  constructor(
-    private as: ApiService,
-    private dss: DataShareService,
-    private user: UserService,
-    private router: Router,
-    private cms: ClassMapperService
-  ) {}
+  page: WritableSignal<number> = signal<number>(0);
+  numPages: WritableSignal<number> = signal<number>(0);
+  movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
+  loading: WritableSignal<boolean> = signal<boolean>(true);
+  loadError: WritableSignal<boolean> = signal<boolean>(false);
+  opened: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     this.getMovies();
-    this.cinemas = this.dss.getGlobal("cinemas");
-    this.dss.setGlobal("from", [["/home"]]);
+    this.cinemas.set(this.ns.getCinemas());
+    this.ns.set(["/home"]);
   }
 
   getMovies(ev = null): void {
     ev && ev.preventDefault();
-    this.page++;
-    this.as.getMovies(this.page).subscribe(
-      (result: MoviesResult): void => {
-        this.movies = this.movies.concat(this.cms.getMovies(result.list));
-        this.numPages = result.numPages;
-        this.loading = false;
+    this.page.update((value: number): number => value++);
+    this.as.getMovies(this.page()).subscribe({
+      next: (result: MoviesResult): void => {
+        this.movies.update((value: Movie[]): Movie[] => {
+          value = value.concat(this.cms.getMovies(result.list));
+          return value;
+        });
+        this.numPages.set(result.numPages);
+        this.loading.set(false);
       },
-      (error) => {
-        this.loading = false;
-        this.loadError = true;
-      }
-    );
+      error: (): void => {
+        this.loading.set(false);
+        this.loadError.set(true);
+      },
+    });
   }
 
   toggleSidenav(): void {
-    this.opened = !this.opened;
+    this.opened.update((value: boolean): boolean => !value);
   }
 
   logout(ev: MouseEvent): void {

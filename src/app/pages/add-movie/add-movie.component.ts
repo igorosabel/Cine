@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -15,14 +21,14 @@ import {
   MovieSearchResult,
   MovieSearchResultList,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { Cinema } from "src/app/model/cinema.model";
-import { MovieSearch } from "src/app/model/movie-search.model";
-import { Movie } from "src/app/model/movie.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DataShareService } from "src/app/services/data-share.service";
-import { DialogService } from "src/app/services/dialog.service";
+} from "@interfaces/interfaces";
+import { Cinema } from "@model/cinema.model";
+import { MovieSearch } from "@model/movie-search.model";
+import { Movie } from "@model/movie.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { NavigationService } from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -43,26 +49,24 @@ import { DialogService } from "src/app/services/dialog.service";
     MatInputModule,
   ],
 })
-export class AddMovieComponent implements OnInit {
-  cinemas: Cinema[] = [];
-  movie: Movie = new Movie();
-  uploadingCover: boolean = false;
-  uploadingTicket: boolean = false;
-  searchTimer: number = null;
-  searching: boolean = false;
-  searchResults: MovieSearch[] = [];
-  sending: boolean = false;
+export default class AddMovieComponent implements OnInit {
+  private router: Router = inject(Router);
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private ns: NavigationService = inject(NavigationService);
 
-  constructor(
-    private dss: DataShareService,
-    private router: Router,
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService
-  ) {}
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
+  movie: Movie = new Movie();
+  uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
+  uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
+  searchTimer: number = null;
+  searching: WritableSignal<boolean> = signal<boolean>(false);
+  searchResults: WritableSignal<MovieSearch[]> = signal<MovieSearch[]>([]);
+  sending: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.cinemas = this.dss.getGlobal("cinemas");
+    this.cinemas.set(this.ns.getCinemas());
     this.movie = new Movie(
       null,
       null,
@@ -73,14 +77,14 @@ export class AddMovieComponent implements OnInit {
       "",
       ""
     );
-    if (this.cinemas.length == 0) {
+    if (this.cinemas().length == 0) {
       this.dialog
         .alert({
           title: "Error",
           content: "Antes de añadir una película tienes que añadir el cine.",
           ok: "Continuar",
         })
-        .subscribe((result: boolean): void => {
+        .subscribe((): void => {
           this.router.navigate(["/home"]);
         });
     }
@@ -96,12 +100,14 @@ export class AddMovieComponent implements OnInit {
       (<HTMLInputElement>event.target).files &&
       (<HTMLInputElement>event.target).files.length > 0
     ) {
+      this.uploadingCover.set(true);
       let file = (<HTMLInputElement>event.target).files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.cover = reader.result as string;
         this.movie.coverStatus = 1;
         (<HTMLInputElement>document.getElementById("cover")).value = "";
+        this.uploadingCover.set(false);
       };
     }
   }
@@ -116,42 +122,44 @@ export class AddMovieComponent implements OnInit {
       (<HTMLInputElement>event.target).files &&
       (<HTMLInputElement>event.target).files.length > 0
     ) {
+      this.uploadingTicket.set(true);
       let file = (<HTMLInputElement>event.target).files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.ticket = reader.result as string;
         this.movie.ticketStatus = 1;
         (<HTMLInputElement>document.getElementById("ticket")).value = "";
+        this.uploadingTicket.set(false);
       };
     }
   }
 
   searchMovieStart(): void {
-    clearTimeout(this.searchTimer);
+    this.searchMovieStop();
     this.searchTimer = window.setTimeout((): void => {
       this.searchMovie();
     }, 500);
   }
 
   searchMovieStop(): void {
-    clearTimeout(this.searchTimer);
+    window.clearTimeout(this.searchTimer);
   }
 
   searchMovie(): void {
     if (this.movie.name.length >= 3) {
       this.searchMovieStop();
-      this.searching = true;
+      this.searching.set(true);
       this.as
         .searchMovie(this.movie.name)
         .subscribe((result: MovieSearchResultList): void => {
-          this.searching = false;
-          this.searchResults = this.cms.getMovieSearches(result.list);
+          this.searching.set(false);
+          this.searchResults.set(this.cms.getMovieSearches(result.list));
         });
     }
   }
 
   closeSearchResults(): void {
-    this.searchResults = [];
+    this.searchResults.set([]);
   }
 
   selectResult(movieResult: MovieSearchResult): void {
@@ -218,7 +226,7 @@ export class AddMovieComponent implements OnInit {
       return;
     }
 
-    this.sending = true;
+    this.sending.set(true);
     this.as
       .saveMovie(this.movie.toInterface())
       .subscribe((result: StatusResult): void => {
@@ -229,11 +237,11 @@ export class AddMovieComponent implements OnInit {
               content: "Nueva película guardada.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean) => {
+            .subscribe((): void => {
               this.router.navigate(["/home"]);
             });
         } else {
-          this.sending = false;
+          this.sending.set(false);
           this.dialog.alert({
             title: "Error",
             content: "Ocurrió un error al guardar la película.",

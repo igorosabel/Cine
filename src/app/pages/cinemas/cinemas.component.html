@@ -9,14 +9,14 @@
 </mat-toolbar>
 
 <mat-nav-list>
-	@for (cinema of cinemas; track cinema.id) {
+	@for (cinema of cinemas(); track cinema.id) {
 	<a mat-list-item
 	   [routerLink]="['/edit-cinema', cinema.id, cinema.slug]">
 		<mat-icon matListIcon>local_movies</mat-icon>
 		{{ cinema.name }}
 	</a>
 	}
-	@if (cinemas.length === 0) {
+	@empty {
 	<mat-list-item>
 		¡Todavía no hay ningún cine! Añade el primero pulsando el icono "+".
 	</mat-list-item>

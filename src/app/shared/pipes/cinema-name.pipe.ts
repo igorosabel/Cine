@@ -1,17 +1,16 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Cinema } from "src/app/model/cinema.model";
-import { DataShareService } from "src/app/services/data-share.service";
+import { Pipe, PipeTransform, inject } from "@angular/core";
+import { Cinema } from "@model/cinema.model";
+import { NavigationService } from "@services/navigation.service";
 
 @Pipe({
   standalone: true,
   name: "cinemaName",
 })
-export class CinemaNamePipe implements PipeTransform {
-  constructor(private dss: DataShareService) {}
+export default class CinemaNamePipe implements PipeTransform {
+  private ns: NavigationService = inject(NavigationService);
 
   transform(id: number): string {
-    const cinemas: Cinema[] = this.dss.getGlobal("cinemas");
-    const ind: number = cinemas.findIndex((x: Cinema): boolean => x.id === id);
-    return ind != -1 ? cinemas[ind].name : "";
+    const cinema: Cinema | null = this.ns.getCinema(id);
+    return cinema !== null ? cinema.name : "";
   }
 }
