@@ -12,18 +12,18 @@ import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
 } from "@angular/material/form-field";
-import { ApiService } from "@services/api.service";
-import { AuthService } from "@services/auth.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
-import { UserService } from "@services/user.service";
+import ApiService from "@services/api.service";
+import AuthService from "@services/auth.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
+import UserService from "@services/user.service";
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: "outline",
 };
 
-export function provideCore(): Provider[] {
+function provideCore(): Provider[] {
   return [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -44,3 +44,4 @@ export function provideCore(): Provider[] {
     NavigationService,
   ];
 }
+export default provideCore;

@@ -16,8 +16,8 @@
 		<div class="movie-cover"
 			 (click)="openCover()"
 			 [ngClass]="{'movie-cover-full':showCover()}">
-			@if (movie().cover) {
-			<img [ngSrc]="movie().cover"
+			@if (movie().cover !== null) {
+			<img [ngSrc]="movieCover"
 				 [alt]="movie.name"
 				 width="300"
 				 height="450"

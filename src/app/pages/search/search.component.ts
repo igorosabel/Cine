@@ -17,9 +17,9 @@ import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { RouterModule } from "@angular/router";
 import { MoviesResult } from "@interfaces/interfaces";
-import { Movie } from "@model/movie.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
+import Movie from "@model/movie.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
 import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({

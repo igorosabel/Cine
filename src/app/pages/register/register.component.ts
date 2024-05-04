@@ -12,11 +12,11 @@ import {
   LoginResult,
   RegisterData,
 } from "@interfaces/interfaces";
-import { Utils } from "@model/utils.class";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { NavigationService } from "@services/navigation.service";
-import { UserService } from "@services/user.service";
+import Utils from "@model/utils.class";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import NavigationService from "@services/navigation.service";
+import UserService from "@services/user.service";
 
 @Component({
   standalone: true,

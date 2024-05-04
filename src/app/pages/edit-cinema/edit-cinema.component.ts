@@ -44,7 +44,7 @@ export default class EditCinemaComponent implements OnInit {
   private ns: NavigationService = inject(NavigationService);
 
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
-  selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
+  selectedCinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
   editSending: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -54,7 +54,10 @@ export default class EditCinemaComponent implements OnInit {
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
       const id: number = params["id"];
-      this.selectedCinema.set(this.ns.getCinema(id));
+      const cinema: Cinema | null = this.ns.getCinema(id);
+      if (cinema !== null) {
+        this.selectedCinema.set(cinema);
+      }
     });
   }
 

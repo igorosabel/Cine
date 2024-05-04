@@ -12,12 +12,12 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
 import { MoviesResult } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { Movie } from "@model/movie.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { NavigationService } from "@services/navigation.service";
-import { UserService } from "@services/user.service";
+import Cinema from "@model/cinema.model";
+import Movie from "@model/movie.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import NavigationService from "@services/navigation.service";
+import UserService from "@services/user.service";
 import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({

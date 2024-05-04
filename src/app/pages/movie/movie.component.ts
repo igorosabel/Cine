@@ -24,12 +24,12 @@ import {
 import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { MovieResult, NavigationFromType } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { Movie } from "@model/movie.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
+import Cinema from "@model/cinema.model";
+import Movie from "@model/movie.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
 import CinemaNamePipe from "@shared/pipes/cinema-name.pipe";
 
 @Component({
@@ -68,6 +68,7 @@ export default class MovieComponent implements OnInit {
   selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
   movie: WritableSignal<Movie> = signal<Movie>(new Movie());
   showCover: WritableSignal<boolean> = signal<boolean>(false);
+  movieCover: string = "";
 
   ngOnInit(): void {
     this.cinemas.set(this.ns.getCinemas());
@@ -78,19 +79,25 @@ export default class MovieComponent implements OnInit {
       const id: number = params["id"];
       this.as.getMovie(id).subscribe((result: MovieResult): void => {
         if (result.status == "ok") {
-          this.movie.set(this.cms.getMovie(result.movie));
-
-          this.selectedCinema.set(this.ns.getCinema(this.movie().idCinema));
+          const movie: Movie = this.cms.getMovie(result.movie);
+          const idCinema: number | null = movie.idCinema;
+          if (idCinema !== null) {
+            this.selectedCinema.set(this.ns.getCinema(idCinema));
+          }
+          if (movie.cover !== null) {
+            this.movieCover = movie.cover;
+          }
 
           const fromMovie: NavigationFromType = [
             "/movie",
-            this.movie().id,
-            this.movie().slug,
+            movie.id,
+            movie.slug,
           ];
           const lastItem: NavigationFromType = this.ns.getLast();
           if (lastItem.join("") != fromMovie.join("")) {
             this.ns.add(fromMovie);
           }
+          this.movie.set(movie);
         } else {
           this.dialog
             .alert({

@@ -13,12 +13,12 @@ import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
 import { CinemasResult, LoginData, LoginResult } from "@interfaces/interfaces";
-import { Utils } from "@model/utils.class";
-import { ApiService } from "@services/api.service";
-import { AuthService } from "@services/auth.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { NavigationService } from "@services/navigation.service";
-import { UserService } from "@services/user.service";
+import Utils from "@model/utils.class";
+import ApiService from "@services/api.service";
+import AuthService from "@services/auth.service";
+import ClassMapperService from "@services/class-mapper.service";
+import NavigationService from "@services/navigation.service";
+import UserService from "@services/user.service";
 
 @Component({
   standalone: true,
@@ -34,7 +34,7 @@ import { UserService } from "@services/user.service";
     MatInputModule,
   ],
 })
-export class LoginComponent implements OnInit {
+export default class LoginComponent implements OnInit {
   private as: ApiService = inject(ApiService);
   private user: UserService = inject(UserService);
   private router: Router = inject(Router);

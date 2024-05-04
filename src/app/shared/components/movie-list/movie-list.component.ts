@@ -6,7 +6,7 @@ import {
   MatListItemTitle,
 } from "@angular/material/list";
 import { RouterLink } from "@angular/router";
-import { Movie } from "@model/movie.model";
+import Movie from "@model/movie.model";
 import CinemaNamePipe from "@shared/pipes/cinema-name.pipe";
 
 @Component({

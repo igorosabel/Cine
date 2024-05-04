@@ -9,7 +9,10 @@ import NavigationService from "@services/navigation.service";
 export default class CinemaNamePipe implements PipeTransform {
   private ns: NavigationService = inject(NavigationService);
 
-  transform(id: number): string | null {
+  transform(id: number | null): string | null {
+    if (id === null) {
+      return null;
+    }
     const cinema: Cinema | null = this.ns.getCinema(id);
     return cinema !== null ? cinema.name : null;
   }
