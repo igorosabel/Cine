@@ -14,11 +14,11 @@ import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router, RouterModule } from "@angular/router";
 import { CinemasResult, StatusResult } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
+import Cinema from "@model/cinema.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -70,19 +70,22 @@ export default class EditCinemaComponent implements OnInit {
     }
 
     this.editSending.set(true);
-    this.as
-      .editCinema(this.selectedCinema())
-      .subscribe((result: StatusResult): void => {
-        this.editSending.set(false);
-        if (result.status == "ok") {
-          this.ns.updateCinema(this.selectedCinema());
-          this.dialog.alert({
-            title: "Cine actualizado",
-            content: "El nombre del cine ha sido actualizado.",
-            ok: "Continuar",
-          });
-        }
-      });
+    const cinema: Cinema | null = this.selectedCinema();
+    if (cinema !== null) {
+      this.as
+        .editCinema(cinema.toInterface())
+        .subscribe((result: StatusResult): void => {
+          this.editSending.set(false);
+          if (result.status == "ok") {
+            this.ns.updateCinema(cinema);
+            this.dialog.alert({
+              title: "Cine actualizado",
+              content: "El nombre del cine ha sido actualizado.",
+              ok: "Continuar",
+            });
+          }
+        });
+    }
   }
 
   deleteCinema(ev: MouseEvent): void {
@@ -104,9 +107,9 @@ export default class EditCinemaComponent implements OnInit {
   }
 
   deleteCinemaConfirm(): void {
-    this.as
-      .deleteCinema(this.selectedCinema().id)
-      .subscribe((result: StatusResult): void => {
+    const id: number | null | undefined = this.selectedCinema()?.id;
+    if (id !== null && id !== undefined) {
+      this.as.deleteCinema(id).subscribe((result: StatusResult): void => {
         if (result.status == "ok") {
           this.dialog
             .alert({
@@ -120,6 +123,7 @@ export default class EditCinemaComponent implements OnInit {
             });
         }
       });
+    }
   }
 
   getCinemas(): void {

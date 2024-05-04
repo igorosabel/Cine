@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { NavigationFromType } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
+import Cinema from "@model/cinema.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class NavigationService {
+export default class NavigationService {
   private from: NavigationFromType[] = [];
   private cinemas: Cinema[] = [];
 
@@ -19,18 +19,18 @@ export class NavigationService {
     return [];
   }
 
-  getLast(): (string | number)[] {
+  getLast(): NavigationFromType {
     if (this.from.length > 0) {
       return this.from[this.from.length - 1];
     }
     return [];
   }
 
-  add(item: (string | number)[]): void {
+  add(item: NavigationFromType): void {
     this.from.push(item);
   }
 
-  set(item: (string | number)[]): void {
+  set(item: NavigationFromType): void {
     this.from = [item];
   }
 

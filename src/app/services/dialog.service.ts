@@ -7,12 +7,13 @@ import FormDialogComponent from "@shared/components/dialogs/form-dialog/form-dia
 import { Observable } from "rxjs";
 
 @Injectable()
-export class DialogService {
+export default class DialogService {
   private dialog: MatDialog = inject(MatDialog);
 
   public confirm(options: DialogOptions): Observable<boolean> {
-    let dialogRef: MatDialogRef<ConfirmDialogComponent>;
-    dialogRef = this.dialog.open(ConfirmDialogComponent);
+    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(
+      ConfirmDialogComponent
+    );
 
     dialogRef.componentInstance.title.set(options.title);
     dialogRef.componentInstance.content.set(options.content);
@@ -27,8 +28,8 @@ export class DialogService {
   }
 
   public alert(options: DialogOptions): Observable<boolean> {
-    let dialogRef: MatDialogRef<AlertDialogComponent>;
-    dialogRef = this.dialog.open(AlertDialogComponent);
+    const dialogRef: MatDialogRef<AlertDialogComponent> =
+      this.dialog.open(AlertDialogComponent);
 
     dialogRef.componentInstance.title.set(options.title);
     dialogRef.componentInstance.content.set(options.content);
@@ -40,8 +41,8 @@ export class DialogService {
   }
 
   public form(options: DialogOptions): Observable<DialogOptions> {
-    let dialogRef: MatDialogRef<FormDialogComponent>;
-    dialogRef = this.dialog.open(FormDialogComponent);
+    const dialogRef: MatDialogRef<FormDialogComponent> =
+      this.dialog.open(FormDialogComponent);
 
     dialogRef.componentInstance.title.set(options.title);
     dialogRef.componentInstance.content.set(options.content);

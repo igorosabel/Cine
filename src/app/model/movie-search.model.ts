@@ -2,14 +2,14 @@ import {
   MovieSearchDetailResult,
   MovieSearchResult,
 } from "@interfaces/interfaces";
-import { Utils } from "@model/utils.class";
+import Utils from "@model/utils.class";
 
-export class MovieSearch {
+export default class MovieSearch {
   constructor(
     public status: string = "",
     public id: number = 0,
-    public title: string = "",
-    public poster: string = "",
+    public title: string | null = "",
+    public poster: string | null = "",
     public imdbUrl: string | null = null
   ) {}
 

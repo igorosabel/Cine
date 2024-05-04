@@ -11,12 +11,12 @@ import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { CinemaResult, NavigationFromType } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { Movie } from "@model/movie.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
+import Cinema from "@model/cinema.model";
+import Movie from "@model/movie.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
 import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({
@@ -49,8 +49,11 @@ export default class CinemaComponent implements OnInit {
       this.router.navigate(["/home"]);
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params.id;
-      this.cinema.set(this.ns.getCinema(id));
+      const id: number = params["id"];
+      const cinemaFound: Cinema | null = this.ns.getCinema(id);
+      if (cinemaFound !== null) {
+        this.cinema.set(cinemaFound);
+      }
 
       this.as.getCinemaMovies(id).subscribe((result: CinemaResult): void => {
         if (result.status == "ok") {

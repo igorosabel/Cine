@@ -1,19 +1,19 @@
 import { MovieInterface } from "@interfaces/interfaces";
-import { Utils } from "@model/utils.class";
+import Utils from "@model/utils.class";
 
-export class Movie {
+export default class Movie {
   coverStatus: number;
   ticketStatus: number;
 
   constructor(
-    public id: number = null,
-    public idCinema: number = null,
-    public name: string = null,
-    public slug: string = null,
-    public cover: string = null,
-    public ticket: string = null,
-    public imdbUrl: string = null,
-    public date: string = null
+    public id: number | null = null,
+    public idCinema: number | null = null,
+    public name: string | null = null,
+    public slug: string | null = null,
+    public cover: string | null = null,
+    public ticket: string | null = null,
+    public imdbUrl: string | null = null,
+    public date: string | null = null
   ) {
     this.coverStatus = 0;
     this.ticketStatus = 0;

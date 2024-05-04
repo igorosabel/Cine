@@ -17,16 +17,16 @@ export interface RegisterData {
 }
 
 export interface MovieInterface {
-  id: number;
-  idCinema: number;
-  name: string;
-  slug: string;
-  cover: string;
+  id: number | null;
+  idCinema: number | null;
+  name: string | null;
+  slug: string | null;
+  cover: string | null;
   coverStatus?: number;
-  ticket: string;
+  ticket: string | null;
   ticketStatus?: number;
-  imdbUrl: string;
-  date: string;
+  imdbUrl: string | null;
+  date: string | null;
 }
 
 export interface MoviesResult {
@@ -41,9 +41,9 @@ export interface MovieResult {
 }
 
 export interface CinemaInterface {
-  id: number;
-  name: string;
-  slug: string;
+  id: number | null;
+  name: string | null;
+  slug: string | null;
 }
 
 export interface CinemasResult {
@@ -77,8 +77,8 @@ export interface StatusResult {
 
 export interface MovieSearchResult {
   id: number;
-  title: string;
-  poster: string;
+  title: string | null;
+  poster: string | null;
 }
 
 export interface MovieSearchResultList {
@@ -88,9 +88,9 @@ export interface MovieSearchResultList {
 
 export interface MovieSearchDetailResult {
   status: string;
-  title: string;
-  poster: string;
+  title: string | null;
+  poster: string | null;
   imdbUrl: string | null;
 }
 
-export type NavigationFromType = (string | number)[];
+export type NavigationFromType = (string | number | null)[];

@@ -5,14 +5,14 @@ import {
   MovieSearchDetailResult,
   MovieSearchResult,
 } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { MovieSearch } from "@model/movie-search.model";
-import { Movie } from "@model/movie.model";
+import Cinema from "@model/cinema.model";
+import MovieSearch from "@model/movie-search.model";
+import Movie from "@model/movie.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class ClassMapperService {
+export default class ClassMapperService {
   getCinemas(cs: CinemaInterface[]): Cinema[] {
     return cs.map((c: CinemaInterface): Cinema => {
       return this.getCinema(c);
@@ -40,14 +40,14 @@ export class ClassMapperService {
   }
 
   getMovieSearch(msr: MovieSearchResult): MovieSearch {
-    return new MovieSearch().fromInterface(null, msr, null);
+    return new MovieSearch().fromInterface("ok", msr, "");
   }
 
   getMovieDetail(msd: MovieSearchDetailResult): MovieSearch {
     return new MovieSearch().fromInterface(
       msd.status,
-      { id: null, title: msd.title, poster: msd.poster },
-      msd.imdbUrl
+      { id: -1, title: msd.title, poster: msd.poster },
+      msd.imdbUrl !== null ? msd.imdbUrl : ""
     );
   }
 }

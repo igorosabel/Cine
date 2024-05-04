@@ -21,7 +21,7 @@ import {
 @Injectable({
   providedIn: "root",
 })
-export class ApiService {
+export default class ApiService {
   private http: HttpClient = inject(HttpClient);
 
   apiUrl: string = environment.apiUrl;

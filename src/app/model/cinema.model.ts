@@ -1,11 +1,11 @@
 import { CinemaInterface } from "@interfaces/interfaces";
-import { Utils } from "@model/utils.class";
+import Utils from "@model/utils.class";
 
-export class Cinema {
+export default class Cinema {
   constructor(
-    public id: number = null,
-    public name: string = null,
-    public slug: string = null
+    public id: number | null = null,
+    public name: string | null = null,
+    public slug: string | null = null
   ) {}
 
   fromInterface(c: CinemaInterface): Cinema {

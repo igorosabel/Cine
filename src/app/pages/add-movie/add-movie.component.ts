@@ -22,13 +22,13 @@ import {
   MovieSearchResultList,
   StatusResult,
 } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { MovieSearch } from "@model/movie-search.model";
-import { Movie } from "@model/movie.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
+import Cinema from "@model/cinema.model";
+import MovieSearch from "@model/movie-search.model";
+import Movie from "@model/movie.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -60,7 +60,7 @@ export default class AddMovieComponent implements OnInit {
   movie: Movie = new Movie();
   uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
   uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
-  searchTimer: number = null;
+  searchTimer: number = -1;
   searching: WritableSignal<boolean> = signal<boolean>(false);
   searchResults: WritableSignal<MovieSearch[]> = signal<MovieSearch[]>([]);
   sending: WritableSignal<boolean> = signal<boolean>(false);
@@ -91,17 +91,18 @@ export default class AddMovieComponent implements OnInit {
   }
 
   uploadCover(): void {
-    document.getElementById("cover").click();
+    const obj: HTMLElement | null = document.getElementById("cover");
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onCoverChange(event: Event): void {
     let reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>event.target).files &&
-      (<HTMLInputElement>event.target).files.length > 0
-    ) {
+    const files: FileList | null = (<HTMLInputElement>event.target).files;
+    if (files !== null && files.length > 0) {
       this.uploadingCover.set(true);
-      let file = (<HTMLInputElement>event.target).files[0];
+      let file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.cover = reader.result as string;
@@ -113,17 +114,18 @@ export default class AddMovieComponent implements OnInit {
   }
 
   uploadTicket(): void {
-    document.getElementById("ticket").click();
+    const obj: HTMLElement | null = document.getElementById("ticket");
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onTicketChange(event: Event): void {
     let reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>event.target).files &&
-      (<HTMLInputElement>event.target).files.length > 0
-    ) {
+    const files: FileList | null = (<HTMLInputElement>event.target).files;
+    if (files !== null && files.length > 0) {
       this.uploadingTicket.set(true);
-      let file = (<HTMLInputElement>event.target).files[0];
+      let file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.ticket = reader.result as string;
@@ -146,7 +148,7 @@ export default class AddMovieComponent implements OnInit {
   }
 
   searchMovie(): void {
-    if (this.movie.name.length >= 3) {
+    if (this.movie.name !== null && this.movie.name.length >= 3) {
       this.searchMovieStop();
       this.searching.set(true);
       this.as

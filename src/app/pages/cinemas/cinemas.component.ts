@@ -15,11 +15,11 @@ import {
   DialogOptions,
   StatusResult,
 } from "@interfaces/interfaces";
-import { Cinema } from "@model/cinema.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { NavigationService } from "@services/navigation.service";
+import Cinema from "@model/cinema.model";
+import ApiService from "@services/api.service";
+import ClassMapperService from "@services/class-mapper.service";
+import DialogService from "@services/dialog.service";
+import NavigationService from "@services/navigation.service";
 
 @Component({
   standalone: true,
@@ -61,8 +61,8 @@ export default class CinemasComponent implements OnInit {
         cancel: "Cancelar",
       })
       .subscribe((result: DialogOptions): void => {
-        if (result) {
-          this.newCinema(result[0].value);
+        if (result && result.fields !== undefined) {
+          this.newCinema(result.fields[0].value);
         }
       });
   }

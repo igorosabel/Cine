@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { LoginResult } from "@interfaces/interfaces";
 
 @Injectable()
-export class UserService {
+export default class UserService {
   logged: boolean = false;
   id: number | null = null;
   name: string | null = null;
