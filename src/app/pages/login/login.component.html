@@ -38,10 +38,10 @@
 		<mat-card-actions class="center-card-buttons">
 			<a routerLink="/register"
 			   mat-button
-			   [disabled]="loginSending">Regístrate</a>
+			   [disabled]="loginSending()">Regístrate</a>
 			<button mat-raised-button
 					color="primary"
-					[disabled]="loginSending"
+					[disabled]="loginSending()"
 					type="submit">
 				@if (loginSending()) {
 				<img src="/assets/loading.svg"

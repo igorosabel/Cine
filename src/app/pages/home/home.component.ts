@@ -58,7 +58,9 @@ export default class HomeComponent implements OnInit {
 
   getMovies(ev: MouseEvent | null = null): void {
     ev && ev.preventDefault();
-    this.page.update((value: number): number => value++);
+    this.page.update((value: number): number => {
+      return value + 1;
+    });
     this.as.getMovies(this.page()).subscribe({
       next: (result: MoviesResult): void => {
         this.movies.update((value: Movie[]): Movie[] => {
