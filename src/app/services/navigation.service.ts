@@ -1,13 +1,17 @@
-import { Injectable } from "@angular/core";
-import { NavigationFromType } from "@interfaces/interfaces";
-import Cinema from "@model/cinema.model";
+import { Injectable, inject } from '@angular/core';
+import { CinemaInterface, NavigationFromType } from '@interfaces/interfaces';
+import Cinema from '@model/cinema.model';
+import ClassMapperService from '@services/class-mapper.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export default class NavigationService {
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   private from: NavigationFromType[] = [];
   private cinemas: Cinema[] = [];
+  private cinemasLoaded: boolean = false;
 
   get(): NavigationFromType {
     if (this.from.length > 0) {
@@ -35,19 +39,42 @@ export default class NavigationService {
   }
 
   getCinemas(): Cinema[] {
+    if (!this.cinemasLoaded) {
+      this.loadCinemas();
+    }
     return this.cinemas;
   }
 
-  setCinemas(cinemas: Cinema[]): void {
+  loadCinemas(): void {
+    const cinemasObjStr: string | null = localStorage.getItem('cinemas');
+    if (cinemasObjStr !== null) {
+      const cinemasObj: CinemaInterface[] = JSON.parse(cinemasObjStr);
+      if (cinemasObj !== null) {
+        this.setCinemas(this.cms.getCinemas(cinemasObj), false);
+        this.cinemasLoaded = true;
+      }
+    }
+  }
+
+  setCinemas(cinemas: Cinema[], save: boolean = true): void {
     this.cinemas = cinemas;
+    const cinemasObj: CinemaInterface[] = cinemas.map(
+      (c: Cinema): CinemaInterface => {
+        return c.toInterface();
+      }
+    );
+    localStorage.setItem('cinemas', JSON.stringify(cinemasObj));
   }
 
   getCinema(id: number): Cinema | null {
-    const cinema: Cinema | undefined = this.cinemas.find(
-      (x: Cinema): boolean => x.id === id
+    if (!this.cinemasLoaded) {
+      this.loadCinemas();
+    }
+    const cinemaInd: number = this.cinemas.findIndex(
+      (x: Cinema): boolean => x.id === parseInt(id.toString())
     );
-    if (cinema !== undefined) {
-      return cinema;
+    if (cinemaInd !== -1) {
+      return this.cinemas[cinemaInd];
     }
     return null;
   }

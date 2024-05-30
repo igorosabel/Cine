@@ -27,10 +27,8 @@
 		</div>
 		<mat-nav-list>
 			<mat-list-item (click)="selectCinema()">
-				<div matListItemLine
-					 class="detail-text"><strong>Cine</strong>:</div>
-				<div matListItemLine
-					 class="detail-text">{{movie().idCinema | cinemaName}}</div>
+				<div matListItemTitle><strong>Cine</strong></div>
+				<div matListItemLine>{{movie().idCinema | cinemaName}}</div>
 				<button mat-icon-button
 						matListItemMeta>
 					<mat-icon>chevron_right</mat-icon>
@@ -39,13 +37,13 @@
 			<a mat-list-item
 			   [href]="movie().imdbUrl"
 			   target="_blank">
-				<div matListItemLine><strong>IMDB</strong>:</div>
+				<div matListItemTitle><strong>IMDB</strong></div>
 				<div matListItemLine>{{movie().imdbUrl}}</div>
 			</a>
 		</mat-nav-list>
 		<mat-list>
 			<mat-list-item class="md-2-line">
-				<div matListItemLine><strong>Fecha</strong>:</div>
+				<div matListItemTitle><strong>Fecha</strong></div>
 				<div matListItemLine>{{movie().date}}</div>
 			</mat-list-item>
 		</mat-list>

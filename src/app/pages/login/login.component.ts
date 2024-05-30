@@ -74,9 +74,8 @@ export default class LoginComponent implements OnInit {
 
         this.as.getCinemas().subscribe((result: CinemasResult): void => {
           this.ns.setCinemas(this.cms.getCinemas(result.list));
+          this.router.navigate(['/home']);
         });
-
-        this.router.navigate(['/home']);
       } else {
         this.loginError.set(true);
       }

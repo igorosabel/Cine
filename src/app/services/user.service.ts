@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { LoginResult } from "@interfaces/interfaces";
+import { Injectable } from '@angular/core';
+import { LoginResult } from '@interfaces/interfaces';
 
 @Injectable()
 export default class UserService {
@@ -9,7 +9,7 @@ export default class UserService {
   token: string | null = null;
 
   loadLogin(): void {
-    const loginObjStr: string | null = localStorage.getItem("login");
+    const loginObjStr: string | null = localStorage.getItem('login');
     if (loginObjStr === null) {
       this.logout();
       return;
@@ -27,12 +27,12 @@ export default class UserService {
 
   saveLogin(): void {
     const loginObj: LoginResult = {
-      status: "ok",
+      status: 'ok',
       id: this.id,
       name: this.name,
       token: this.token,
     };
-    localStorage.setItem("login", JSON.stringify(loginObj));
+    localStorage.setItem('login', JSON.stringify(loginObj));
   }
 
   logout(): void {
@@ -40,6 +40,7 @@ export default class UserService {
     this.id = null;
     this.name = null;
     this.token = null;
-    localStorage.removeItem("login");
+    localStorage.removeItem('login');
+    localStorage.removeItem('cinemas');
   }
 }

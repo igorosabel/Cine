@@ -34,7 +34,7 @@
 					   id="cover"
 					   value=""
 					   (change)="onCoverChange($event)">
-				<button mat-raised-button
+				<button mat-flat-button
 						color="primary"
 						(click)="uploadCover()">
 					@if (uploadingCover()) {
@@ -119,7 +119,7 @@
 				   id="ticket"
 				   value=""
 				   (change)="onTicketChange($event)">
-			<button mat-raised-button
+			<button mat-flat-button
 					color="primary"
 					(click)="uploadTicket()">
 				@if (uploadingTicket()) {
