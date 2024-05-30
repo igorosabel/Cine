@@ -15,7 +15,7 @@
 			<mat-icon>check</mat-icon>
 			}
 			@else {
-			<img src="loading.svg"
+			<img src="img/loading.svg"
 				 class="sending"
 				 alt="">
 			}
@@ -38,7 +38,7 @@
 						color="primary"
 						(click)="uploadCover()">
 					@if (uploadingCover()) {
-					<img src="loading.svg"
+					<img src="img/loading.svg"
 						 alt="">
 					}
 					Añadir carátula
@@ -53,7 +53,7 @@
 						   name="name"
 						   (keyup)="searchMovieStart()">
 					@if (searching()) {
-					<img src="loading.svg"
+					<img src="img/loading.svg"
 						 class="searching"
 						 alt="">
 					}
@@ -123,7 +123,7 @@
 					color="primary"
 					(click)="uploadTicket()">
 				@if (uploadingTicket()) {
-				<img src="loading.svg"
+				<img src="img/loading.svg"
 					 alt="">
 				}
 				Añadir entrada
