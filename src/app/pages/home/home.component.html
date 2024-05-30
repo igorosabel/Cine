@@ -2,7 +2,7 @@
 	<mat-sidenav class="sidebar"
 				 #sidenav
 				 [(opened)]="opened">
-		<mat-toolbar color="primary">
+		<mat-toolbar class="header">
 			<mat-toolbar-row>
 				<span>Cines</span>
 			</mat-toolbar-row>
@@ -11,32 +11,33 @@
 			@for (cinema of cinemas(); track cinema.id) {
 			<a mat-list-item
 			   [routerLink]="['/cinema', cinema.id, cinema.slug]">
-				<mat-icon matListIcon>local_movies</mat-icon>
+				<mat-icon matListItemIcon>local_movies</mat-icon>
 				{{cinema.name}}
 			</a>
 			}
 			<a mat-list-item
 			   routerLink="/cinemas">
-				<mat-icon matListIcon>edit</mat-icon>
+				<mat-icon matListItemIcon>edit</mat-icon>
 				Editar cines
 			</a>
 			<a mat-list-item
 			   routerLink="/search">
-				<mat-icon matListIcon>search</mat-icon>
+				<mat-icon matListItemIcon>search</mat-icon>
 				Buscar
 			</a>
 			<a mat-list-item
 			   (click)="logout($event)">
-				<mat-icon matListIcon>power_settings_new</mat-icon>
+				<mat-icon matListItemIcon>power_settings_new</mat-icon>
 				Salir
 			</a>
 		</mat-nav-list>
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<mat-toolbar color="primary">
+		<mat-toolbar class="header">
 			<mat-toolbar-row>
 				<button mat-icon-button
+						class="header-icon"
 						(click)="toggleSidenav()">
 					<mat-icon>menu</mat-icon>
 				</button>

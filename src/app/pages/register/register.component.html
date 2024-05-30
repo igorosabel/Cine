@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header">
 	<mat-toolbar-row>
 		<button routerLink="/"
+				class="header-icon"
 				mat-icon-button>
 			<mat-icon>arrow_back</mat-icon>
 		</button>
@@ -60,7 +61,7 @@
 					[disabled]="registerSending()"
 					type="submit">
 				@if (registerSending()) {
-				<img src="/assets/loading.svg"
+				<img src="loading.svg"
 					 alt="">
 				}
 				Continuar

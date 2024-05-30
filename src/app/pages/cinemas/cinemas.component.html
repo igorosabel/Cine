@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header">
 	<mat-toolbar-row>
 		<button routerLink="/home"
+				class="header-icon"
 				mat-icon-button>
 			<mat-icon>arrow_back</mat-icon>
 		</button>
@@ -12,7 +13,7 @@
 	@for (cinema of cinemas(); track cinema.id) {
 	<a mat-list-item
 	   [routerLink]="['/edit-cinema', cinema.id, cinema.slug]">
-		<mat-icon matListIcon>local_movies</mat-icon>
+		<mat-icon matListItemIcon>local_movies</mat-icon>
 		{{ cinema.name }}
 	</a>
 	}

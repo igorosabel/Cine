@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header">
 	<mat-toolbar-row>
 		<span>Cine</span>
 	</mat-toolbar-row>
@@ -44,7 +44,7 @@
 					[disabled]="loginSending()"
 					type="submit">
 				@if (loginSending()) {
-				<img src="/assets/loading.svg"
+				<img src="loading.svg"
 					 alt="">
 				}
 				Continuar

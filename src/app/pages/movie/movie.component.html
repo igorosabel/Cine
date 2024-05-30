@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header">
 	<mat-toolbar-row>
 		<button mat-icon-button
+				class="header-icon"
 				(click)="back()">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
@@ -18,7 +19,7 @@
 			 [ngClass]="{'movie-cover-full':showCover()}">
 			@if (movie().cover !== null) {
 			<img [ngSrc]="movieCover"
-				 [alt]="movie.name"
+				 [alt]="movie().name"
 				 width="300"
 				 height="450"
 				 priority>

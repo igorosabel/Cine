@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header">
 	<mat-toolbar-row>
 		<button mat-icon-button
+				class="header-icon"
 				routerLink="/home">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
@@ -17,18 +18,17 @@
 			   (keyup)="searchMovieStart()"
 			   #searchBox>
 		@if (searching()) {
-		<img src="/assets/loading.svg"
+		<img src="loading.svg"
 			 class="searching"
 			 alt="">
 		}
 	</mat-form-field>
 </div>
 
-@if (movies.length === 0) {
+@if (movies().length === 0) {
 <div class="start-message">Introduce el título de una película para empezar a buscar.</div>
 }
-
-@if (movies.length) {
+@else {
 <mat-nav-list>
 	<app-movie-list [movies]="movies()" />
 </mat-nav-list>

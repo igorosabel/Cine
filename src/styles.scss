@@ -1,3 +1,8 @@
+:root {
+	--color-blue: #005cbb;
+	--color-white: #fff;
+}
+
 html,
 body {
 	height: 100%;
@@ -20,6 +25,15 @@ body {
 
 .spacer {
 	flex: 1;
+}
+
+.header {
+	background-color: var(--color-blue) !important;
+	color: var(--color-white) !important;
+}
+
+.header-icon {
+	color: var(--color-white) !important;
 }
 
 .center-card {
@@ -47,6 +61,7 @@ body {
 
 		img {
 			width: 20px;
+			vertical-align: bottom;
 		}
 	}
 
