@@ -7,7 +7,10 @@ export interface LoginResult {
   status: string;
   id: number | null;
   name: string | null;
-  token: string | null;
+}
+
+export interface AuthCheck {
+  authenticated: boolean;
 }
 
 export interface RegisterData {

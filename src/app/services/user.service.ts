@@ -6,7 +6,6 @@ export default class UserService {
   logged: boolean = false;
   id: number | null = null;
   name: string | null = null;
-  token: string | null = null;
 
   loadLogin(): void {
     const loginObjStr: string | null = localStorage.getItem('login');
@@ -22,7 +21,6 @@ export default class UserService {
     this.logged = true;
     this.id = loginObj.id;
     this.name = loginObj.name;
-    this.token = loginObj.token;
   }
 
   saveLogin(): void {
@@ -30,7 +28,6 @@ export default class UserService {
       status: 'ok',
       id: this.id,
       name: this.name,
-      token: this.token,
     };
     localStorage.setItem('login', JSON.stringify(loginObj));
   }
@@ -39,7 +36,6 @@ export default class UserService {
     this.logged = false;
     this.id = null;
     this.name = null;
-    this.token = null;
     localStorage.removeItem('login');
     localStorage.removeItem('cinemas');
   }

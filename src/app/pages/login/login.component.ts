@@ -69,7 +69,6 @@ export default class LoginComponent implements OnInit {
         this.user.logged = true;
         this.user.id = result.id;
         this.user.name = Utils.urldecode(result.name);
-        this.user.token = Utils.urldecode(result.token);
         this.user.saveLogin();
 
         this.as.getCinemas().subscribe((result: CinemasResult): void => {

@@ -1,14 +1,38 @@
-import { Injectable, inject } from "@angular/core";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import UserService from "@services/user.service";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { environment } from '@env/environment';
+import { AuthCheck } from '@interfaces/interfaces';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 
 @Injectable()
 export default class AuthService {
-  private user: UserService = inject(UserService);
+  private http: HttpClient = inject(HttpClient);
 
-  public isAuthenticated(): boolean {
-    this.user.loadLogin();
-    const helper = new JwtHelperService();
-    return !helper.isTokenExpired(this.user.token);
+  private authCheckUrl: string = environment.apiUrl + 'check-auth';
+
+  isAuthenticated(): boolean {
+    const authStatus: string | null = localStorage.getItem('authenticated');
+    return authStatus === 'true';
+  }
+
+  checkAuthStatus(): Observable<boolean> {
+    return this.http
+      .get<AuthCheck>(this.authCheckUrl, {
+        withCredentials: true,
+      })
+      .pipe(
+        map((response: AuthCheck): boolean => response.authenticated),
+        tap((authenticated: boolean): void => {
+          localStorage.setItem('authenticated', String(authenticated));
+        }),
+        catchError((): Observable<boolean> => {
+          localStorage.setItem('authenticated', 'false');
+          return of(false);
+        })
+      );
+  }
+
+  logout(): void {
+    localStorage.setItem('authenticated', 'false');
   }
 }
