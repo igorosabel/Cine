@@ -3,10 +3,10 @@ import {
   HttpHandlerFn,
   HttpInterceptorFn,
   HttpRequest,
-} from "@angular/common/http";
-import { inject } from "@angular/core";
-import UserService from "@services/user.service";
-import { Observable } from "rxjs";
+} from '@angular/common/http';
+import { inject } from '@angular/core';
+import UserService from '@services/user.service';
+import { Observable } from 'rxjs';
 
 const TokenInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -16,7 +16,7 @@ const TokenInterceptor: HttpInterceptorFn = (
 
   req = req.clone({
     setHeaders: {
-      Authorization: us.logged && us.token ? us.token : "",
+      Authorization: us.logged && us.token ? us.token : '',
     },
   });
 

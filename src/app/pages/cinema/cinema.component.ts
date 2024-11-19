@@ -13,22 +13,22 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CinemaResult, NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import Movie from '@model/movie.model';
+import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import NavigationService from '@services/navigation.service';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
 
 @Component({
-    selector: 'app-cinema',
-    templateUrl: './cinema.component.html',
-    imports: [
-        MovieListComponent,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatListModule,
-    ]
+  selector: 'app-cinema',
+  templateUrl: './cinema.component.html',
+  imports: [
+    MovieListComponent,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+  ],
 })
 export default class CinemaComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

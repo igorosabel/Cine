@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform, inject } from "@angular/core";
-import Cinema from "@model/cinema.model";
-import NavigationService from "@services/navigation.service";
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import Cinema from '@model/cinema.model';
+import NavigationService from '@services/navigation.service';
 
 @Pipe({
   standalone: true,
-  name: "cinemaName",
+  name: 'cinemaName',
 })
 export default class CinemaNamePipe implements PipeTransform {
   private ns: NavigationService = inject(NavigationService);

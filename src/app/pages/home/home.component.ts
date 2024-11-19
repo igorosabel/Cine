@@ -4,35 +4,35 @@ import {
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { Router, RouterModule } from "@angular/router";
-import { MoviesResult } from "@interfaces/interfaces";
-import Cinema from "@model/cinema.model";
-import Movie from "@model/movie.model";
-import ApiService from "@services/api.service";
-import ClassMapperService from "@services/class-mapper.service";
-import NavigationService from "@services/navigation.service";
-import UserService from "@services/user.service";
-import MovieListComponent from "@shared/components/movie-list/movie-list.component";
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterModule } from '@angular/router';
+import { MoviesResult } from '@interfaces/interfaces';
+import Cinema from '@model/cinema.model';
+import Movie from '@model/movie.model';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import NavigationService from '@services/navigation.service';
+import UserService from '@services/user.service';
+import MovieListComponent from '@shared/components/movie-list/movie-list.component';
 
 @Component({
-    selector: "app-home",
-    templateUrl: "./home.component.html",
-    styleUrls: ["./home.component.scss"],
-    imports: [
-        RouterModule,
-        MovieListComponent,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-    ]
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  imports: [
+    RouterModule,
+    MovieListComponent,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
 export default class HomeComponent implements OnInit {
   private as: ApiService = inject(ApiService);
@@ -52,7 +52,7 @@ export default class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getMovies();
     this.cinemas.set(this.ns.getCinemas());
-    this.ns.set(["/home"]);
+    this.ns.set(['/home']);
   }
 
   getMovies(ev: MouseEvent | null = null): void {
@@ -83,6 +83,6 @@ export default class HomeComponent implements OnInit {
   logout(ev: MouseEvent): void {
     ev.preventDefault();
     this.user.logout();
-    this.router.navigate(["/"]);
+    this.router.navigate(['/']);
   }
 }

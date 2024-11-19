@@ -4,33 +4,29 @@ import {
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { RouterModule } from "@angular/router";
-import {
-  CinemasResult,
-  DialogOptions,
-  StatusResult,
-} from "@interfaces/interfaces";
-import Cinema from "@model/cinema.model";
-import ApiService from "@services/api.service";
-import ClassMapperService from "@services/class-mapper.service";
-import DialogService from "@services/dialog.service";
-import NavigationService from "@services/navigation.service";
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
+import { CinemasResult, StatusResult } from '@interfaces/interfaces';
+import Cinema from '@model/cinema.model';
+import { DialogOptions, DialogService } from '@osumi/angular-tools';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import NavigationService from '@services/navigation.service';
 
 @Component({
-    selector: "app-cinemas",
-    templateUrl: "./cinemas.component.html",
-    imports: [
-        RouterModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatListModule,
-    ]
+  selector: 'app-cinemas',
+  templateUrl: './cinemas.component.html',
+  imports: [
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+  ],
 })
 export default class CinemasComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
@@ -47,17 +43,17 @@ export default class CinemasComponent implements OnInit {
   addCinema(): void {
     this.dialog
       .form({
-        title: "Añadir cine",
-        content: "Introduce el nombre del nuevo cine",
+        title: 'Añadir cine',
+        content: 'Introduce el nombre del nuevo cine',
         fields: [
           {
-            title: "Nombre",
-            type: "text",
-            value: "",
+            title: 'Nombre',
+            type: 'text',
+            value: '',
           },
         ],
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: DialogOptions): void => {
         if (result && result.fields !== undefined) {
@@ -68,16 +64,16 @@ export default class CinemasComponent implements OnInit {
 
   newCinema(name: string): void {
     this.as.addCinema(name).subscribe((result: StatusResult): void => {
-      if (result.status == "ok") {
+      if (result.status == 'ok') {
         this.cinemas.set([]);
         this.ns.setCinemas([]);
 
         this.getCinemas();
       } else {
         this.dialog.alert({
-          title: "Error",
-          content: "Ocurrió un error al guardar el nuevo cine.",
-          ok: "Continuar",
+          title: 'Error',
+          content: 'Ocurrió un error al guardar el nuevo cine.',
+          ok: 'Continuar',
         });
       }
     });

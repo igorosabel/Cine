@@ -27,35 +27,35 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MovieResult, NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import Movie from '@model/movie.model';
+import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import NavigationService from '@services/navigation.service';
 import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
 
 @Component({
-    selector: 'app-movie',
-    templateUrl: './movie.component.html',
-    styleUrls: ['./movie.component.scss'],
-    imports: [
-        NgClass,
-        CinemaNamePipe,
-        MatToolbar,
-        MatToolbarRow,
-        MatIconButton,
-        MatIcon,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatList,
-        MatNavList,
-        MatListItem,
-        MatListItemTitle,
-        MatListItemLine,
-        MatListItemMeta,
-        NgOptimizedImage,
-    ]
+  selector: 'app-movie',
+  templateUrl: './movie.component.html',
+  styleUrls: ['./movie.component.scss'],
+  imports: [
+    NgClass,
+    CinemaNamePipe,
+    MatToolbar,
+    MatToolbarRow,
+    MatIconButton,
+    MatIcon,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatList,
+    MatNavList,
+    MatListItem,
+    MatListItemTitle,
+    MatListItemLine,
+    MatListItemMeta,
+    NgOptimizedImage,
+  ],
 })
 export default class MovieComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
