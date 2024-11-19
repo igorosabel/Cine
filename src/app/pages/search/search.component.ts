@@ -23,21 +23,20 @@ import ClassMapperService from '@services/class-mapper.service';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
 
 @Component({
-  standalone: true,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  imports: [
-    FormsModule,
-    RouterModule,
-    MovieListComponent,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-  ],
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    imports: [
+        FormsModule,
+        RouterModule,
+        MovieListComponent,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatListModule,
+    ]
 })
 export default class SearchComponent implements OnInit {
   private as: ApiService = inject(ApiService);

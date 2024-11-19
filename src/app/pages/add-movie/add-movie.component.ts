@@ -31,23 +31,22 @@ import DialogService from "@services/dialog.service";
 import NavigationService from "@services/navigation.service";
 
 @Component({
-  standalone: true,
-  selector: "app-add-movie",
-  templateUrl: "./add-movie.component.html",
-  styleUrls: ["./add-movie.component.scss"],
-  imports: [
-    FormsModule,
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatInputModule,
-  ],
+    selector: "app-add-movie",
+    templateUrl: "./add-movie.component.html",
+    styleUrls: ["./add-movie.component.scss"],
+    imports: [
+        FormsModule,
+        RouterModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatInputModule,
+    ]
 })
 export default class AddMovieComponent implements OnInit {
   private router: Router = inject(Router);

@@ -20,16 +20,15 @@ import NavigationService from '@services/navigation.service';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
 
 @Component({
-  standalone: true,
-  selector: 'app-cinema',
-  templateUrl: './cinema.component.html',
-  imports: [
-    MovieListComponent,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-  ],
+    selector: 'app-cinema',
+    templateUrl: './cinema.component.html',
+    imports: [
+        MovieListComponent,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+    ]
 })
 export default class CinemaComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

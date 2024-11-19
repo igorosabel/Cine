@@ -19,19 +19,18 @@ import NavigationService from "@services/navigation.service";
 import UserService from "@services/user.service";
 
 @Component({
-  standalone: true,
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  imports: [
-    RouterModule,
-    FormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+    selector: "app-register",
+    templateUrl: "./register.component.html",
+    imports: [
+        RouterModule,
+        FormsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ]
 })
 export default class RegisterComponent {
   private as: ApiService = inject(ApiService);

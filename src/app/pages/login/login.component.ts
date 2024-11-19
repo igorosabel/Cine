@@ -21,18 +21,17 @@ import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
 
 @Component({
-  standalone: true,
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  imports: [
-    RouterModule,
-    FormsModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    imports: [
+        RouterModule,
+        FormsModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ]
 })
 export default class LoginComponent implements OnInit {
   private as: ApiService = inject(ApiService);

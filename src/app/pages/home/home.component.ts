@@ -21,19 +21,18 @@ import UserService from "@services/user.service";
 import MovieListComponent from "@shared/components/movie-list/movie-list.component";
 
 @Component({
-  standalone: true,
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
-  imports: [
-    RouterModule,
-    MovieListComponent,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
+    selector: "app-home",
+    templateUrl: "./home.component.html",
+    styleUrls: ["./home.component.scss"],
+    imports: [
+        RouterModule,
+        MovieListComponent,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+    ]
 })
 export default class HomeComponent implements OnInit {
   private as: ApiService = inject(ApiService);

@@ -21,19 +21,18 @@ import DialogService from "@services/dialog.service";
 import NavigationService from "@services/navigation.service";
 
 @Component({
-  standalone: true,
-  selector: "app-edit-cinema",
-  templateUrl: "./edit-cinema.component.html",
-  imports: [
-    RouterModule,
-    FormsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+    selector: "app-edit-cinema",
+    templateUrl: "./edit-cinema.component.html",
+    imports: [
+        RouterModule,
+        FormsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ]
 })
 export default class EditCinemaComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

@@ -22,16 +22,15 @@ import DialogService from "@services/dialog.service";
 import NavigationService from "@services/navigation.service";
 
 @Component({
-  standalone: true,
-  selector: "app-cinemas",
-  templateUrl: "./cinemas.component.html",
-  imports: [
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-  ],
+    selector: "app-cinemas",
+    templateUrl: "./cinemas.component.html",
+    imports: [
+        RouterModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+    ]
 })
 export default class CinemasComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);

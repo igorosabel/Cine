@@ -34,29 +34,28 @@ import NavigationService from '@services/navigation.service';
 import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
 
 @Component({
-  standalone: true,
-  selector: 'app-movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss'],
-  imports: [
-    NgClass,
-    CinemaNamePipe,
-    MatToolbar,
-    MatToolbarRow,
-    MatIconButton,
-    MatIcon,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatList,
-    MatNavList,
-    MatListItem,
-    MatListItemTitle,
-    MatListItemLine,
-    MatListItemMeta,
-    NgOptimizedImage,
-  ],
+    selector: 'app-movie',
+    templateUrl: './movie.component.html',
+    styleUrls: ['./movie.component.scss'],
+    imports: [
+        NgClass,
+        CinemaNamePipe,
+        MatToolbar,
+        MatToolbarRow,
+        MatIconButton,
+        MatIcon,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        MatList,
+        MatNavList,
+        MatListItem,
+        MatListItemTitle,
+        MatListItemLine,
+        MatListItemMeta,
+        NgOptimizedImage,
+    ]
 })
 export default class MovieComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

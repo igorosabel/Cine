@@ -7,16 +7,15 @@ import { MatInputModule } from "@angular/material/input";
 import { DialogField } from "@interfaces/interfaces";
 
 @Component({
-  standalone: true,
-  selector: "app-form-dialog",
-  templateUrl: "./form-dialog.component.html",
-  imports: [
-    FormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
+    selector: "app-form-dialog",
+    templateUrl: "./form-dialog.component.html",
+    imports: [
+        FormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ]
 })
 export default class FormDialogComponent {
   public dialogRef: MatDialogRef<FormDialogComponent> = inject(
