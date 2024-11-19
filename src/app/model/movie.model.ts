@@ -1,5 +1,5 @@
-import { MovieInterface } from "@interfaces/interfaces";
-import Utils from "@model/utils.class";
+import { MovieInterface } from '@interfaces/interfaces';
+import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Movie {
   coverStatus: number;
@@ -22,12 +22,12 @@ export default class Movie {
   fromInterface(m: MovieInterface): Movie {
     this.id = m.id;
     this.idCinema = m.idCinema;
-    this.name = Utils.urldecode(m.name);
+    this.name = urldecode(m.name);
     this.slug = m.slug;
-    this.cover = Utils.urldecode(m.cover);
-    this.ticket = Utils.urldecode(m.ticket);
-    this.imdbUrl = Utils.urldecode(m.imdbUrl);
-    this.date = Utils.urldecode(m.date);
+    this.cover = urldecode(m.cover);
+    this.ticket = urldecode(m.ticket);
+    this.imdbUrl = urldecode(m.imdbUrl);
+    this.date = urldecode(m.date);
 
     return this;
   }
@@ -36,14 +36,14 @@ export default class Movie {
     return {
       id: this.id,
       idCinema: this.idCinema,
-      name: Utils.urlencode(this.name),
+      name: urlencode(this.name),
       slug: this.slug,
-      cover: Utils.urlencode(this.cover),
+      cover: urlencode(this.cover),
       coverStatus: this.coverStatus,
-      ticket: Utils.urlencode(this.ticket),
+      ticket: urlencode(this.ticket),
       ticketStatus: this.ticketStatus,
-      imdbUrl: Utils.urlencode(this.imdbUrl),
-      date: Utils.urlencode(this.date),
+      imdbUrl: urlencode(this.imdbUrl),
+      date: urlencode(this.date),
     };
   }
 }

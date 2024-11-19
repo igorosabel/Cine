@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
 import { CinemasResult, LoginData, LoginResult } from '@interfaces/interfaces';
-import Utils from '@model/utils.class';
+import { urldecode } from '@osumi/tools';
 import ApiService from '@services/api.service';
 import AuthService from '@services/auth.service';
 import ClassMapperService from '@services/class-mapper.service';
@@ -21,17 +21,17 @@ import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    imports: [
-        RouterModule,
-        FormsModule,
-        MatToolbarModule,
-        MatCardModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-    ]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  imports: [
+    RouterModule,
+    FormsModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
 })
 export default class LoginComponent implements OnInit {
   private as: ApiService = inject(ApiService);
@@ -67,8 +67,8 @@ export default class LoginComponent implements OnInit {
       if (result.status === 'ok') {
         this.user.logged = true;
         this.user.id = result.id;
-        this.user.name = Utils.urldecode(result.name);
-        this.user.token = Utils.urldecode(result.token);
+        this.user.name = urldecode(result.name);
+        this.user.token = urldecode(result.token);
         this.user.saveLogin();
 
         this.as.getCinemas().subscribe((result: CinemasResult): void => {

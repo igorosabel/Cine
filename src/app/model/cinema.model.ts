@@ -1,5 +1,5 @@
-import { CinemaInterface } from "@interfaces/interfaces";
-import Utils from "@model/utils.class";
+import { CinemaInterface } from '@interfaces/interfaces';
+import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Cinema {
   constructor(
@@ -10,7 +10,7 @@ export default class Cinema {
 
   fromInterface(c: CinemaInterface): Cinema {
     this.id = c.id;
-    this.name = Utils.urldecode(c.name);
+    this.name = urldecode(c.name);
     this.slug = c.slug;
 
     return this;
@@ -19,7 +19,7 @@ export default class Cinema {
   toInterface(): CinemaInterface {
     return {
       id: this.id,
-      name: Utils.urlencode(this.name),
+      name: urlencode(this.name),
       slug: this.slug,
     };
   }
