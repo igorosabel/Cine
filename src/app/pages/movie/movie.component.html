@@ -16,7 +16,7 @@
 	<mat-card-content>
 		<div class="movie-cover"
 			 (click)="openCover()"
-			 [ngClass]="{'movie-cover-full':showCover()}">
+			 [class]="{'movie-cover-full':showCover()}">
 			@if (movie().cover !== null) {
 			<img [ngSrc]="movieCover"
 				 [alt]="movie().name"

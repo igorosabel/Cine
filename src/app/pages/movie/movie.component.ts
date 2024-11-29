@@ -1,4 +1,4 @@
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -38,7 +38,6 @@ import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss'],
   imports: [
-    NgClass,
     CinemaNamePipe,
     MatToolbar,
     MatToolbarRow,
