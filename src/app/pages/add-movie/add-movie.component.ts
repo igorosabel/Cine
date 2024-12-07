@@ -97,16 +97,16 @@ export default class AddMovieComponent implements OnInit {
   }
 
   onCoverChange(event: Event): void {
-    let reader: FileReader = new FileReader();
-    const files: FileList | null = (<HTMLInputElement>event.target).files;
+    const reader: FileReader = new FileReader();
+    const files: FileList | null = (event.target as HTMLInputElement).files;
     if (files !== null && files.length > 0) {
       this.uploadingCover.set(true);
-      let file = files[0];
+      const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.cover = reader.result as string;
         this.movie.coverStatus = 1;
-        (<HTMLInputElement>document.getElementById('cover')).value = '';
+        (document.getElementById('cover') as HTMLInputElement).value = '';
         this.uploadingCover.set(false);
       };
     }
@@ -120,16 +120,16 @@ export default class AddMovieComponent implements OnInit {
   }
 
   onTicketChange(event: Event): void {
-    let reader: FileReader = new FileReader();
-    const files: FileList | null = (<HTMLInputElement>event.target).files;
+    const reader: FileReader = new FileReader();
+    const files: FileList | null = (event.target as HTMLInputElement).files;
     if (files !== null && files.length > 0) {
       this.uploadingTicket.set(true);
-      let file = files[0];
+      const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.movie.ticket = reader.result as string;
         this.movie.ticketStatus = 1;
-        (<HTMLInputElement>document.getElementById('ticket')).value = '';
+        (document.getElementById('ticket') as HTMLInputElement).value = '';
         this.uploadingTicket.set(false);
       };
     }
@@ -167,7 +167,7 @@ export default class AddMovieComponent implements OnInit {
     this.as
       .selectResult(movieResult.id)
       .subscribe((result: MovieSearchDetailResult): void => {
-        let searchResult: MovieSearch = this.cms.getMovieDetail(result);
+        const searchResult: MovieSearch = this.cms.getMovieDetail(result);
         this.movie.name = searchResult.title;
         this.movie.cover = searchResult.poster;
         this.movie.coverStatus = 2;

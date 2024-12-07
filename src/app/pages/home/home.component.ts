@@ -56,7 +56,9 @@ export default class HomeComponent implements OnInit {
   }
 
   getMovies(ev: MouseEvent | null = null): void {
-    ev && ev.preventDefault();
+    if (ev) {
+      ev.preventDefault();
+    }
     this.page.update((value: number): number => {
       return value + 1;
     });

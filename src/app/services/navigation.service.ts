@@ -63,7 +63,9 @@ export default class NavigationService {
         return c.toInterface();
       }
     );
-    localStorage.setItem('cinemas', JSON.stringify(cinemasObj));
+    if (save) {
+      localStorage.setItem('cinemas', JSON.stringify(cinemasObj));
+    }
   }
 
   getCinema(id: number): Cinema | null {
