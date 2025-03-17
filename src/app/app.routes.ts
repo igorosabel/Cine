@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import AuthGuard from '@app/guard/auth.guard';
 import LoginComponent from '@pages/login/login.component';
 
-export const routes: Routes = [
+const routes: Routes = [
   { path: '', component: LoginComponent },
   {
     path: 'register',
@@ -45,3 +45,5 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
+
+export default routes;
