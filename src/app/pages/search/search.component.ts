@@ -9,13 +9,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { MatIconButton } from '@angular/material/button';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatNavList } from '@angular/material/list';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { RouterLink } from '@angular/router';
 import { MoviesResult } from '@interfaces/interfaces';
 import Movie from '@model/movie.model';
 import ApiService from '@services/api.service';
@@ -28,14 +28,16 @@ import MovieListComponent from '@shared/components/movie-list/movie-list.compone
   styleUrls: ['./search.component.scss'],
   imports: [
     FormsModule,
-    RouterModule,
+    RouterLink,
     MovieListComponent,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
+    MatToolbar,
+    MatToolbarRow,
+    MatIconButton,
+    MatIcon,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatNavList,
   ],
 })
 export default class SearchComponent implements OnInit {
@@ -68,10 +70,8 @@ export default class SearchComponent implements OnInit {
       this.searchMovieStop();
       this.searching.set(true);
       this.as.searchTitles(this.q).subscribe((result: MoviesResult): void => {
-        console.log('result');
         this.searching.set(false);
         this.movies.set(this.cms.getMovies(result.list));
-        console.log(this.movies());
       });
     } else {
       this.movies.set([]);

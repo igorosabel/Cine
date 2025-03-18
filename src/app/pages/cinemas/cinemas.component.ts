@@ -5,11 +5,15 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatListItem,
+  MatListItemIcon,
+  MatNavList,
+} from '@angular/material/list';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { RouterLink } from '@angular/router';
 import { CinemasResult, StatusResult } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import { DialogOptions, DialogService } from '@osumi/angular-tools';
@@ -21,11 +25,15 @@ import NavigationService from '@services/navigation.service';
   selector: 'app-cinemas',
   templateUrl: './cinemas.component.html',
   imports: [
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
+    RouterLink,
+    MatToolbar,
+    MatToolbarRow,
+    MatIconButton,
+    MatFabButton,
+    MatIcon,
+    MatNavList,
+    MatListItem,
+    MatListItemIcon,
   ],
 })
 export default class CinemasComponent implements OnInit {

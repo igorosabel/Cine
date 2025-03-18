@@ -73,8 +73,8 @@
 						<button mat-list-item
 								(click)="selectResult(result)">
 							<img matListItemAvatar
-								 src="{{result.poster}}"
-								 alt="{{result.title}}">
+								 [src]="result.poster"
+								 [alt]="result.title">
 							<div matListItemTitle
 								 class="search-result-item"> {{result.title}} </div>
 						</button>

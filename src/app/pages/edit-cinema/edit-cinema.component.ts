@@ -1,18 +1,26 @@
 import {
   Component,
+  InputSignal,
   OnInit,
   WritableSignal,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
 import { CinemasResult, StatusResult } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import { DialogService } from '@osumi/angular-tools';
@@ -24,24 +32,31 @@ import NavigationService from '@services/navigation.service';
   selector: 'app-edit-cinema',
   templateUrl: './edit-cinema.component.html',
   imports: [
-    RouterModule,
+    RouterLink,
     FormsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatToolbar,
+    MatToolbarRow,
+    MatIcon,
+    MatIconButton,
+    MatButton,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+    MatFormField,
+    MatLabel,
+    MatInput,
   ],
 })
 export default class EditCinemaComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
   private dialog: DialogService = inject(DialogService);
   private as: ApiService = inject(ApiService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private ns: NavigationService = inject(NavigationService);
 
+  id: InputSignal<number> = input.required<number>();
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   selectedCinema: WritableSignal<Cinema> = signal<Cinema>(new Cinema());
   editSending: WritableSignal<boolean> = signal<boolean>(false);
@@ -51,13 +66,10 @@ export default class EditCinemaComponent implements OnInit {
     if (this.cinemas().length == 0) {
       this.router.navigate(['/cinemas']);
     }
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params['id'];
-      const cinema: Cinema | null = this.ns.getCinema(id);
-      if (cinema !== null) {
-        this.selectedCinema.set(cinema);
-      }
-    });
+    const cinema: Cinema | null = this.ns.getCinema(this.id());
+    if (cinema !== null) {
+      this.selectedCinema.set(cinema);
+    }
   }
 
   doEdit(ev: MouseEvent): void {

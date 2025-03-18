@@ -52,11 +52,11 @@
 		@if (!loading() && !loadError()) {
 		<mat-nav-list>
 			<app-movie-list [movies]="movies()" />
-			@if (page() < numPages())
+			@if (currentPage() < numPages())
 			  {
 			  <a
 			  mat-list-item
-			  (click)="getMovies($event)"
+			  (click)="loadMovies($event)"
 			  class="load-more">
 				<mat-icon>keyboard_arrow_down</mat-icon>
 				Cargar más

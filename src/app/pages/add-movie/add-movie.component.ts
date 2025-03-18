@@ -6,16 +6,26 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterModule } from '@angular/router';
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import {
+  MatActionList,
+  MatListItem,
+  MatListItemAvatar,
+  MatListItemTitle,
+} from '@angular/material/list';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
+import MoviesService from '@app/services/movies.service';
 import {
   MovieSearchDetailResult,
   MovieSearchResult,
@@ -36,19 +46,29 @@ import NavigationService from '@services/navigation.service';
   styleUrls: ['./add-movie.component.scss'],
   imports: [
     FormsModule,
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatSelectModule,
+    RouterLink,
+    MatToolbar,
+    MatToolbarRow,
+    MatIconButton,
+    MatButton,
+    MatIcon,
+    MatCard,
+    MatCardContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatActionList,
+    MatListItem,
+    MatListItemAvatar,
+    MatListItemTitle,
+    MatSelect,
+    MatOption,
     MatDatepickerModule,
-    MatInputModule,
+    MatSuffix,
   ],
 })
 export default class AddMovieComponent implements OnInit {
+  private ms: MoviesService = inject(MoviesService);
   private router: Router = inject(Router);
   private dialog: DialogService = inject(DialogService);
   private as: ApiService = inject(ApiService);
@@ -239,6 +259,7 @@ export default class AddMovieComponent implements OnInit {
               ok: 'Continuar',
             })
             .subscribe((): void => {
+              this.ms.clearCache();
               this.router.navigate(['/home']);
             });
         } else {

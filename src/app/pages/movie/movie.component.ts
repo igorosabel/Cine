@@ -1,9 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
 import {
   Component,
+  InputSignal,
   OnInit,
+  Signal,
   WritableSignal,
+  computed,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
@@ -23,13 +27,11 @@ import {
   MatNavList,
 } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MovieResult, NavigationFromType } from '@interfaces/interfaces';
+import { Router } from '@angular/router';
+import MoviesService from '@app/services/movies.service';
+import { NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import Movie from '@model/movie.model';
-import { DialogService } from '@osumi/angular-tools';
-import ApiService from '@services/api.service';
-import ClassMapperService from '@services/class-mapper.service';
 import NavigationService from '@services/navigation.service';
 import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
 
@@ -57,13 +59,12 @@ import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
   ],
 })
 export default class MovieComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
-  private dialog: DialogService = inject(DialogService);
-  private as: ApiService = inject(ApiService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private ms: MoviesService = inject(MoviesService);
   private ns: NavigationService = inject(NavigationService);
 
+  id: InputSignal<number> = input.required<number>();
+  numericId: Signal<number> = computed((): number => Number(this.id()));
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
   movie: WritableSignal<Movie> = signal<Movie>(new Movie());
@@ -75,41 +76,23 @@ export default class MovieComponent implements OnInit {
     if (this.cinemas().length == 0) {
       this.router.navigate(['/home']);
     }
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params['id'];
-      this.as.getMovie(id).subscribe((result: MovieResult): void => {
-        if (result.status == 'ok') {
-          const movie: Movie = this.cms.getMovie(result.movie);
-          const idCinema: number | null = movie.idCinema;
-          if (idCinema !== null) {
-            this.selectedCinema.set(this.ns.getCinema(idCinema));
-          }
-          if (movie.cover !== null) {
-            this.movieCover = movie.cover;
-          }
-
-          const fromMovie: NavigationFromType = [
-            '/movie',
-            movie.id,
-            movie.slug,
-          ];
-          const lastItem: NavigationFromType = this.ns.getLast();
-          if (lastItem.join('') != fromMovie.join('')) {
-            this.ns.add(fromMovie);
-          }
-          this.movie.set(movie);
-        } else {
-          this.dialog
-            .alert({
-              title: 'Error',
-              content: 'No se ha encontrado la película indicada.',
-              ok: 'Continuar',
-            })
-            .subscribe((): void => {
-              this.router.navigate(['/home']);
-            });
+    this.ms.getMovieById(this.numericId()).subscribe((movie: Movie): void => {
+      if (movie) {
+        const idCinema: number | null = movie.idCinema;
+        if (idCinema !== null) {
+          this.selectedCinema.set(this.ns.getCinema(idCinema));
         }
-      });
+        if (movie.cover !== null) {
+          this.movieCover = movie.cover;
+        }
+
+        const fromMovie: NavigationFromType = ['/movie', movie.id, movie.slug];
+        const lastItem: NavigationFromType = this.ns.getLast();
+        if (lastItem.join('') != fromMovie.join('')) {
+          this.ns.add(fromMovie);
+        }
+        this.movie.set(movie);
+      }
     });
   }
 

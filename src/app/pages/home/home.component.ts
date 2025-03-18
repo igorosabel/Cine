@@ -5,17 +5,23 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterModule } from '@angular/router';
-import { MoviesResult } from '@interfaces/interfaces';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatListItem,
+  MatListItemIcon,
+  MatNavList,
+} from '@angular/material/list';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
 import Cinema from '@model/cinema.model';
 import Movie from '@model/movie.model';
-import ApiService from '@services/api.service';
-import ClassMapperService from '@services/class-mapper.service';
+import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
@@ -25,55 +31,72 @@ import MovieListComponent from '@shared/components/movie-list/movie-list.compone
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   imports: [
-    RouterModule,
+    RouterLink,
     MovieListComponent,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
+    MatSidenavContainer,
+    MatSidenav,
+    MatSidenavContent,
+    MatToolbar,
+    MatToolbarRow,
+    MatNavList,
+    MatListItem,
+    MatListItemIcon,
+    MatIcon,
+    MatIconButton,
+    MatFabButton,
   ],
 })
 export default class HomeComponent implements OnInit {
-  private as: ApiService = inject(ApiService);
+  private moviesService: MoviesService = inject(MoviesService);
   private user: UserService = inject(UserService);
   private router: Router = inject(Router);
-  private cms: ClassMapperService = inject(ClassMapperService);
   private ns: NavigationService = inject(NavigationService);
 
-  page: WritableSignal<number> = signal<number>(0);
-  numPages: WritableSignal<number> = signal<number>(0);
   movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
-  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
-  loading: WritableSignal<boolean> = signal<boolean>(true);
+  currentPage: WritableSignal<number> = signal<number>(
+    this.moviesService.currentPage()
+  );
+  numPages: WritableSignal<number> = signal<number>(
+    this.moviesService.numPages()
+  );
+  loading: WritableSignal<boolean> = signal<boolean>(false);
   loadError: WritableSignal<boolean> = signal<boolean>(false);
+
+  cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   opened: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.getMovies();
+    if (this.currentPage() === 0) {
+      this.loadMovies();
+    } else {
+      this.movies.set(this.moviesService.cachedMovies());
+    }
     this.cinemas.set(this.ns.getCinemas());
     this.ns.set(['/home']);
   }
 
-  getMovies(ev: MouseEvent | null = null): void {
-    if (ev) {
+  loadMovies(ev: MouseEvent | null = null): void {
+    if (ev !== null) {
       ev.preventDefault();
     }
-    this.page.update((value: number): number => {
-      return value + 1;
-    });
-    this.as.getMovies(this.page()).subscribe({
-      next: (result: MoviesResult): void => {
-        this.movies.update((value: Movie[]): Movie[] => {
-          value = value.concat(this.cms.getMovies(result.list));
-          return value;
-        });
-        this.numPages.set(result.numPages);
+    if (this.currentPage() >= this.numPages() || this.loading()) {
+      return; // ✅ No cargar más si ya estamos en la última página
+    }
+
+    if (this.currentPage() === 0) {
+      this.loading.set(true);
+    }
+
+    this.moviesService.getMovies().subscribe({
+      next: (movies: Movie[]): void => {
+        this.movies.set(movies); // ✅ Usar el cache del servicio
+        this.currentPage.set(this.moviesService.currentPage());
+        this.numPages.set(this.moviesService.numPages());
         this.loading.set(false);
       },
       error: (): void => {
-        this.loading.set(false);
         this.loadError.set(true);
+        this.loading.set(false);
       },
     });
   }

@@ -6,12 +6,18 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterModule } from '@angular/router';
+import { MatAnchor, MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
 import { CinemasResult, LoginData, LoginResult } from '@interfaces/interfaces';
 import { urldecode } from '@osumi/tools';
 import ApiService from '@services/api.service';
@@ -24,13 +30,20 @@ import UserService from '@services/user.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
-    RouterModule,
+    RouterLink,
     FormsModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatToolbar,
+    MatToolbarRow,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+    MatButton,
+    MatAnchor,
+    MatFormField,
+    MatLabel,
+    MatInput,
   ],
 })
 export default class LoginComponent implements OnInit {
