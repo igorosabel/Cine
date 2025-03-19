@@ -1,14 +1,12 @@
-<mat-toolbar class="header">
+<mat-toolbar>
 	<mat-toolbar-row>
 		<button routerLink="/home"
-				mat-icon-button
-				class="header-icon">
+				mat-icon-button>
 			<mat-icon>arrow_back</mat-icon>
 		</button>
 		<span>Añadir película</span>
 		<span class="flex-space"></span>
 		<button mat-icon-button
-				class="header-icon"
 				(click)="saveMovie()"
 				[disabled]="sending()">
 			@if (!sending()) {

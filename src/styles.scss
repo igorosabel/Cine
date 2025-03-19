@@ -1,8 +1,14 @@
+@use '@angular/material' as mat;
+
 :root {
 	--color-blue: #005cbb;
 	--color-white: #fff;
 	--color-red: #f44336;
 	--color-grey: #ccc;
+
+	@include mat.toolbar-overrides((container-background-color: var(--color-blue),
+			container-text-color: var(--color-white),
+		));
 }
 
 html,
@@ -27,15 +33,6 @@ body {
 
 .spacer {
 	flex: 1;
-}
-
-.header {
-	background-color: var(--color-blue) !important;
-	color: var(--color-white) !important;
-}
-
-.header-icon {
-	color: var(--color-white) !important;
 }
 
 .center-card {
@@ -74,4 +71,17 @@ body {
 
 .full-width {
 	width: 100%;
+}
+
+.mat-toolbar {
+
+	.mat-mdc-icon-button,
+	.mat-icon,
+	.material-icons {
+		color: var(--color-white) !important;
+	}
+
+	svg {
+		fill: var(--color-white);
+	}
 }

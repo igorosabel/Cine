@@ -2,7 +2,7 @@
 	<mat-sidenav class="sidebar"
 				 #sidenav
 				 [(opened)]="opened">
-		<mat-toolbar class="header">
+		<mat-toolbar>
 			<mat-toolbar-row>
 				<span>Cines</span>
 			</mat-toolbar-row>
@@ -29,16 +29,14 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<mat-toolbar class="header">
+		<mat-toolbar>
 			<mat-toolbar-row>
 				<button mat-icon-button
-						class="header-icon"
 						(click)="toggleSidenav()">
 					<mat-icon>menu</mat-icon>
 				</button>
 				<span class="spacer">Cine</span>
 				<a mat-icon-button
-				   class="header-icon"
 				   routerLink="/search">
 					<mat-icon>search</mat-icon>
 				</a>
