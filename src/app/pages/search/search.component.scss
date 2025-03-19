@@ -5,17 +5,27 @@
 	.wide {
 		width: 100%;
 		position: relative;
-		
+
 		.searching {
+			height: 24px;
 			position: absolute;
-			right: 0;
-			width: 32px;
-			top: 4px;
+			top: 50%;
+			right: 8px;
+			transform: translateY(-50%);
+			z-index: 10;
+		}
+
+		.clear-button {
+			position: absolute;
+			top: 50%;
+			right: 8px;
+			transform: translateY(-50%);
+			z-index: 10;
 		}
 	}
 }
 
 .start-message {
 	padding-top: 16px;
-    text-align: center;
+	text-align: center;
 }

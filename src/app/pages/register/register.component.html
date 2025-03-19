@@ -22,7 +22,8 @@
 					   [(ngModel)]="registerData.name"
 					   [disabled]="registerSending()"
 					   required
-					   name="name">
+					   name="name"
+					   #nameBox>
 			</mat-form-field>
 			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
@@ -61,8 +62,7 @@
 					[disabled]="registerSending()"
 					type="submit">
 				@if (registerSending()) {
-				<img src="img/loading.svg"
-					 alt="">
+				<app-loading [button]="true" />
 				}
 				Continuar
 			</button>

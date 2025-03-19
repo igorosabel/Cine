@@ -27,6 +27,7 @@ import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import NavigationService from '@services/navigation.service';
+import LoadingComponent from '@shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-edit-cinema',
@@ -47,6 +48,7 @@ import NavigationService from '@services/navigation.service';
     MatFormField,
     MatLabel,
     MatInput,
+    LoadingComponent,
   ],
 })
 export default class EditCinemaComponent implements OnInit {

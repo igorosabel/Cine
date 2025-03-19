@@ -39,8 +39,7 @@
 					[disabled]="editSending()"
 					type="submit">
 				@if (editSending()) {
-				<img src="img/loading.svg"
-					 alt="">
+				<app-loading [button]="true" />
 				}
 				Continuar
 			</button>

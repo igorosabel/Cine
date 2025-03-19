@@ -1,14 +1,14 @@
 import {
   Component,
   ElementRef,
+  inject,
+  OnDestroy,
   OnInit,
   Signal,
-  WritableSignal,
-  inject,
   signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -16,20 +16,30 @@ import { MatInput } from '@angular/material/input';
 import { MatNavList } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
+import LoadingComponent from '@app/shared/components/loading/loading.component';
 import { MoviesResult } from '@interfaces/interfaces';
 import Movie from '@model/movie.model';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   imports: [
-    FormsModule,
     RouterLink,
-    MovieListComponent,
     MatToolbar,
     MatToolbarRow,
     MatIconButton,
@@ -38,43 +48,64 @@ import MovieListComponent from '@shared/components/movie-list/movie-list.compone
     MatLabel,
     MatInput,
     MatNavList,
+    MovieListComponent,
+    LoadingComponent,
   ],
 })
-export default class SearchComponent implements OnInit {
+export default class SearchComponent implements OnInit, OnDestroy {
   private as: ApiService = inject(ApiService);
   private cms: ClassMapperService = inject(ClassMapperService);
 
-  searchBox: Signal<ElementRef> = viewChild.required('searchBox');
-  q: string | null = null;
   movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
-  searchTimer: number = -1;
+  searchBox: Signal<ElementRef> = viewChild.required('searchBox');
+  destroy$: Subject<void> = new Subject<void>();
+  hasText: WritableSignal<boolean> = signal<boolean>(false);
   searching: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     this.searchBox().nativeElement.focus();
+
+    fromEvent(this.searchBox().nativeElement, 'keyup')
+      .pipe(
+        debounceTime(500),
+        map(() => this.searchBox().nativeElement.value.trim()),
+        distinctUntilChanged(),
+        tap((query: string) => this.hasText.set(query.length > 0)),
+        switchMap(
+          (query: string): Observable<Movie[]> => this.searchMovie(query)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((movies: Movie[]): void => this.movies.set(movies));
   }
 
-  searchMovieStart(): void {
-    this.searchMovieStop();
-    this.searchTimer = window.setTimeout((): void => {
-      this.searchMovie();
-    }, 500);
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  searchMovieStop(): void {
-    window.clearTimeout(this.searchTimer);
+  clearSearch(): void {
+    this.searchBox().nativeElement.value = '';
+    this.movies.set([]);
+    this.hasText.set(false);
   }
 
-  searchMovie(): void {
-    if (this.q !== null && this.q.length >= 3) {
-      this.searchMovieStop();
-      this.searching.set(true);
-      this.as.searchTitles(this.q).subscribe((result: MoviesResult): void => {
-        this.searching.set(false);
-        this.movies.set(this.cms.getMovies(result.list));
-      });
-    } else {
+  searchMovie(query: string): Observable<Movie[]> {
+    if (query.length < 3) {
       this.movies.set([]);
+      return new Observable<Movie[]>((observer) => {
+        observer.next([]);
+        observer.complete();
+      });
     }
+
+    this.searching.set(true);
+    return this.as.searchTitles(query).pipe(
+      map((result: MoviesResult): Movie[] => {
+        this.searching.set(false);
+        return this.cms.getMovies(result.list);
+      }),
+      tap(() => this.searching.set(false))
+    );
   }
 }

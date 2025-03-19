@@ -13,14 +13,18 @@
 	<mat-form-field class="wide">
 		<mat-label>Nombre de la película</mat-label>
 		<input matInput
-			   [(ngModel)]="q"
 			   name="q"
-			   (keyup)="searchMovieStart()"
 			   #searchBox>
 		@if (searching()) {
-		<img src="img/loading.svg"
-			 class="searching"
-			 alt="">
+		<app-loading class="searching" />
+		}
+		@else if (hasText()) {
+		<button mat-icon-button
+				type="button"
+				class="clear-button"
+				(click)="clearSearch()">
+			<mat-icon>close</mat-icon>
+		</button>
 		}
 	</mat-form-field>
 </div>

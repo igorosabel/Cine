@@ -1,9 +1,13 @@
 import {
   Component,
-  OnInit,
-  WritableSignal,
+  ElementRef,
   inject,
+  OnDestroy,
+  OnInit,
+  Signal,
   signal,
+  viewChild,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -25,7 +29,6 @@ import {
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-import MoviesService from '@app/services/movies.service';
 import {
   MovieSearchDetailResult,
   MovieSearchResult,
@@ -38,7 +41,20 @@ import Movie from '@model/movie.model';
 import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
+import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
+import LoadingComponent from '@shared/components/loading/loading.component';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-add-movie',
@@ -65,9 +81,10 @@ import NavigationService from '@services/navigation.service';
     MatOption,
     MatDatepickerModule,
     MatSuffix,
+    LoadingComponent,
   ],
 })
-export default class AddMovieComponent implements OnInit {
+export default class AddMovieComponent implements OnInit, OnDestroy {
   private ms: MoviesService = inject(MoviesService);
   private router: Router = inject(Router);
   private dialog: DialogService = inject(DialogService);
@@ -75,12 +92,14 @@ export default class AddMovieComponent implements OnInit {
   private cms: ClassMapperService = inject(ClassMapperService);
   private ns: NavigationService = inject(NavigationService);
 
+  searchBox: Signal<ElementRef> = viewChild.required('searchBox');
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   movie: Movie = new Movie();
   uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
   uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
-  searchTimer: number = -1;
   searching: WritableSignal<boolean> = signal<boolean>(false);
+  destroy$: Subject<void> = new Subject<void>();
+  hasText: WritableSignal<boolean> = signal<boolean>(false);
   searchResults: WritableSignal<MovieSearch[]> = signal<MovieSearch[]>([]);
   sending: WritableSignal<boolean> = signal<boolean>(false);
 
@@ -100,12 +119,30 @@ export default class AddMovieComponent implements OnInit {
       this.dialog
         .alert({
           title: 'Error',
-          content: 'Antes de añadir una película tienes que añadir el cine.',
+          content: 'Antes de añadir una película tienes que añadir un cine.',
           ok: 'Continuar',
         })
         .subscribe((): void => {
           this.router.navigate(['/home']);
         });
+    } else {
+      this.searchBox().nativeElement.focus();
+
+      fromEvent(this.searchBox().nativeElement, 'keyup')
+        .pipe(
+          debounceTime(500),
+          map(() => this.searchBox().nativeElement.value.trim()),
+          distinctUntilChanged(),
+          tap((query: string) => this.hasText.set(query.length > 0)),
+          switchMap(
+            (query: string): Observable<MovieSearch[]> =>
+              this.searchMovie(query)
+          ),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((searchResults: MovieSearch[]): void =>
+          this.searchResults.set(searchResults)
+        );
     }
   }
 
@@ -155,32 +192,30 @@ export default class AddMovieComponent implements OnInit {
     }
   }
 
-  searchMovieStart(): void {
-    this.searchMovieStop();
-    this.searchTimer = window.setTimeout((): void => {
-      this.searchMovie();
-    }, 500);
-  }
-
-  searchMovieStop(): void {
-    window.clearTimeout(this.searchTimer);
-  }
-
-  searchMovie(): void {
-    if (this.movie.name !== null && this.movie.name.length >= 3) {
-      this.searchMovieStop();
-      this.searching.set(true);
-      this.as
-        .searchMovie(this.movie.name)
-        .subscribe((result: MovieSearchResultList): void => {
-          this.searching.set(false);
-          this.searchResults.set(this.cms.getMovieSearches(result.list));
-        });
+  searchMovie(query: string): Observable<MovieSearch[]> {
+    if (query.length < 3) {
+      this.searchResults.set([]);
+      return new Observable<MovieSearch[]>((observer) => {
+        observer.next([]);
+        observer.complete();
+      });
     }
+
+    this.searching.set(true);
+    return this.as.searchMovie(query).pipe(
+      map((result: MovieSearchResultList): MovieSearch[] => {
+        this.searching.set(false);
+        return this.cms.getMovieSearches(result.list);
+      }),
+      tap(() => this.searching.set(false))
+    );
   }
 
-  closeSearchResults(): void {
+  clearSearch(): void {
+    this.movie.name = '';
     this.searchResults.set([]);
+    this.hasText.set(false);
+    this.searchBox().nativeElement.focus();
   }
 
   selectResult(movieResult: MovieSearchResult): void {
@@ -193,7 +228,7 @@ export default class AddMovieComponent implements OnInit {
         this.movie.coverStatus = 2;
         this.movie.imdbUrl = searchResult.imdbUrl;
 
-        this.closeSearchResults();
+        this.clearSearch();
       });
   }
 
@@ -271,5 +306,10 @@ export default class AddMovieComponent implements OnInit {
           });
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

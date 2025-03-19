@@ -17,7 +17,8 @@
 					   [(ngModel)]="loginData.name"
 					   [disabled]="loginSending()"
 					   required
-					   name="name">
+					   name="name"
+					   #nameBox>
 			</mat-form-field>
 			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
@@ -44,8 +45,7 @@
 					[disabled]="loginSending()"
 					type="submit">
 				@if (loginSending()) {
-				<img src="img/loading.svg"
-					 alt="">
+				<app-loading [button]="true" />
 				}
 				Continuar
 			</button>

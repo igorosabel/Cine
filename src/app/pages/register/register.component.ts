@@ -1,4 +1,13 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import {
@@ -23,6 +32,7 @@ import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
+import LoadingComponent from '@shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-register',
@@ -43,15 +53,17 @@ import UserService from '@services/user.service';
     MatFormField,
     MatLabel,
     MatInput,
+    LoadingComponent,
   ],
 })
-export default class RegisterComponent {
+export default class RegisterComponent implements OnInit {
   private as: ApiService = inject(ApiService);
   private user: UserService = inject(UserService);
   private router: Router = inject(Router);
   private cms: ClassMapperService = inject(ClassMapperService);
   private ns: NavigationService = inject(NavigationService);
 
+  nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
   registerData: RegisterData = {
     name: '',
     pass: '',
@@ -60,6 +72,10 @@ export default class RegisterComponent {
   registerNameError: WritableSignal<boolean> = signal<boolean>(false);
   registerPassError: WritableSignal<boolean> = signal<boolean>(false);
   registerSending: WritableSignal<boolean> = signal<boolean>(false);
+
+  ngOnInit(): void {
+    this.nameBox().nativeElement.focus();
+  }
 
   doRegister(ev: MouseEvent): void {
     ev.preventDefault();

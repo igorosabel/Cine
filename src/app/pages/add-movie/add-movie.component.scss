@@ -3,9 +3,12 @@
 }
 
 .sending {
-	width: 20px;
-	background-color: white;
-	border-radius: 50%;
+	width: 36px;
+	background-color: #fff;
+	border-radius: 6px;
+	padding: 4px;
+	display: block;
+	box-sizing: border-box;
 }
 
 .big-card {
@@ -47,10 +50,19 @@
 		width: 100%;
 
 		.searching {
-			width: 20px;
 			position: absolute;
-			right: 0;
-			top: 10px;
+			top: 50%;
+			right: 8px;
+			transform: translateY(-50%);
+			z-index: 10;
+		}
+
+		.clear-button {
+			position: absolute;
+			top: 50%;
+			right: 8px;
+			transform: translateY(-50%);
+			z-index: 10;
 		}
 
 		.search-results {
