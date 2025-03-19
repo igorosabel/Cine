@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LoginResult } from '@interfaces/interfaces';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export default class UserService {
   logged: boolean = false;
   id: number | null = null;

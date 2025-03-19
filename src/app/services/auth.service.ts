@@ -1,14 +1,24 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import UserService from '@services/user.service';
+import { from, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export default class AuthService {
-  private user: UserService = inject(UserService);
+  private us: UserService = inject(UserService);
 
-  public isAuthenticated(): boolean {
-    this.user.loadLogin();
+  public isAuthenticated(): Observable<boolean> {
+    return from(this.checkAuthenticated());
+  }
+
+  public async checkAuthenticated(): Promise<boolean> {
+    await this.us.loadLogin();
     const helper = new JwtHelperService();
-    return !helper.isTokenExpired(this.user.token);
+    if (this.us.logged && this.us.token) {
+      return !helper.isTokenExpired(this.us.token);
+    }
+    return false;
   }
 }

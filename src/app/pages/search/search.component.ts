@@ -16,11 +16,11 @@ import { MatInput } from '@angular/material/input';
 import { MatNavList } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
-import LoadingComponent from '@app/shared/components/loading/loading.component';
 import { MoviesResult } from '@interfaces/interfaces';
 import Movie from '@model/movie.model';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
+import LoadingComponent from '@shared/components/loading/loading.component';
 import MovieListComponent from '@shared/components/movie-list/movie-list.component';
 import {
   debounceTime,

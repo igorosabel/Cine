@@ -28,10 +28,10 @@ import {
 } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import MoviesService from '@app/services/movies.service';
 import { NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import Movie from '@model/movie.model';
+import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
 import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
 

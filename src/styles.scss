@@ -1,6 +1,8 @@
 :root {
 	--color-blue: #005cbb;
 	--color-white: #fff;
+	--color-red: #f44336;
+	--color-grey: #ccc;
 }
 
 html,
@@ -48,8 +50,8 @@ body {
 		.center-card-error {
 			border-radius: 6px;
 			box-sizing: border-box;
-			border-color: #f44336;
-			color: #f44336;
+			border-color: var(--color-red);
+			color: var(--color-red);
 			border-width: 2px;
 		}
 

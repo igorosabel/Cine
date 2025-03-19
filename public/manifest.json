@@ -1,14 +1,19 @@
 {
   "name": "Cine - Osumi",
   "short_name": "Cine",
-  "description": "Aplicación para guardar las películas vistas y sus entradas.",
+  "description": "Aplicación para guardar las películas vistas en el cine y sus entradas.",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1976d2",
+  "theme_color": "#005cbb",
   "start_url": "/",
   "orientation": "portrait",
   "id": "/",
   "icons": [
+    {
+      "src": "icons/icon-180x180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
     {
       "src": "icons/icon-192x192.png",
       "type": "image/png",

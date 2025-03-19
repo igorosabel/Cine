@@ -15,6 +15,7 @@ import {
 import ApiService from '@services/api.service';
 import AuthService from '@services/auth.service';
 import ClassMapperService from '@services/class-mapper.service';
+import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
 
@@ -36,10 +37,11 @@ function provideCore(): Provider[] {
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     ApiService,
-    UserService,
     AuthService,
     ClassMapperService,
+    MoviesService,
     NavigationService,
+    UserService,
   ];
 }
 export default provideCore;
