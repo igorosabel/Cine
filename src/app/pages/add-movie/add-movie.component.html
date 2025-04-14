@@ -111,6 +111,23 @@
 					<mat-datepicker touchUi
 									#picker></mat-datepicker>
 				</mat-form-field>
+				<div class="companions-row">
+					<mat-form-field subscriptSizing="dynamic">
+						<mat-select placeholder="Acompañantes"
+									[(ngModel)]="movie.companionIds"
+									multiple>
+							@for (companion of companions(); track companion.id) {
+							<mat-option [value]="companion.id">
+								{{companion.name}}
+							</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<button mat-icon-button
+							(click)="addCompanion()">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
 			</div>
 		</div>
 		<hr class="divider">

@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { CinemaInterface } from '@interfaces/cinema.interfaces';
+import { CompanionInterface } from '@interfaces/companion.interfaces';
 import { NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
+import Companion from '@model/companion.model';
 import ClassMapperService from '@services/class-mapper.service';
 
 @Injectable({
@@ -13,6 +15,8 @@ export default class NavigationService {
   private from: NavigationFromType[] = [];
   private cinemas: Cinema[] = [];
   private cinemasLoaded: boolean = false;
+  private companions: Companion[] = [];
+  private companionsLoaded: boolean = false;
 
   get(): NavigationFromType {
     if (this.from.length > 0) {
@@ -90,6 +94,44 @@ export default class NavigationService {
       this.cinemas[ind] = cinema;
     } else {
       this.cinemas.push(cinema);
+    }
+  }
+
+  getCompanions(): Companion[] {
+    if (!this.companionsLoaded) {
+      this.loadCompanions();
+    }
+    return this.companions;
+  }
+
+  addCompanion(companion: Companion): void {
+    if (!this.companionsLoaded) {
+      this.loadCompanions();
+    }
+    this.companions.push(companion);
+    this.setCompanions(this.companions);
+  }
+
+  loadCompanions(): void {
+    const companionsObjStr: string | null = localStorage.getItem('companions');
+    if (companionsObjStr !== null) {
+      const companionsObj: CompanionInterface[] = JSON.parse(companionsObjStr);
+      if (companionsObj !== null) {
+        this.setCompanions(this.cms.getCompanions(companionsObj), false);
+        this.companionsLoaded = true;
+      }
+    }
+  }
+
+  setCompanions(companions: Companion[], save: boolean = true): void {
+    this.companions = companions;
+    const companionsObj: CompanionInterface[] = companions.map(
+      (c: Companion): CompanionInterface => {
+        return c.toInterface();
+      }
+    );
+    if (save) {
+      localStorage.setItem('companions', JSON.stringify(companionsObj));
     }
   }
 }

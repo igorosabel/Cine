@@ -22,7 +22,6 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-import { CinemasResult } from '@interfaces/cinema.interfaces';
 import { LoginResult, RegisterData } from '@interfaces/interfaces';
 import { urldecode } from '@osumi/tools';
 import ApiService from '@services/api.service';
@@ -30,6 +29,7 @@ import ClassMapperService from '@services/class-mapper.service';
 import NavigationService from '@services/navigation.service';
 import UserService from '@services/user.service';
 import LoadingComponent from '@shared/components/loading/loading.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -104,11 +104,17 @@ export default class RegisterComponent implements OnInit {
           this.user.token = urldecode(result.token);
           this.user.saveLogin();
 
-          this.as.getCinemas().subscribe((result: CinemasResult): void => {
-            this.ns.setCinemas(this.cms.getCinemas(result.list));
-          });
+          forkJoin({
+            cinemas: this.as.getCinemas(),
+            companions: this.as.getCompanions(),
+          }).subscribe({
+            next: ({ cinemas, companions }) => {
+              this.ns.setCinemas(this.cms.getCinemas(cinemas.list));
+              this.ns.setCompanions(this.cms.getCompanions(companions.list));
 
-          this.router.navigate(['/home']);
+              this.router.navigate(['/home']);
+            },
+          });
         } else {
           this.registerNameError.set(true);
         }

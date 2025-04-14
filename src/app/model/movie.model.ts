@@ -1,11 +1,12 @@
-import { CompanionInterface } from '@app/interfaces/companion.interfaces';
+import { CompanionInterface } from '@interfaces/companion.interfaces';
 import { MovieInterface } from '@interfaces/movie.interfaces';
 import { urldecode, urlencode } from '@osumi/tools';
 import Companion from './companion.model';
 
 export default class Movie {
-  coverStatus: number;
-  ticketStatus: number;
+  coverStatus: number = 0;
+  ticketStatus: number = 0;
+  companionIds: number[] = [];
 
   constructor(
     public id: number | null = null,
@@ -17,10 +18,7 @@ export default class Movie {
     public imdbUrl: string | null = null,
     public date: string | null = null,
     public companions: Companion[] = []
-  ) {
-    this.coverStatus = 0;
-    this.ticketStatus = 0;
-  }
+  ) {}
 
   fromInterface(m: MovieInterface): Movie {
     this.id = m.id;

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CinemaInterface } from '@interfaces/cinema.interfaces';
+import { CompanionInterface } from '@interfaces/companion.interfaces';
 import {
   MovieInterface,
   MovieSearchDetailResult,
   MovieSearchResult,
 } from '@interfaces/movie.interfaces';
 import Cinema from '@model/cinema.model';
+import Companion from '@model/companion.model';
 import MovieSearch from '@model/movie-search.model';
 import Movie from '@model/movie.model';
 
@@ -49,5 +51,15 @@ export default class ClassMapperService {
       { id: -1, title: msd.title, poster: msd.poster },
       msd.imdbUrl !== null ? msd.imdbUrl : ''
     );
+  }
+
+  getCompanion(c: CompanionInterface): Companion {
+    return new Companion().fromInterface(c);
+  }
+
+  getCompanions(cs: CompanionInterface[]): Companion[] {
+    return cs.map((c: CompanionInterface): Companion => {
+      return this.getCompanion(c);
+    });
   }
 }

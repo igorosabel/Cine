@@ -1,0 +1,22 @@
+<div class="row">
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput
+               [(ngModel)]="companion.name"
+               name="name"
+               required
+               #nameBox>
+    </mat-form-field>
+</div>
+<div class="row">
+    <mat-form-field>
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput
+               [(ngModel)]="companion.username"
+               name="username">
+    </mat-form-field>
+</div>
+<div class="row right">
+    <button mat-flat-button
+            (click)="saveCompanion()">Añadir</button>
+</div>

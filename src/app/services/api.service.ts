@@ -7,6 +7,11 @@ import {
   CinemasResult,
 } from '@interfaces/cinema.interfaces';
 import {
+  CompanionInterface,
+  CompanionSaveResult,
+  CompanionsResult,
+} from '@interfaces/companion.interfaces';
+import {
   LoginData,
   LoginResult,
   RegisterData,
@@ -86,5 +91,18 @@ export default class ApiService {
 
   searchTitles(q: string): Observable<MoviesResult> {
     return this.http.post<MoviesResult>(this.apiUrl + 'search-titles', { q });
+  }
+
+  getCompanions(): Observable<CompanionsResult> {
+    return this.http.post<CompanionsResult>(this.apiUrl + 'get-companions', {});
+  }
+
+  saveCompanion(
+    companion: CompanionInterface
+  ): Observable<CompanionSaveResult> {
+    return this.http.post<CompanionSaveResult>(
+      this.apiUrl + 'save-companion',
+      companion
+    );
   }
 }

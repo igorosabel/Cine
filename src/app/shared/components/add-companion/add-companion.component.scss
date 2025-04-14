@@ -1,0 +1,12 @@
+.row {
+    display: flex;
+    margin-bottom: 8px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    &.right {
+        justify-content: flex-end;
+    }
+}

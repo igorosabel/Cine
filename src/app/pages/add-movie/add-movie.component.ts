@@ -29,6 +29,7 @@ import {
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
+import AddCompanionComponent from '@app/shared/components/add-companion/add-companion.component';
 import { StatusResult } from '@interfaces/interfaces';
 import {
   MovieSearchDetailResult,
@@ -36,9 +37,10 @@ import {
   MovieSearchResultList,
 } from '@interfaces/movie.interfaces';
 import Cinema from '@model/cinema.model';
+import Companion from '@model/companion.model';
 import MovieSearch from '@model/movie-search.model';
 import Movie from '@model/movie.model';
-import { DialogService } from '@osumi/angular-tools';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import MoviesService from '@services/movies.service';
@@ -91,9 +93,11 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
   private as: ApiService = inject(ApiService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private ns: NavigationService = inject(NavigationService);
+  private os: OverlayService = inject(OverlayService);
 
   searchBox: Signal<ElementRef> = viewChild.required('searchBox');
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
+  companions: WritableSignal<Companion[]> = signal<Companion[]>([]);
   movie: Movie = new Movie();
   uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
   uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
@@ -105,6 +109,7 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cinemas.set(this.ns.getCinemas());
+    this.companions.set(this.ns.getCompanions());
     this.movie = new Movie(
       null,
       null,
@@ -230,6 +235,21 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
 
         this.clearSearch();
       });
+  }
+
+  addCompanion(): void {
+    const modalData: Modal = {
+      modalTitle: `Nuevo acompañante`,
+      modalColor: 'blue',
+    };
+    const ref = this.os.open(AddCompanionComponent, modalData);
+    ref.afterClosed$.subscribe((result): void => {
+      if (result.data) {
+        this.ns.addCompanion(result.data.companion);
+        this.companions.set(this.ns.getCompanions());
+        this.movie.companionIds.push(result.data.companion.id);
+      }
+    });
   }
 
   saveMovie(): void {

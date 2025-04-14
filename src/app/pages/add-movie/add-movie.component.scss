@@ -91,6 +91,19 @@
 		&>* {
 			width: 100%;
 		}
+
+		.companions-row {
+			display: flex;
+			align-items: center;
+
+			mat-form-field {
+				flex: 1;
+			}
+
+			button {
+				margin-left: 16px;
+			}
+		}
 	}
 
 	.divider {
