@@ -22,11 +22,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-import {
-  CinemasResult,
-  LoginResult,
-  RegisterData,
-} from '@interfaces/interfaces';
+import { CinemasResult } from '@interfaces/cinema.interfaces';
+import { LoginResult, RegisterData } from '@interfaces/interfaces';
 import { urldecode } from '@osumi/tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';

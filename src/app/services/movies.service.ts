@@ -1,5 +1,5 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { MovieResult, MoviesResult } from '@interfaces/interfaces';
+import { MovieResult, MoviesResult } from '@interfaces/movie.interfaces';
 import Movie from '@model/movie.model';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';

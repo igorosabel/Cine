@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { CinemaInterface } from '@interfaces/cinema.interfaces';
 import {
-  CinemaInterface,
   MovieInterface,
   MovieSearchDetailResult,
   MovieSearchResult,
-} from '@interfaces/interfaces';
+} from '@interfaces/movie.interfaces';
 import Cinema from '@model/cinema.model';
 import MovieSearch from '@model/movie-search.model';
 import Movie from '@model/movie.model';

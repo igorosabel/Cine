@@ -14,7 +14,8 @@ import {
 } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
-import { CinemasResult, StatusResult } from '@interfaces/interfaces';
+import { CinemasResult } from '@interfaces/cinema.interfaces';
+import { StatusResult } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import { DialogOptions, DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';

@@ -29,12 +29,12 @@ import {
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
+import { StatusResult } from '@interfaces/interfaces';
 import {
   MovieSearchDetailResult,
   MovieSearchResult,
   MovieSearchResultList,
-  StatusResult,
-} from '@interfaces/interfaces';
+} from '@interfaces/movie.interfaces';
 import Cinema from '@model/cinema.model';
 import MovieSearch from '@model/movie-search.model';
 import Movie from '@model/movie.model';

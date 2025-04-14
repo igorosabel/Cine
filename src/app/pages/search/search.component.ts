@@ -16,7 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { MatNavList } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
-import { MoviesResult } from '@interfaces/interfaces';
+import { MoviesResult } from '@interfaces/movie.interfaces';
 import Movie from '@model/movie.model';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';

@@ -5,16 +5,20 @@ import {
   CinemaInterface,
   CinemaResult,
   CinemasResult,
+} from '@interfaces/cinema.interfaces';
+import {
   LoginData,
   LoginResult,
+  RegisterData,
+  StatusResult,
+} from '@interfaces/interfaces';
+import {
   MovieInterface,
   MovieResult,
   MovieSearchDetailResult,
   MovieSearchResultList,
   MoviesResult,
-  RegisterData,
-  StatusResult,
-} from '@interfaces/interfaces';
+} from '@interfaces/movie.interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({

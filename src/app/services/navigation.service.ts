@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { CinemaInterface, NavigationFromType } from '@interfaces/interfaces';
+import { CinemaInterface } from '@interfaces/cinema.interfaces';
+import { NavigationFromType } from '@interfaces/interfaces';
 import Cinema from '@model/cinema.model';
 import ClassMapperService from '@services/class-mapper.service';
 
