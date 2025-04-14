@@ -1,7 +1,7 @@
 import {
   MovieSearchDetailResult,
   MovieSearchResult,
-} from '@interfaces/interfaces';
+} from '@interfaces/movie.interfaces';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class MovieSearch {

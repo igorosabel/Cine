@@ -1,5 +1,7 @@
-import { MovieInterface } from '@interfaces/interfaces';
+import { CompanionInterface } from '@app/interfaces/companion.interfaces';
+import { MovieInterface } from '@interfaces/movie.interfaces';
 import { urldecode, urlencode } from '@osumi/tools';
+import Companion from './companion.model';
 
 export default class Movie {
   coverStatus: number;
@@ -13,7 +15,8 @@ export default class Movie {
     public cover: string | null = null,
     public ticket: string | null = null,
     public imdbUrl: string | null = null,
-    public date: string | null = null
+    public date: string | null = null,
+    public companions: Companion[] = []
   ) {
     this.coverStatus = 0;
     this.ticketStatus = 0;
@@ -28,6 +31,9 @@ export default class Movie {
     this.ticket = urldecode(m.ticket);
     this.imdbUrl = urldecode(m.imdbUrl);
     this.date = urldecode(m.date);
+    this.companions = m.companions.map(
+      (c: CompanionInterface): Companion => new Companion().fromInterface(c)
+    );
 
     return this;
   }
@@ -44,6 +50,9 @@ export default class Movie {
       ticketStatus: this.ticketStatus,
       imdbUrl: urlencode(this.imdbUrl),
       date: urlencode(this.date),
+      companions: this.companions.map(
+        (c: Companion): CompanionInterface => c.toInterface()
+      ),
     };
   }
 }

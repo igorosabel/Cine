@@ -1,4 +1,4 @@
-import { CinemaInterface } from '@interfaces/interfaces';
+import { CinemaInterface } from '@interfaces/cinema.interfaces';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Cinema {
