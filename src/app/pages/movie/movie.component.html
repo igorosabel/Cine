@@ -46,6 +46,7 @@
 				<div matListItemLine>{{movie().date}}</div>
 			</mat-list-item>
 		</mat-list>
+		@if (movie().companions.length > 0) {
 		<mat-list>
 			<mat-list-item class="md-2-line">
 				<div matListItemTitle><strong>Acompañantes</strong></div>
@@ -54,6 +55,7 @@
 				}
 			</mat-list-item>
 		</mat-list>
+		}
 		<hr>
 		<p>
 			<strong>Entrada</strong>
