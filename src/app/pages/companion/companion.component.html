@@ -1,0 +1,18 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <button routerLink="/companions"
+                mat-icon-button>
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>Cine - {{ companion().name }}</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-nav-list>
+    <app-movie-list [movies]="movies()" />
+    @if (movies().length === 0) {
+    <mat-list-item>
+        ¡Todavía no hay ninguna película!
+    </mat-list-item>
+    }
+</mat-nav-list>

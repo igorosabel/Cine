@@ -105,4 +105,10 @@ export default class ApiService {
       companion
     );
   }
+
+  getCompanionMovies(id: number): Observable<CinemaResult> {
+    return this.http.post<CinemaResult>(this.apiUrl + 'get-companion-movies', {
+      id,
+    });
+  }
 }

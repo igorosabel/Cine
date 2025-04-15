@@ -46,6 +46,14 @@
 				<div matListItemLine>{{movie().date}}</div>
 			</mat-list-item>
 		</mat-list>
+		<mat-list>
+			<mat-list-item class="md-2-line">
+				<div matListItemTitle><strong>Acompañantes</strong></div>
+				@for (companion of movie().companions; track companion.id) {
+				<div matListItemLine>{{companion.name}}</div>
+				}
+			</mat-list-item>
+		</mat-list>
 		<hr>
 		<p>
 			<strong>Entrada</strong>

@@ -43,6 +43,16 @@ const routes: Routes = [
     loadComponent: () => import('@pages/search/search.component'),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'companions',
+    loadComponent: () => import('@pages/companions/companions.component'),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'companion/:id',
+    loadComponent: () => import('@pages/companion/companion.component'),
+    canActivate: [AuthGuard],
+  },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 

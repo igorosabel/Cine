@@ -4,7 +4,7 @@
 				 [(opened)]="opened">
 		<mat-toolbar>
 			<mat-toolbar-row>
-				<span>Cines</span>
+				<span>Cine</span>
 			</mat-toolbar-row>
 		</mat-toolbar>
 		<mat-nav-list>
@@ -19,6 +19,11 @@
 			   routerLink="/cinemas">
 				<mat-icon matListItemIcon>edit</mat-icon>
 				Editar cines
+			</a>
+			<a mat-list-item
+			   routerLink="/companions">
+				<mat-icon matListItemIcon>groups</mat-icon>
+				Acompañantes
 			</a>
 			<a mat-list-item
 			   (click)="logout($event)">

@@ -245,9 +245,9 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
     const ref = this.os.open(AddCompanionComponent, modalData);
     ref.afterClosed$.subscribe((result): void => {
       if (result.data) {
-        this.ns.addCompanion(result.data.companion);
+        this.ns.addCompanion(result.data);
         this.companions.set(this.ns.getCompanions());
-        this.movie.companionIds.push(result.data.companion.id);
+        this.movie.companionIds.push(result.data.id);
       }
     });
   }
@@ -301,6 +301,10 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
       });
       return;
     }
+    this.movie.companions = this.companions().filter(
+      (item: Companion): boolean =>
+        item.id !== null && this.movie.companionIds.includes(item.id)
+    );
 
     this.sending.set(true);
     this.as

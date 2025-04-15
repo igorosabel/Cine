@@ -1,0 +1,30 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <button routerLink="/home"
+                mat-icon-button>
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>Cine - Acompañantes</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-nav-list>
+    @for (companion of companions(); track companion.id) {
+    <a mat-list-item
+       [routerLink]="['/companion', companion.id]">
+        <mat-icon matListItemIcon>person</mat-icon>
+        {{ companion.name }}
+    </a>
+    }
+    @empty {
+    <mat-list-item>
+        ¡Todavía no hay ningún acompañante! Añade el primero pulsando el icono "+".
+    </mat-list-item>
+    }
+</mat-nav-list>
+
+<button mat-fab
+        class="btn-bottom-right"
+        (click)="addCompanion()">
+    <mat-icon>add</mat-icon>
+</button>

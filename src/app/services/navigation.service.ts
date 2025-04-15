@@ -104,6 +104,13 @@ export default class NavigationService {
     return this.companions;
   }
 
+  getCompanion(id: number): Companion | undefined {
+    if (!this.companionsLoaded) {
+      this.loadCompanions();
+    }
+    return this.companions.find((x: Companion): boolean => x.id === id);
+  }
+
   addCompanion(companion: Companion): void {
     if (!this.companionsLoaded) {
       this.loadCompanions();
