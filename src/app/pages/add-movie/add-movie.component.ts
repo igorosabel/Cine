@@ -46,6 +46,7 @@ import ClassMapperService from '@services/class-mapper.service';
 import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
 import LoadingComponent from '@shared/components/loading/loading.component';
+import { Moment } from 'moment';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -99,6 +100,7 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   companions: WritableSignal<Companion[]> = signal<Companion[]>([]);
   movie: Movie = new Movie();
+  movieDate: Moment | null = null;
   uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
   uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
   searching: WritableSignal<boolean> = signal<boolean>(false);
@@ -292,7 +294,8 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    if (this.movie.date === '') {
+    const formatted: string | undefined = this.movieDate?.format('YYYY-MM-DD');
+    if (this.movieDate === null || formatted === undefined) {
       this.dialog.alert({
         title: 'Error',
         content: '¡No has elegido fecha para la película!',
@@ -300,6 +303,7 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
       });
       return;
     }
+    this.movie.date = formatted;
     if (this.movie.ticketStatus === 0) {
       this.dialog.alert({
         title: 'Error',
@@ -312,7 +316,6 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
       (item: Companion): boolean =>
         item.id !== null && this.movie.companionIds.includes(item.id)
     );
-
     this.sending.set(true);
     this.as
       .saveMovie(this.movie.toInterface())
