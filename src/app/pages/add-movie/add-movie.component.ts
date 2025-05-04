@@ -227,13 +227,20 @@ export default class AddMovieComponent implements OnInit, OnDestroy {
     this.as
       .selectResult(movieResult.id)
       .subscribe((result: MovieSearchDetailResult): void => {
-        const searchResult: MovieSearch = this.cms.getMovieDetail(result);
-        this.movie.name = searchResult.title;
-        this.movie.cover = searchResult.poster;
-        this.movie.coverStatus = 2;
-        this.movie.imdbUrl = searchResult.imdbUrl;
-
-        this.clearSearch();
+        if (result.status === 'ok') {
+          this.clearSearch();
+          const searchResult: MovieSearch = this.cms.getMovieDetail(result);
+          this.movie.name = searchResult.title;
+          this.movie.cover = searchResult.poster;
+          this.movie.coverStatus = 2;
+          this.movie.imdbUrl = searchResult.imdbUrl;
+        } else {
+          this.dialog.alert({
+            title: 'Error',
+            content: 'Ocurrió un error al seleccionar la película.',
+            ok: 'Continuar',
+          });
+        }
       });
   }
 
