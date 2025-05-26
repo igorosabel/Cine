@@ -29,7 +29,6 @@ import {
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-import AddCompanionComponent from '@app/shared/components/add-companion/add-companion.component';
 import { StatusResult } from '@interfaces/interfaces';
 import {
   MovieSearchDetailResult,
@@ -45,6 +44,7 @@ import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import MoviesService from '@services/movies.service';
 import NavigationService from '@services/navigation.service';
+import AddCompanionComponent from '@shared/components/add-companion/add-companion.component';
 import LoadingComponent from '@shared/components/loading/loading.component';
 import { Moment } from 'moment';
 import {
