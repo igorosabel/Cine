@@ -97,8 +97,10 @@ export default class MovieComponent implements OnInit {
   }
 
   back(): void {
-    const current: NavigationFromType = this.ns.get();
-    const previous: NavigationFromType = this.ns.get();
+    // Saco el primer elemento de la navegación que es la página actual
+    let previous: NavigationFromType = this.ns.get();
+    // Vuelvo a sacar otro elemento de navegación que será la página anterior
+    previous = this.ns.get();
     if (previous.length === 0) {
       this.router.navigate(['/home']);
     } else {
