@@ -1,56 +1,58 @@
 import { Routes } from '@angular/router';
-import AuthGuard from '@app/guard/auth.guard';
-import LoginComponent from '@pages/login/login.component';
+import AuthGuard from '@guard/auth-guard';
+import Login from '@modules/user/login/login';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: Login },
   {
     path: 'register',
-    loadComponent: () => import('@pages/register/register.component'),
+    loadComponent: () => import('@modules/user/register/register'),
   },
   {
     path: 'home',
-    loadComponent: () => import('@pages/home/home.component'),
+    loadComponent: () => import('@modules/home/home'),
     canActivate: [AuthGuard],
   },
   {
     path: 'movie/:id/:slug',
-    loadComponent: () => import('@pages/movie/movie.component'),
+    loadComponent: () => import('@modules/movies/movie-detail/movie-detail'),
     canActivate: [AuthGuard],
   },
   {
     path: 'add-movie',
-    loadComponent: () => import('@pages/add-movie/add-movie.component'),
+    loadComponent: () => import('@modules/movies/add-movie/add-movie'),
     canActivate: [AuthGuard],
   },
   {
     path: 'cinema/:id/:slug',
-    loadComponent: () => import('@pages/cinema/cinema.component'),
+    loadComponent: () => import('@modules/cinemas/cinema-movies/cinema-movies'),
     canActivate: [AuthGuard],
   },
   {
     path: 'cinemas',
-    loadComponent: () => import('@pages/cinemas/cinemas.component'),
+    loadComponent: () => import('@modules/cinemas/cinema-list/cinema-list'),
     canActivate: [AuthGuard],
   },
   {
     path: 'edit-cinema/:id/:slug',
-    loadComponent: () => import('@pages/edit-cinema/edit-cinema.component'),
+    loadComponent: () => import('@modules/cinemas/edit-cinema/edit-cinema'),
     canActivate: [AuthGuard],
   },
   {
     path: 'search',
-    loadComponent: () => import('@pages/search/search.component'),
+    loadComponent: () => import('@modules/movies/search-movies/search-movies'),
     canActivate: [AuthGuard],
   },
   {
     path: 'companions',
-    loadComponent: () => import('@pages/companions/companions.component'),
+    loadComponent: () =>
+      import('@modules/companions/companion-list/companion-list'),
     canActivate: [AuthGuard],
   },
   {
     path: 'companion/:id',
-    loadComponent: () => import('@pages/companion/companion.component'),
+    loadComponent: () =>
+      import('@modules/companions/companion-movies/companion-movies'),
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },

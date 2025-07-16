@@ -2,29 +2,26 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": false,
+    "isolatedModules": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022", "dom"],
+    "module": "preserve",
     "paths": {
       "@app/*": ["src/app/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@pages/*": ["src/app/pages/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@shared/*": ["src/app/modules/shared/*"],
       "@env/*": ["src/environments/*"],
       "@services/*": ["src/app/services/*"],
+      "@guard/*": ["src/app/guard/*"],
       "@interfaces/*": ["src/app/interfaces/*"],
+      "@interceptors/*": ["src/app/interceptors/*"],
       "@model/*": ["src/app/model/*"]
     }
   },
@@ -32,6 +29,16 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

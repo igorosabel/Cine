@@ -20,10 +20,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist",
-            "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -38,7 +35,6 @@
               "node_modules/@osumi/angular-tools/styles/dialogs.scss",
               "node_modules/@osumi/angular-tools/styles/modals.scss"
             ],
-            "scripts": [],
             "allowedCommonJsDependencies": ["moment", "@osumi/tools"]
           },
           "configurations": {
@@ -66,8 +62,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -94,7 +89,6 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -108,8 +102,7 @@
               "src/styles.scss",
               "node_modules/@osumi/angular-tools/styles/dialogs.scss",
               "node_modules/@osumi/angular-tools/styles/modals.scss"
-            ],
-            "scripts": []
+            ]
           }
         },
         "lint": {
@@ -124,31 +117,5 @@
   "cli": {
     "analytics": false,
     "schematicCollections": ["angular-eslint"]
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
   }
 }
