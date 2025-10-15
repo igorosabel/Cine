@@ -9,6 +9,7 @@
 	@include mat.toolbar-overrides((container-background-color: var(--color-blue),
 			container-text-color: var(--color-white),
 		));
+	@include mat.list-overrides((active-indicator-shape: 16px));
 }
 
 html,

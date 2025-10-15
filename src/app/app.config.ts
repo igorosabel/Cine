@@ -51,8 +51,8 @@ const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([TokenInterceptor])),
     provideZonelessChangeDetection(),
+    provideHttpClient(withInterceptors([TokenInterceptor])),
     provideCore(),
   ],
 };
