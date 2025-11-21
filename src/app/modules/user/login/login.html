@@ -14,20 +14,14 @@
 			<mat-form-field>
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput
-					   [(ngModel)]="name"
-					   [disabled]="loginSending()"
-					   required
-					   name="name"
+					   [field]="loginForm.name"
 					   #nameBox>
 			</mat-form-field>
 			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
 				<input matInput
 					   type="password"
-					   [(ngModel)]="pass"
-					   [disabled]="loginSending()"
-					   required
-					   name="pass">
+					   [field]="loginForm.pass">
 			</mat-form-field>
 			@if (loginError()) {
 			<fieldset class="center-card-error">
