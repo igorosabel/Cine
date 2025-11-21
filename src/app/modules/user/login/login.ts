@@ -64,8 +64,6 @@ export default class Login implements OnInit {
   private readonly userService: UserService = inject(UserService);
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
-  name: WritableSignal<string> = signal<string>('');
-  pass: WritableSignal<string> = signal<string>('');
   loginModel: WritableSignal<LoginData> = signal<LoginData>({
     name: '',
     pass: '',
