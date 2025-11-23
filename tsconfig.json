@@ -15,7 +15,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve",
+    "module": "ES2022",
     "paths": {
       "@app/*": ["src/app/*"],
       "@modules/*": ["src/app/modules/*"],
@@ -34,14 +34,5 @@
     "strictInputAccessModifiers": true,
     "typeCheckHostBindings": true,
     "strictTemplates": true
-  },
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+  }
 }
