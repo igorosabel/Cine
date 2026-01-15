@@ -10,7 +10,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { disabled, Field, form, required } from '@angular/forms/signals';
+import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { MatAnchor, MatButton } from '@angular/material/button';
 import {
   MatCard,
@@ -52,7 +52,7 @@ import { forkJoin } from 'rxjs';
     MatLabel,
     MatInput,
     LoadingComponent,
-    Field,
+    FormField,
   ],
 })
 export default class Login implements OnInit {

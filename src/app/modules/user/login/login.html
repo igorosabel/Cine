@@ -14,14 +14,14 @@
 			<mat-form-field>
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput
-					   [field]="loginForm.name"
+					   [formField]="loginForm.name"
 					   #nameBox>
 			</mat-form-field>
 			<mat-form-field>
 				<mat-label>Contraseña</mat-label>
 				<input matInput
 					   type="password"
-					   [field]="loginForm.pass">
+					   [formField]="loginForm.pass">
 			</mat-form-field>
 			@if (loginError()) {
 			<fieldset class="center-card-error">
