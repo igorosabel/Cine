@@ -1,3 +1,5 @@
+import Companion from '@model/companion';
+
 export interface LoginData {
   name: string;
   pass: string;
@@ -21,3 +23,7 @@ export interface StatusResult {
 }
 
 export type NavigationFromType = (string | number | null)[];
+
+export interface AddCompanionResult {
+  result: Companion;
+}

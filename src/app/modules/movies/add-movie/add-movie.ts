@@ -13,11 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  MatFormField,
-  MatLabel,
-  MatSuffix,
-} from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import {
@@ -30,7 +26,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { ApiStatus } from '@interfaces/contants';
-import { StatusResult } from '@interfaces/interfaces';
+import { AddCompanionResult, StatusResult } from '@interfaces/interfaces';
 import {
   MovieSearchDetailResult,
   MovieSearchResult,
@@ -93,11 +89,9 @@ export default class AddMovie implements OnInit, OnDestroy {
   private readonly dialog: DialogService = inject(DialogService);
   private readonly overlayService: OverlayService = inject(OverlayService);
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
   private readonly moviesService: MoviesService = inject(MoviesService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   searchBox: Signal<ElementRef> = viewChild.required('searchBox');
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
@@ -134,15 +128,10 @@ export default class AddMovie implements OnInit, OnDestroy {
           map(() => this.searchBox().nativeElement.value.trim()),
           distinctUntilChanged(),
           tap((query: string): void => this.hasText.set(query.length > 0)),
-          switchMap(
-            (query: string): Observable<MovieSearch[]> =>
-              this.searchMovie(query)
-          ),
-          takeUntil(this.destroy$)
+          switchMap((query: string): Observable<MovieSearch[]> => this.searchMovie(query)),
+          takeUntil(this.destroy$),
         )
-        .subscribe((searchResults: MovieSearch[]): void =>
-          this.searchResults.set(searchResults)
-        );
+        .subscribe((searchResults: MovieSearch[]): void => this.searchResults.set(searchResults));
     }
   }
 
@@ -207,7 +196,7 @@ export default class AddMovie implements OnInit, OnDestroy {
         this.searching.set(false);
         return this.classMapperService.getMovieSearches(result.list);
       }),
-      tap((): void => this.searching.set(false))
+      tap((): void => this.searching.set(false)),
     );
   }
 
@@ -223,8 +212,7 @@ export default class AddMovie implements OnInit, OnDestroy {
       next: (result: MovieSearchDetailResult): void => {
         if (result.status === ApiStatus.OK) {
           this.clearSearch();
-          const searchResult: MovieSearch =
-            this.classMapperService.getMovieDetail(result);
+          const searchResult: MovieSearch = this.classMapperService.getMovieDetail(result);
           this.movie.name = searchResult.title;
           this.movie.cover = searchResult.poster;
           this.movie.coverStatus = 2;
@@ -254,12 +242,12 @@ export default class AddMovie implements OnInit, OnDestroy {
       modalTitle: `Nuevo acompañante`,
       modalColor: 'blue',
     };
-    const ref = this.overlayService.open(AddCompanionComponent, modalData);
+    const ref = this.overlayService.open<AddCompanionResult>(AddCompanionComponent, modalData);
     ref.afterClosed$.subscribe((result): void => {
-      if (result.data) {
-        this.navigationService.addCompanion(result.data);
+      if (result.data && result.data.result) {
+        this.navigationService.addCompanion(result.data.result);
         this.companions.set(this.navigationService.getCompanions());
-        this.movie.companionIds.push(result.data.id);
+        this.movie.companionIds.push(result.data.result.id as number);
       }
     });
   }
@@ -316,8 +304,7 @@ export default class AddMovie implements OnInit, OnDestroy {
       return;
     }
     this.movie.companions = this.companions().filter(
-      (item: Companion): boolean =>
-        item.id !== null && this.movie.companionIds.includes(item.id)
+      (item: Companion): boolean => item.id !== null && this.movie.companionIds.includes(item.id),
     );
     this.sending.set(true);
     this.apiService.saveMovie(this.movie.toInterface()).subscribe({

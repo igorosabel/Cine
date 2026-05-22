@@ -1,19 +1,10 @@
-import {
-  Component,
-  inject,
-  OnInit,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import {
-  MatListItem,
-  MatListItemIcon,
-  MatNavList,
-} from '@angular/material/list';
+import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
+import { AddCompanionResult } from '@app/interfaces/interfaces';
 import Companion from '@model/companion';
 import { Modal, OverlayService } from '@osumi/angular-tools';
 import NavigationService from '@services/navigation-service';
@@ -37,8 +28,7 @@ import AddCompanionComponent from '@shared/components/add-companion/add-companio
 })
 export default class CompanionList implements OnInit {
   private readonly overlayService: OverlayService = inject(OverlayService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   companions: WritableSignal<Companion[]> = signal<Companion[]>([]);
 
@@ -51,10 +41,10 @@ export default class CompanionList implements OnInit {
       modalTitle: `Nuevo acompañante`,
       modalColor: 'blue',
     };
-    const ref = this.overlayService.open(AddCompanionComponent, modalData);
+    const ref = this.overlayService.open<AddCompanionResult>(AddCompanionComponent, modalData);
     ref.afterClosed$.subscribe((result): void => {
-      if (result.data) {
-        this.navigationService.addCompanion(result.data);
+      if (result.data && result.data.result) {
+        this.navigationService.addCompanion(result.data.result);
         this.companions.set(this.navigationService.getCompanions());
       }
     });
