@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "esModuleInterop": true,
     "strict": true,
@@ -17,15 +16,15 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@modules/*": ["src/app/modules/*"],
-      "@shared/*": ["src/app/modules/shared/*"],
-      "@env/*": ["src/environments/*"],
-      "@services/*": ["src/app/services/*"],
-      "@guard/*": ["src/app/guard/*"],
-      "@interfaces/*": ["src/app/interfaces/*"],
-      "@interceptors/*": ["src/app/interceptors/*"],
-      "@model/*": ["src/app/model/*"]
+      "@app/*": ["./src/app/*"],
+      "@modules/*": ["./src/app/modules/*"],
+      "@shared/*": ["./src/app/modules/shared/*"],
+      "@env/*": ["./src/environments/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@guard/*": ["./src/app/guard/*"],
+      "@interfaces/*": ["./src/app/interfaces/*"],
+      "@interceptors/*": ["./src/app/interceptors/*"],
+      "@model/*": ["./src/app/model/*"]
     }
   },
   "angularCompilerOptions": {

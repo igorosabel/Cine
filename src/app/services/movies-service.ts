@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { Service, WritableSignal, inject, signal } from '@angular/core';
 import { MovieResult, MoviesResult } from '@interfaces/movie';
 import Movie from '@model/movie';
 import ApiService from '@services/api-service';
@@ -6,7 +6,7 @@ import ClassMapperService from '@services/class-mapper-service';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export default class MoviesService {
   private apiService: ApiService = inject(ApiService);
   private classMapperService: ClassMapperService = inject(ClassMapperService);
@@ -34,27 +34,24 @@ export default class MoviesService {
       catchError((error) => {
         console.error('Error al obtener películas:', error);
         return throwError((): Error => new Error('Error al cargar películas'));
-      })
+      }),
     );
   }
 
   getMovieById(id: number): Observable<Movie> {
     const foundMovie: Movie | undefined = this.cachedMovies().find(
-      (movie: Movie): boolean => movie.id === id
+      (movie: Movie): boolean => movie.id === id,
     );
     if (foundMovie) {
       return of(foundMovie);
     }
 
     return this.apiService.getMovie(id).pipe(
-      map(
-        (result: MovieResult): Movie =>
-          this.classMapperService.getMovie(result.movie)
-      ),
+      map((result: MovieResult): Movie => this.classMapperService.getMovie(result.movie)),
       catchError((error) => {
         console.error(`Error al obtener la película con ID ${id}:`, error);
         return throwError((): Error => new Error('Error al cargar película'));
-      })
+      }),
     );
   }
 

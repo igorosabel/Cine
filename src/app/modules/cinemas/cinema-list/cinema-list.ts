@@ -1,17 +1,7 @@
-import {
-  Component,
-  OnInit,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import {
-  MatListItem,
-  MatListItemIcon,
-  MatNavList,
-} from '@angular/material/list';
+import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { CinemasResult } from '@interfaces/cinema';
@@ -41,10 +31,8 @@ import NavigationService from '@services/navigation-service';
 export default class CinemaList implements OnInit {
   private readonly dialog: DialogService = inject(DialogService);
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
 

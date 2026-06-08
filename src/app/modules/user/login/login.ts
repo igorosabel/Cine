@@ -76,7 +76,7 @@ export default class Login implements OnInit {
   });
   isValid: Signal<boolean> = computed(
     (): boolean =>
-      this.loginForm.name().errors().length === 0 && this.loginForm.pass().errors().length === 0
+      this.loginForm.name().errors().length === 0 && this.loginForm.pass().errors().length === 0,
   );
   loginError: WritableSignal<boolean> = signal<boolean>(false);
   loginSending: WritableSignal<boolean> = signal<boolean>(false);
@@ -109,7 +109,7 @@ export default class Login implements OnInit {
             next: ({ cinemas, companions }) => {
               this.navigationService.setCinemas(this.classMapperService.getCinemas(cinemas.list));
               this.navigationService.setCompanions(
-                this.classMapperService.getCompanions(companions.list)
+                this.classMapperService.getCompanions(companions.list),
               );
 
               this.router.navigate(['/home']);

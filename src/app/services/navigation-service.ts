@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { CinemaInterface } from '@interfaces/cinema';
 import { CompanionInterface } from '@interfaces/companion';
 import { NavigationFromType } from '@interfaces/interfaces';
@@ -6,9 +6,7 @@ import Cinema from '@model/cinema';
 import Companion from '@model/companion';
 import ClassMapperService from '@services/class-mapper-service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class NavigationService {
   private classMapperService: ClassMapperService = inject(ClassMapperService);
 
@@ -63,11 +61,9 @@ export default class NavigationService {
 
   setCinemas(cinemas: Cinema[], save: boolean = true): void {
     this.cinemas = cinemas;
-    const cinemasObj: CinemaInterface[] = cinemas.map(
-      (c: Cinema): CinemaInterface => {
-        return c.toInterface();
-      }
-    );
+    const cinemasObj: CinemaInterface[] = cinemas.map((c: Cinema): CinemaInterface => {
+      return c.toInterface();
+    });
     if (save) {
       localStorage.setItem('cinemas', JSON.stringify(cinemasObj));
     }
@@ -78,7 +74,7 @@ export default class NavigationService {
       this.loadCinemas();
     }
     const cinemaInd: number = this.cinemas.findIndex(
-      (x: Cinema): boolean => x.id === parseInt(id.toString())
+      (x: Cinema): boolean => x.id === parseInt(id.toString()),
     );
     if (cinemaInd !== -1) {
       return this.cinemas[cinemaInd];
@@ -87,9 +83,7 @@ export default class NavigationService {
   }
 
   updateCinema(cinema: Cinema): void {
-    const ind: number = this.cinemas.findIndex(
-      (x: Cinema): boolean => x.id === cinema.id
-    );
+    const ind: number = this.cinemas.findIndex((x: Cinema): boolean => x.id === cinema.id);
     if (ind !== -1) {
       this.cinemas[ind] = cinema;
     } else {
@@ -124,10 +118,7 @@ export default class NavigationService {
     if (companionsObjStr !== null) {
       const companionsObj: CompanionInterface[] = JSON.parse(companionsObjStr);
       if (companionsObj !== null) {
-        this.setCompanions(
-          this.classMapperService.getCompanions(companionsObj),
-          false
-        );
+        this.setCompanions(this.classMapperService.getCompanions(companionsObj), false);
         this.companionsLoaded = true;
       }
     }
@@ -138,7 +129,7 @@ export default class NavigationService {
     const companionsObj: CompanionInterface[] = companions.map(
       (c: Companion): CompanionInterface => {
         return c.toInterface();
-      }
+      },
     );
     if (save) {
       localStorage.setItem('companions', JSON.stringify(companionsObj));

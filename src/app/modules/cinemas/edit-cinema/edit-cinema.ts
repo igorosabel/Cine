@@ -57,10 +57,8 @@ export default class EditCinema implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   id: InputSignal<number> = input.required<number>();
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);

@@ -40,10 +40,8 @@ export default class CinemaMovies implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   id: InputSignal<number> = input.required<number>();
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
@@ -55,9 +53,7 @@ export default class CinemaMovies implements OnInit {
     if (this.cinemas().length === 0) {
       this.router.navigate(['/home']);
     }
-    const cinemaFound: Cinema | null = this.navigationService.getCinema(
-      this.id()
-    );
+    const cinemaFound: Cinema | null = this.navigationService.getCinema(this.id());
     if (cinemaFound !== null) {
       this.cinema.set(cinemaFound);
     }
@@ -67,11 +63,7 @@ export default class CinemaMovies implements OnInit {
         if (result.status === ApiStatus.OK) {
           this.movies.set(this.classMapperService.getMovies(result.list));
 
-          const fromCinema: NavigationFromType = [
-            '/cinema',
-            this.cinema().id,
-            this.cinema().slug,
-          ];
+          const fromCinema: NavigationFromType = ['/cinema', this.cinema().id, this.cinema().slug];
           const lastItem: NavigationFromType = this.navigationService.getLast();
           if (lastItem.join('') != fromCinema.join('')) {
             this.navigationService.add(fromCinema);

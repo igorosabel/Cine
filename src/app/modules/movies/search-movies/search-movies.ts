@@ -55,8 +55,7 @@ import {
 })
 export default class SearchMovies implements OnInit, OnDestroy {
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
 
   movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
   searchBox: Signal<ElementRef> = viewChild.required('searchBox');
@@ -73,10 +72,8 @@ export default class SearchMovies implements OnInit, OnDestroy {
         map(() => this.searchBox().nativeElement.value.trim()),
         distinctUntilChanged(),
         tap((query: string): void => this.hasText.set(query.length > 0)),
-        switchMap(
-          (query: string): Observable<Movie[]> => this.searchMovie(query)
-        ),
-        takeUntil(this.destroy$)
+        switchMap((query: string): Observable<Movie[]> => this.searchMovie(query)),
+        takeUntil(this.destroy$),
       )
       .subscribe((movies: Movie[]): void => this.movies.set(movies));
   }
@@ -107,7 +104,7 @@ export default class SearchMovies implements OnInit, OnDestroy {
         this.searching.set(false);
         return this.classMapperService.getMovies(result.list);
       }),
-      tap((): void => this.searching.set(false))
+      tap((): void => this.searching.set(false)),
     );
   }
 }

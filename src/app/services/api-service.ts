@@ -1,22 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { environment } from '@env/environment';
-import {
-  CinemaInterface,
-  CinemaResult,
-  CinemasResult,
-} from '@interfaces/cinema';
-import {
-  CompanionInterface,
-  CompanionSaveResult,
-  CompanionsResult,
-} from '@interfaces/companion';
-import {
-  LoginData,
-  LoginResult,
-  RegisterData,
-  StatusResult,
-} from '@interfaces/interfaces';
+import { CinemaInterface, CinemaResult, CinemasResult } from '@interfaces/cinema';
+import { CompanionInterface, CompanionSaveResult, CompanionsResult } from '@interfaces/companion';
+import { LoginData, LoginResult, RegisterData, StatusResult } from '@interfaces/interfaces';
 import {
   MovieInterface,
   MovieResult,
@@ -26,9 +13,7 @@ import {
 } from '@interfaces/movie';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ApiService {
   private http: HttpClient = inject(HttpClient);
 
@@ -69,10 +54,7 @@ export default class ApiService {
   }
 
   selectResult(id: number): Observable<MovieSearchDetailResult> {
-    return this.http.post<MovieSearchDetailResult>(
-      this.apiUrl + 'select-result',
-      { id }
-    );
+    return this.http.post<MovieSearchDetailResult>(this.apiUrl + 'select-result', { id });
   }
 
   saveMovie(movie: MovieInterface): Observable<StatusResult> {
@@ -97,13 +79,8 @@ export default class ApiService {
     return this.http.post<CompanionsResult>(this.apiUrl + 'get-companions', {});
   }
 
-  saveCompanion(
-    companion: CompanionInterface
-  ): Observable<CompanionSaveResult> {
-    return this.http.post<CompanionSaveResult>(
-      this.apiUrl + 'save-companion',
-      companion
-    );
+  saveCompanion(companion: CompanionInterface): Observable<CompanionSaveResult> {
+    return this.http.post<CompanionSaveResult>(this.apiUrl + 'save-companion', companion);
   }
 
   getCompanionMovies(id: number): Observable<CinemaResult> {

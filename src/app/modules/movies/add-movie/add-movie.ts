@@ -37,13 +37,13 @@ import Companion from '@model/companion';
 import Movie from '@model/movie';
 import MovieSearch from '@model/movie-search';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
+import { getDate } from '@osumi/tools';
 import ApiService from '@services/api-service';
 import ClassMapperService from '@services/class-mapper-service';
 import MoviesService from '@services/movies-service';
 import NavigationService from '@services/navigation-service';
 import AddCompanionComponent from '@shared/components/add-companion/add-companion';
 import LoadingComponent from '@shared/components/loading/loading';
-import { Moment } from 'moment';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -97,7 +97,7 @@ export default class AddMovie implements OnInit, OnDestroy {
   cinemas: WritableSignal<Cinema[]> = signal<Cinema[]>([]);
   companions: WritableSignal<Companion[]> = signal<Companion[]>([]);
   movie: Movie = new Movie();
-  movieDate: Moment | null = null;
+  movieDate: Date | null = null;
   uploadingCover: WritableSignal<boolean> = signal<boolean>(false);
   uploadingTicket: WritableSignal<boolean> = signal<boolean>(false);
   searching: WritableSignal<boolean> = signal<boolean>(false);
@@ -105,6 +105,7 @@ export default class AddMovie implements OnInit, OnDestroy {
   hasText: WritableSignal<boolean> = signal<boolean>(false);
   searchResults: WritableSignal<MovieSearch[]> = signal<MovieSearch[]>([]);
   sending: WritableSignal<boolean> = signal<boolean>(false);
+  btnAdd: Signal<MatIconButton> = viewChild.required<MatIconButton>('btnAdd');
 
   ngOnInit(): void {
     this.cinemas.set(this.navigationService.getCinemas());
@@ -242,7 +243,13 @@ export default class AddMovie implements OnInit, OnDestroy {
       modalTitle: `Nuevo acompañante`,
       modalColor: 'blue',
     };
-    const ref = this.overlayService.open<AddCompanionResult>(AddCompanionComponent, modalData);
+    const ref = this.overlayService.open<AddCompanionResult>(
+      AddCompanionComponent,
+      modalData,
+      [],
+      true,
+      this.btnAdd()._elementRef.nativeElement,
+    );
     ref.afterClosed$.subscribe((result): void => {
       if (result.data && result.data.result) {
         this.navigationService.addCompanion(result.data.result);
@@ -285,8 +292,16 @@ export default class AddMovie implements OnInit, OnDestroy {
       });
       return;
     }
-    const formatted: string | undefined = this.movieDate?.format('YYYY-MM-DD');
-    if (this.movieDate === null || formatted === undefined) {
+    const formatted: string | null =
+      this.movieDate === null
+        ? null
+        : getDate({
+            date: this.movieDate as Date,
+            separator: '-',
+            pattern: 'ymd',
+          });
+    console.log('Fecha formateada:', formatted);
+    if (this.movieDate === null || formatted === null) {
       this.dialog.alert({
         title: 'Error',
         content: '¡No has elegido fecha para la película!',
@@ -294,6 +309,7 @@ export default class AddMovie implements OnInit, OnDestroy {
       });
       return;
     }
+    return;
     this.movie.date = formatted;
     if (this.movie.ticketStatus === 0) {
       this.dialog.alert({

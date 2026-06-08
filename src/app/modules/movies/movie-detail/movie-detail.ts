@@ -11,12 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
-import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
-} from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import {
   MatList,
@@ -61,8 +56,7 @@ import CinemaNamePipe from '@shared/pipes/cinema-name-pipe';
 export default class MovieDetail implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly moviesService: MoviesService = inject(MoviesService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   id: InputSignal<number> = input.required<number>();
   numericId: Signal<number> = computed((): number => Number(this.id()));
@@ -77,30 +71,24 @@ export default class MovieDetail implements OnInit {
     if (this.cinemas().length === 0) {
       this.router.navigate(['/home']);
     }
-    this.moviesService
-      .getMovieById(this.numericId())
-      .subscribe((movie: Movie): void => {
-        if (movie) {
-          const idCinema: number | null = movie.idCinema;
-          if (idCinema !== null) {
-            this.selectedCinema.set(this.navigationService.getCinema(idCinema));
-          }
-          if (movie.cover !== null) {
-            this.movieCover = movie.cover;
-          }
-
-          const fromMovie: NavigationFromType = [
-            '/movie',
-            movie.id,
-            movie.slug,
-          ];
-          const lastItem: NavigationFromType = this.navigationService.getLast();
-          if (lastItem.join('') != fromMovie.join('')) {
-            this.navigationService.add(fromMovie);
-          }
-          this.movie.set(movie);
+    this.moviesService.getMovieById(this.numericId()).subscribe((movie: Movie): void => {
+      if (movie) {
+        const idCinema: number | null = movie.idCinema;
+        if (idCinema !== null) {
+          this.selectedCinema.set(this.navigationService.getCinema(idCinema));
         }
-      });
+        if (movie.cover !== null) {
+          this.movieCover = movie.cover;
+        }
+
+        const fromMovie: NavigationFromType = ['/movie', movie.id, movie.slug];
+        const lastItem: NavigationFromType = this.navigationService.getLast();
+        if (lastItem.join('') != fromMovie.join('')) {
+          this.navigationService.add(fromMovie);
+        }
+        this.movie.set(movie);
+      }
+    });
   }
 
   back(): void {
@@ -120,10 +108,6 @@ export default class MovieDetail implements OnInit {
   }
 
   selectCinema(): void {
-    this.router.navigate([
-      '/cinema',
-      this.selectedCinema()?.id,
-      this.selectedCinema()?.slug,
-    ]);
+    this.router.navigate(['/cinema', this.selectedCinema()?.id, this.selectedCinema()?.slug]);
   }
 }

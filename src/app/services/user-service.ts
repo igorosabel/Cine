@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { LoginResult } from '@interfaces/interfaces';
 import { urldecode } from '@osumi/tools';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class UserService {
   logged: boolean = false;
   id: number | null = null;

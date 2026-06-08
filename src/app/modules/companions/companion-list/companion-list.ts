@@ -1,4 +1,12 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
@@ -31,6 +39,7 @@ export default class CompanionList implements OnInit {
   private readonly navigationService: NavigationService = inject(NavigationService);
 
   companions: WritableSignal<Companion[]> = signal<Companion[]>([]);
+  btnAdd: Signal<MatFabButton> = viewChild.required<MatFabButton>('btnAdd');
 
   ngOnInit(): void {
     this.companions.set(this.navigationService.getCompanions());
@@ -41,7 +50,13 @@ export default class CompanionList implements OnInit {
       modalTitle: `Nuevo acompañante`,
       modalColor: 'blue',
     };
-    const ref = this.overlayService.open<AddCompanionResult>(AddCompanionComponent, modalData);
+    const ref = this.overlayService.open<AddCompanionResult>(
+      AddCompanionComponent,
+      modalData,
+      [],
+      true,
+      this.btnAdd()._elementRef.nativeElement,
+    );
     ref.afterClosed$.subscribe((result): void => {
       if (result.data && result.data.result) {
         this.navigationService.addCompanion(result.data.result);

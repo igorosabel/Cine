@@ -1,19 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { CinemaInterface } from '@interfaces/cinema';
 import { CompanionInterface } from '@interfaces/companion';
-import {
-  MovieInterface,
-  MovieSearchDetailResult,
-  MovieSearchResult,
-} from '@interfaces/movie';
+import { MovieInterface, MovieSearchDetailResult, MovieSearchResult } from '@interfaces/movie';
 import Cinema from '@model/cinema';
 import Companion from '@model/companion';
 import Movie from '@model/movie';
 import MovieSearch from '@model/movie-search';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ClassMapperService {
   getCinemas(cs: CinemaInterface[]): Cinema[] {
     return cs.map((c: CinemaInterface): Cinema => {
@@ -49,7 +43,7 @@ export default class ClassMapperService {
     return new MovieSearch().fromInterface(
       msd.status,
       { id: -1, title: msd.title, poster: msd.poster },
-      msd.imdbUrl !== null ? msd.imdbUrl : ''
+      msd.imdbUrl !== null ? msd.imdbUrl : '',
     );
   }
 

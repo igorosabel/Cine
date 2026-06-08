@@ -57,10 +57,8 @@ import { forkJoin } from 'rxjs';
 export default class Register implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
   private readonly userService: UserService = inject(UserService);
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
@@ -109,11 +107,9 @@ export default class Register implements OnInit {
             companions: this.apiService.getCompanions(),
           }).subscribe({
             next: ({ cinemas, companions }) => {
-              this.navigationService.setCinemas(
-                this.classMapperService.getCinemas(cinemas.list)
-              );
+              this.navigationService.setCinemas(this.classMapperService.getCinemas(cinemas.list));
               this.navigationService.setCompanions(
-                this.classMapperService.getCompanions(companions.list)
+                this.classMapperService.getCompanions(companions.list),
               );
 
               this.router.navigate(['/home']);

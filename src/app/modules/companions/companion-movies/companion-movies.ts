@@ -39,10 +39,8 @@ import MovieListComponent from '@shared/components/movie-list/movie-list';
 })
 export default class CompanionMovies implements OnInit {
   private readonly apiService: ApiService = inject(ApiService);
-  private readonly classMapperService: ClassMapperService =
-    inject(ClassMapperService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly classMapperService: ClassMapperService = inject(ClassMapperService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
 
   id: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,
@@ -51,8 +49,7 @@ export default class CompanionMovies implements OnInit {
   movies: WritableSignal<Movie[]> = signal<Movie[]>([]);
 
   ngOnInit(): void {
-    const companion: Companion | undefined =
-      this.navigationService.getCompanion(this.id());
+    const companion: Companion | undefined = this.navigationService.getCompanion(this.id());
     if (companion !== undefined) {
       this.companion.set(companion);
       this.loadMovies();

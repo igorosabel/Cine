@@ -1,22 +1,8 @@
-import {
-  Component,
-  OnInit,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import {
-  MatListItem,
-  MatListItemIcon,
-  MatNavList,
-} from '@angular/material/list';
-import {
-  MatSidenav,
-  MatSidenavContainer,
-  MatSidenavContent,
-} from '@angular/material/sidenav';
+import { MatListItem, MatListItemIcon, MatNavList } from '@angular/material/list';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import Cinema from '@model/cinema';
@@ -49,17 +35,12 @@ import MovieListComponent from '@shared/components/movie-list/movie-list';
 export default class Home implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly moviesService: MoviesService = inject(MoviesService);
-  private readonly navigationService: NavigationService =
-    inject(NavigationService);
+  private readonly navigationService: NavigationService = inject(NavigationService);
   private readonly userService: UserService = inject(UserService);
 
   movieList: WritableSignal<Movie[]> = signal<Movie[]>([]);
-  currentPage: WritableSignal<number> = signal<number>(
-    this.moviesService.currentPage()
-  );
-  numPages: WritableSignal<number> = signal<number>(
-    this.moviesService.numPages()
-  );
+  currentPage: WritableSignal<number> = signal<number>(this.moviesService.currentPage());
+  numPages: WritableSignal<number> = signal<number>(this.moviesService.numPages());
   loading: WritableSignal<boolean> = signal<boolean>(false);
   loadError: WritableSignal<boolean> = signal<boolean>(false);
 
