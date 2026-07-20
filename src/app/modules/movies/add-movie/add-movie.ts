@@ -309,7 +309,6 @@ export default class AddMovie implements OnInit, OnDestroy {
       });
       return;
     }
-    return;
     this.movie.date = formatted;
     if (this.movie.ticketStatus === 0) {
       this.dialog.alert({
